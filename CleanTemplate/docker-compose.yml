@@ -1,0 +1,33 @@
+version: '3.7'
+
+services:
+  cleantemplate.api:
+    image: ${DOCKER_REGISTRY-}cleantemplateapi
+    build:
+      context: .
+      dockerfile: src/CleanTemplate.API/Dockerfile
+    depends_on:
+      - db
+  db:
+    image: "postgres:12.2"
+    container_name: postgresdb
+    environment:
+      POSTGRES_DB: CleanTemplate
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - pgconf:/etc/postgresql
+      - pglog:/var/log/postgresql
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+volumes:
+  pgdata:
+  pgconf:
+  pglog:
+
