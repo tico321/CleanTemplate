@@ -1,9 +1,12 @@
+using CleanTemplate.API.Middleware;
+using CleanTemplate.Application;
 using CleanTemplate.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 
 namespace CleanTemplate.API
 {
@@ -21,6 +24,7 @@ namespace CleanTemplate.API
 		{
 			services.AddControllers();
 
+			services.AddApplication();
 			services.AddInfrastructure(Configuration);
 		}
 
@@ -32,12 +36,13 @@ namespace CleanTemplate.API
 				app.UseDeveloperExceptionPage();
 			}
 
+			// Logging
+			app.UseCorrelationId();
+			app.UseSerilogRequestLogging();
+
 			app.UseHttpsRedirection();
-
 			app.UseRouting();
-
 			app.UseAuthorization();
-
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapControllers();

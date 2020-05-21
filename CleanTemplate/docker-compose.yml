@@ -6,6 +6,8 @@ services:
     build:
       context: .
       dockerfile: src/CleanTemplate.API/Dockerfile
+    environment:
+      COMPUTERNAME: "docker-compose"
     depends_on:
       - db
   db:

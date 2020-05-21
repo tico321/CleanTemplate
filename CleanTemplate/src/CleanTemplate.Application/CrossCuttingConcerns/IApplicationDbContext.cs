@@ -1,9 +1,9 @@
-﻿using CleanTemplate.Domain.Todos;
-using Microsoft.EntityFrameworkCore;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using CleanTemplate.Domain.Todos;
+using Microsoft.EntityFrameworkCore;
 
-namespace CleanTemplate.Application.Infrastructure
+namespace CleanTemplate.Application.CrossCuttingConcerns
 {
 	public interface IApplicationDbContext
 	{

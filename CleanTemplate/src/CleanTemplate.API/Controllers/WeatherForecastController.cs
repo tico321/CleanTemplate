@@ -1,5 +1,4 @@
-﻿using CleanTemplate.Application.Infrastructure;
-using CleanTemplate.Domain.Todos;
+﻿using CleanTemplate.Domain.Todos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -7,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using CleanTemplate.Application.CrossCuttingConcerns;
 
 namespace CleanTemplate.API.Controllers
 {

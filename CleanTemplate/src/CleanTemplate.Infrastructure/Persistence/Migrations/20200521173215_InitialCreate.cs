@@ -13,7 +13,7 @@ namespace CleanTemplate.Infrastructure.Persistence.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Description = table.Column<string>(nullable: true)
+                    Description = table.Column<string>(maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {

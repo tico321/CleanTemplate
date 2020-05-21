@@ -1,6 +1,7 @@
-﻿using CleanTemplate.Application.Infrastructure;
+﻿using CleanTemplate.Application.CrossCuttingConcerns;
 using CleanTemplate.Domain.Todos;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace CleanTemplate.Infrastructure.Persistence
 {
@@ -11,5 +12,12 @@ namespace CleanTemplate.Infrastructure.Persistence
 		}
 
 		public DbSet<TodoItem> TodoItems { get; set; }
+
+		protected override void OnModelCreating(ModelBuilder builder)
+		{
+			// Will register all the configurations that are defined in Persistence/Configurations
+			builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+			base.OnModelCreating(builder);
+		}
 	}
 }

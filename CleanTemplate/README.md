@@ -1,8 +1,20 @@
-#CleanTemplate
+# CleanTemplate
 This template is inspired on the following projects:
 - EShop containers https://github.com/dotnet-architecture/eShopOnContainers
 - jasontaylordev Clean Architecture https://github.com/jasontaylordev/CleanArchitecture
 - Ardalis Clean Architecture https://github.com/ardalis/CleanArchitecture
+
+## Contents
+- Sample todo application
+- Startup DDD helpers
+    - ValueObject is a class that can be extended, It has a default implementation that allows you to compare value objects.
+    - Enumeration Allows you to create enums that have a few advantages over build in ones, specially as they can be stored
+    as complex values in the DB instead of just numbers.
+    - IAuditableEntity allows us to track changes to entities just by implementing this interface.
+    - Entity is a base class that has a default implementation to compare entities by their Id.
+- Structured logging with Serilog.
+    - Logs are already configured and will be logged to ApplicationLogs table in PostgreSQL.
+    - ILoggerAdapter abstraction is used for testability.
 
 ## Requirements
 - Install docker and docker-compose
@@ -21,18 +33,26 @@ Visual Studio recognizes the docker-compose project so you just need to:
 - Mark docker-compose project as startup project.
 - Run the project.
 
+### Run from another IDE
 If you don't want to use VS you may want to run the project from the cli and start DB and other containers manually.
-If you want to setup docker-compose you may want to review https://www.richard-banks.org/2018/07/debugging-core-in-docker.html 
+- If you don't have a PostgreSQL container you can create it with:
+    $ docker run --name postgresdev -p 5432:5432 -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=CleanTemplate -d postgres
+- To run the dotnet project go to the directory CleanTemplate.API
+    $  dotnet watch run
+- Optionally you can add adminer with:
+    $ docker run --name adminerdev -p 8080:8080 adminer
+If you want to setup docker-compose you may want to review https://www.richard-banks.org/2018/07/debugging-core-in-docker.html
 
-### Migrations
+## Migrations
 To run migrations navigate to CleanTemplate.Infrastructure project and then you can run the migrations like:
-	$ dotnet ef migrations Add InitialCreate -o Persistence/Migrations
-	$ dotnet ef database update
+    $ dotnet ef database update
 Migrations use the ApplicationDbContextFactory to create an instance of the DbContext, the connection string that it uses
 can be found in the CleanTemplate.Infrastructure/appsettings.json file.
-To recreate the database just run:
-	$ dotnet ef database drop
-	$ dotnet ef database update
+To Add a new migration run:
+    $ dotnet ef migrations Add InitialCreate -o Persistence/Migrations
+To recreate the database run:
+    $ dotnet ef database drop
+    $ dotnet ef database update
 
 ## Architecture
 This project is structured in the following way, at the core we have Domain and Application which hold the types and business logic

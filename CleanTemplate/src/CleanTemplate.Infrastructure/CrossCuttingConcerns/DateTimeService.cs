@@ -1,7 +1,7 @@
 ﻿using System;
-using CleanTemplate.Application.Infrastructure;
+using CleanTemplate.Application.CrossCuttingConcerns;
 
-namespace CleanTemplate.Infrastructure.Common
+namespace CleanTemplate.Infrastructure.CrossCuttingConcerns
 {
     public class DateTimeService : IDateTime
     {
