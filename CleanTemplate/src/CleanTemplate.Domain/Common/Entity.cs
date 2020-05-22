@@ -8,15 +8,21 @@
         public override bool Equals(object obj)
         {
             if (!(obj is Entity<TId>))
+            {
                 return false;
+            }
 
             if (ReferenceEquals(this, obj))
+            {
                 return true;
+            }
 
             if (GetType() != obj.GetType())
+            {
                 return false;
+            }
 
-            var item = (Entity<TId>) obj;
+            var item = (Entity<TId>)obj;
 
             return item.Id.Equals(Id);
         }
@@ -28,7 +34,7 @@
 
         public static bool operator ==(Entity<TId> left, Entity<TId> right)
         {
-            return left?.Equals(right) ?? Equals(right, objB: null);
+            return left?.Equals(right) ?? Equals(right, null);
         }
 
         public static bool operator !=(Entity<TId> left, Entity<TId> right)

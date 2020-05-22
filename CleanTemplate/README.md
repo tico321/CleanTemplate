@@ -15,6 +15,7 @@ This template is inspired on the following projects:
 - Structured logging with Serilog.
     - Logs are already configured and will be logged to ApplicationLogs table in PostgreSQL.
     - ILoggerAdapter abstraction is used for testability.
+- Consistent style with .editorconfig
 
 ## Requirements
 - Install docker and docker-compose
@@ -25,7 +26,7 @@ This template is inspired on the following projects:
 - Install .NET core
 - Install nodejs
 
-## Run the application 
+## Run the application
 
 ### Run the docker-compose project
 The easiest way to run the application is to do it from VS Studio.
@@ -60,7 +61,7 @@ of the system. They are independent of the other layers and frameworks which mak
 infrastructure which groups all external concerns
 
 ### Domain
-The Domain holds enterprise logic that can be shared across systems. 
+The Domain holds enterprise logic that can be shared across systems.
 It doesn't have a dependency in any other layer and it's the core of the project.
 Folders should be build around context boundaries.
 
@@ -69,26 +70,26 @@ Folders should be build around context boundaries.
  It only depends on the Domain and is also considered the core of the project.
  All the logic is build based on commands and queries which are grouped by concrete features of the application, external
  dependencies are abstracted in interfaces so there is no real dependency to any concrete technology.
- 
+
  ### Infrastructure
  Depends on application and contains all the external concerns (ex. Persistence, API clients, etc.)
  No layer should depend on infrastructure, all concrete implementations should be added here but should cohesively be grouped
  in folders so it's easy to move to a separate project if convenient.
- 
+
  ### API
  API project only concern is to build the composition root and to provide a way to access our well defined views and models defined
- in the core of the system by making the API available to consumers. 
+ in the core of the system by making the API available to consumers.
 
 **Entry Point**
 
  This layer shouldn't have any logic, it should only define the routes for the actions and correctly translate requests and responses
  between the client and the server.
- 
+
  **Composition root**
  The Composition Root is a single, logical location in an application where modules are composed together. In this project we use
  the default DI container to build the dependency tree and associate concrete instances to abstractions.
- 
+
  ### Presentation
  The presentation layer in this case is implemented with the VueJS framework, this is the face of the application.
  It provides a way for users to interact with the system.
- 
+

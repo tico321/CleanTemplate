@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -20,7 +20,7 @@ namespace CleanTemplate.Domain.Common
 
         public int CompareTo(object other)
         {
-            return Id.CompareTo(((Enumeration) other).Id);
+            return Id.CompareTo(((Enumeration)other).Id);
         }
 
         public override string ToString()
@@ -30,9 +30,10 @@ namespace CleanTemplate.Domain.Common
 
         public static IEnumerable<T> GetAll<T>() where T : Enumeration
         {
-            var fields = typeof(T).GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly);
+            var fields =
+                typeof(T).GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly);
 
-            return fields.Select(f => f.GetValue(obj: null)).Cast<T>();
+            return fields.Select(f => f.GetValue(null)).Cast<T>();
         }
 
         public override bool Equals(object obj)
@@ -40,7 +41,9 @@ namespace CleanTemplate.Domain.Common
             var otherValue = obj as Enumeration;
 
             if (otherValue == null)
+            {
                 return false;
+            }
 
             var typeMatches = GetType().Equals(obj.GetType());
             var valueMatches = Id.Equals(otherValue.Id);
@@ -71,15 +74,12 @@ namespace CleanTemplate.Domain.Common
             return matchingItem;
         }
 
-        private static T Parse<T, K>(K value, string description, Func<T, bool> predicate) where T : Enumeration
+        private static T Parse<T, TValue>(TValue value, string description, Func<T, bool> predicate) where T : Enumeration
         {
             var matchingItem = GetAll<T>().FirstOrDefault(predicate);
-
-            if (matchingItem == null)
+            return matchingItem ??
                 throw new InvalidOperationException(
                     $"'{value.ToString()}' is not a valid {description} in {typeof(T)}");
-
-            return matchingItem;
         }
     }
 }

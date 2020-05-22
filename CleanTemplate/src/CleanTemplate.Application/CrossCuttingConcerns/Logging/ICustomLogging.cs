@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CleanTemplate.Application.CrossCuttingConcerns.Logging
+﻿namespace CleanTemplate.Application.CrossCuttingConcerns.Logging
 {
     public interface ICustomLogging
     {

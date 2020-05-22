@@ -12,7 +12,7 @@ namespace CleanTemplate.Application.CrossCuttingConcerns.Extensions
                 // pretty
                 Formatting.Indented,
                 // to prevent issues with circular references
-                new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore});
+                new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
         }
     }
 }

@@ -8,23 +8,20 @@ namespace CleanTemplate.Infrastructure.Persistence.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "TodoItems",
-                columns: table => new
+                "TodoItems",
+                table => new
                 {
-                    Id = table.Column<long>(nullable: false)
+                    Id = table.Column<long>()
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Description = table.Column<string>(maxLength: 50, nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TodoItems", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_TodoItems", x => x.Id); });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "TodoItems");
+                "TodoItems");
         }
     }
 }

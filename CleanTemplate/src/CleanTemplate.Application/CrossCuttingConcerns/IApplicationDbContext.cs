@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CleanTemplate.Application.CrossCuttingConcerns
 {
-	public interface IApplicationDbContext
-	{
-		DbSet<TodoItem> TodoItems { get; set; }
-		Task<int> SaveChangesAsync(CancellationToken cancellationToken);
-	}
+    public interface IApplicationDbContext
+    {
+        DbSet<TodoItem> TodoItems { get; set; }
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+    }
 }

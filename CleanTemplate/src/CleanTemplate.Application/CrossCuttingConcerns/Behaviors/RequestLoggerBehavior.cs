@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using CleanTemplate.Application.CrossCuttingConcerns.Exceptions;
@@ -28,7 +28,7 @@ namespace CleanTemplate.Application.CrossCuttingConcerns.Behaviors
             var userName = currentUserService.UserName ?? string.Empty;
             try
             {
-                object requestLog = GetLogContent(request);
+                var requestLog = GetLogContent(request);
                 logger.LogInformation(
                     "Request: {@Request} {@UserId} {@User} {@Data}",
                     requestName, userId, userName, requestLog);

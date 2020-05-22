@@ -25,8 +25,8 @@ namespace CleanTemplate.Application.Todos.Commands.Create
                 {
                     Description = request.Description
                 };
-                this.context.TodoItems.Add(todo);
-                await this.context.SaveChangesAsync(cancellationToken);
+                context.TodoItems.Add(todo);
+                await context.SaveChangesAsync(cancellationToken);
 
                 return todo.Id;
             }

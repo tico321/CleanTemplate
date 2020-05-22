@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CleanTemplate.Application.CrossCuttingConcerns;
@@ -21,10 +20,10 @@ namespace CleanTemplate.Application.Todos.Queries.GetAll
 
             public async Task<TodoListVm> Handle(GetAllTodosQuery request, CancellationToken cancellationToken)
             {
-                var todos = await this.context.TodoItems
-                    .Select(t => new TodoVm { Id = t.Id, Description = t.Description})
+                var todos = await context.TodoItems
+                    .Select(t => new TodoVm { Id = t.Id, Description = t.Description })
                     .ToListAsync(cancellationToken);
-                return new TodoListVm{ Todos = todos };
+                return new TodoListVm { Todos = todos };
             }
         }
     }
