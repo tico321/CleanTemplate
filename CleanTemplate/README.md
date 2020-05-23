@@ -33,16 +33,24 @@ The easiest way to run the application is to do it from VS Studio.
 Visual Studio recognizes the docker-compose project so you just need to:
 - Mark docker-compose project as startup project.
 - Run the project.
+- Run the migrations with $ dotnet ef database update
 
 ### Run from another IDE
+#### Use the CLI
 If you don't want to use VS you may want to run the project from the cli and start DB and other containers manually.
-- If you don't have a PostgreSQL container you can create it with:
-    $ docker run --name postgresdev -p 5432:5432 -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=CleanTemplate -d postgres
-- To run the dotnet project go to the directory CleanTemplate.API
-    $  dotnet watch run
-- Optionally you can add adminer with:
-    $ docker run --name adminerdev -p 8080:8080 adminer
-If you want to setup docker-compose you may want to review https://www.richard-banks.org/2018/07/debugging-core-in-docker.html
+- Go the the root of the project and start PostgreSQL and adminer with:
+    - $ docker-compose -f docker-compose.dev.yml up
+- Run the migrations from the CleanTemplate.Infrastructure directory:
+    - $ dotnet ef database update 
+- To run the dotnet project:
+    - Update CleanTemplate.API/appsettings.Development.json and CleanTemplate.API/appsettings.json connection strings 
+    and set `localhost` instead of `db`.
+    - from CleanTemplate.API run: $  dotnet watch run
+    - This will start the project in the port 5000 and 5001 as defined on CleanTemplate.API/Properties/lauchSettings.json
+     
+#### Include the API in docker-compose
+VS does a lot of things under the hood for which if you want to add it to the docker container without lossing debug capabilities
+you may want to  review https://www.richard-banks.org/2018/07/debugging-core-in-docker.html
 
 ## Migrations
 To run migrations navigate to CleanTemplate.Infrastructure project and then you can run the migrations like:
