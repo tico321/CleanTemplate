@@ -17,8 +17,8 @@ This template is inspired on the following projects:
     - ILoggerAdapter abstraction is used for testability.
 - Consistent style with .editorconfig
 - Samples for different types of tests
-    - Unit tests.
-    - Integration tests
+    - Unit tests. Initially application and domain layers are covered 100% by unit tests. 
+    - Integration tests. They exercise the application as a black box and cover the API actions at a high level.
         - Note: Integration tests are setup to run in parallel and will share the WebApplicationFactory between test classes,
         This is a personal recommendation that will require a shift in your thinking as you need to consider that the db may be
         affected by other tests similar to a real application.
