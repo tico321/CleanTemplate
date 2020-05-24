@@ -38,6 +38,7 @@ namespace CleanTemplate.Application.Test.TestHelpers
         public TestAppDbContext(DbContextOptions options) : base(options)
         {
         }
+
         public DbSet<TodoItem> TodoItems { get; set; }
     }
 }

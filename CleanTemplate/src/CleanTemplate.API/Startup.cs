@@ -9,7 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 
-[assembly: ApiConventionType(typeof(DefaultApiConventions))]
+[assembly: ApiConventionType(typeof(DefaultApiConventions))]
+
 namespace CleanTemplate.API
 {
     public class Startup

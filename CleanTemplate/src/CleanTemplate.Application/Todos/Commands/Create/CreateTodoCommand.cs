@@ -21,10 +21,7 @@ namespace CleanTemplate.Application.Todos.Commands.Create
 
             public async Task<long> Handle(CreateTodoCommand request, CancellationToken cancellationToken)
             {
-                var todo = new TodoItem
-                {
-                    Description = request.Description
-                };
+                var todo = new TodoItem {Description = request.Description};
                 context.TodoItems.Add(todo);
                 await context.SaveChangesAsync(cancellationToken);
 

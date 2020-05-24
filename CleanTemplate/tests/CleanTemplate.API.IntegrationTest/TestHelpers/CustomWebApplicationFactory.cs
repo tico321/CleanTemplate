@@ -24,11 +24,12 @@ namespace CleanTemplate.API.TestHelpers
         }
 
         /// <summary>
-        /// Creates a new WebApplicationFactory with a fresh DB recently seeded.
-        /// For this to work properly parallelization in xunit needs to be disabled https://stackoverflow.com/a/61122438/8765790
+        ///     Creates a new WebApplicationFactory with a fresh DB recently seeded.
+        ///     For this to work properly parallelization in xunit needs to be disabled
+        ///     https://stackoverflow.com/a/61122438/8765790
         /// </summary>
         /// <returns>A new HttpClient </returns>
-        public  WebApplicationFactory<TStartup> Reset(Action<ApplicationDbContext> seeder = null)
+        public WebApplicationFactory<TStartup> Reset(Action<ApplicationDbContext> seeder = null)
         {
             return this.WithWebHostBuilder(builder =>
             {

@@ -13,10 +13,7 @@ namespace CleanTemplate.Application.Test.Todos.Commands
         {
             var dbFactory = new ApplicationDbContextFactory();
             using var context = await dbFactory.Create();
-            var command = new CreateTodoCommand
-            {
-                Description = "Description"
-            };
+            var command = new CreateTodoCommand {Description = "Description"};
             var handler = new CreateTodoCommand.CreateTodoHandler(context);
 
             var id = await handler.Handle(command, CancellationToken.None);

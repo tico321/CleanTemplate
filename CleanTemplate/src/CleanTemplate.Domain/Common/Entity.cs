@@ -29,7 +29,7 @@
 
         public static bool operator ==(Entity<TId> left, Entity<TId> right)
         {
-            return left?.Equals(right) ?? Equals(right, null);
+            return left?.Equals(right) ?? Equals(right, objB: null);
         }
 
         public static bool operator !=(Entity<TId> left, Entity<TId> right)

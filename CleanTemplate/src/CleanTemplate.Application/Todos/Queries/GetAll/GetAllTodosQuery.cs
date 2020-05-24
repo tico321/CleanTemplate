@@ -1,6 +1,7 @@
-﻿using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using CleanTemplate.Application.CrossCuttingConcerns;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -11,19 +12,21 @@ namespace CleanTemplate.Application.Todos.Queries.GetAll
     {
         public class GetAllTodosQueryHandler : IRequestHandler<GetAllTodosQuery, TodoListVm>
         {
-            private readonly IApplicationDbContext context;
+            private readonly IApplicationDbContext _context;
+            private readonly IMapper _mapper;
 
-            public GetAllTodosQueryHandler(IApplicationDbContext context)
+            public GetAllTodosQueryHandler(IApplicationDbContext context, IMapper mapper)
             {
-                this.context = context;
+                this._context = context;
+                _mapper = mapper;
             }
 
             public async Task<TodoListVm> Handle(GetAllTodosQuery request, CancellationToken cancellationToken)
             {
-                var todos = await context.TodoItems
-                    .Select(t => new TodoVm { Id = t.Id, Description = t.Description })
+                var todos = await _context.TodoItems
+                    .ProjectTo<TodoVm>(_mapper.ConfigurationProvider)
                     .ToListAsync(cancellationToken);
-                return new TodoListVm { Todos = todos };
+                return new TodoListVm {Todos = todos};
             }
         }
     }

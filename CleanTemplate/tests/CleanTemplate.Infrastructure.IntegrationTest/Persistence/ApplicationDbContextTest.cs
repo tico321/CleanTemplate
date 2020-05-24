@@ -11,11 +11,6 @@ namespace CleanTemplate.Infrastructure.IntegrationTest.Persistence
 {
     public class ApplicationDbContextTests : IDisposable
     {
-        private readonly string _userId;
-        private readonly ApplicationDbContext _sut;
-        private readonly long ItemId = 1;
-        private readonly DateTime _dateTime = new DateTime(year: 3001, month: 1, day: 1);
-
         public ApplicationDbContextTests()
         {
             var dateTimeProvider = A.Fake<IDateTime>();
@@ -31,11 +26,7 @@ namespace CleanTemplate.Infrastructure.IntegrationTest.Persistence
 
             _sut = new ApplicationDbContext(options, currentUserServiceProvider, dateTimeProvider);
 
-            _sut.TodoItems.Add(new TodoItem
-            {
-                Id = ItemId,
-                Description = "Do this thing."
-            });
+            _sut.TodoItems.Add(new TodoItem {Id = ItemId, Description = "Do this thing."});
 
             _sut.SaveChanges();
         }
@@ -45,10 +36,14 @@ namespace CleanTemplate.Infrastructure.IntegrationTest.Persistence
             _sut?.Dispose();
         }
 
+        private readonly string _userId;
+        private readonly ApplicationDbContext _sut;
+        private readonly long ItemId = 1;
+        private readonly DateTime _dateTime = new DateTime(year: 3001, month: 1, day: 1);
+
         [Fact]
         public async Task SaveChangesAsync_GivenExistingTodoItem_ShouldSetLastModifiedProperties()
         {
-
             var item = await _sut.TodoItems.FindAsync(ItemId);
             item.Description = "new description";
 
@@ -60,25 +55,9 @@ namespace CleanTemplate.Infrastructure.IntegrationTest.Persistence
         }
 
         [Fact]
-        public async Task SaveChangesAsync_WithNoChanges_ShouldNotUpdateAuditableProperties()
-        {
-
-            var item = await _sut.TodoItems.FindAsync(ItemId);
-
-            await _sut.SaveChangesAsync();
-
-            Assert.Null(item.LastModified);
-            Assert.Null(item.LastModifiedBy);
-        }
-
-        [Fact]
         public async Task SaveChangesAsync_GivenNewTodoItem_ShouldSetCreatedProperties()
         {
-            var item = new TodoItem
-            {
-                Id = 2,
-                Description = "This thing is done."
-            };
+            var item = new TodoItem {Id = 2, Description = "This thing is done."};
 
             _sut.TodoItems.Add(item);
 
@@ -86,6 +65,17 @@ namespace CleanTemplate.Infrastructure.IntegrationTest.Persistence
 
             Assert.Equal(_dateTime, item.Created);
             Assert.Equal(_userId, item.CreatedBy);
+        }
+
+        [Fact]
+        public async Task SaveChangesAsync_WithNoChanges_ShouldNotUpdateAuditableProperties()
+        {
+            var item = await _sut.TodoItems.FindAsync(ItemId);
+
+            await _sut.SaveChangesAsync();
+
+            Assert.Null(item.LastModified);
+            Assert.Null(item.LastModifiedBy);
         }
     }
 }

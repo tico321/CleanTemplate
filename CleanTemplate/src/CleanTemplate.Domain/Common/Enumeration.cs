@@ -33,7 +33,7 @@ namespace CleanTemplate.Domain.Common
             var fields =
                 typeof(T).GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly);
 
-            return fields.Select(f => f.GetValue(null)).Cast<T>();
+            return fields.Select(f => f.GetValue(obj: null)).Cast<T>();
         }
 
         public override bool Equals(object obj)
@@ -74,12 +74,13 @@ namespace CleanTemplate.Domain.Common
             return matchingItem;
         }
 
-        private static T Parse<T, TValue>(TValue value, string description, Func<T, bool> predicate) where T : Enumeration
+        private static T Parse<T, TValue>(TValue value, string description, Func<T, bool> predicate)
+            where T : Enumeration
         {
             var matchingItem = GetAll<T>().FirstOrDefault(predicate);
             return matchingItem ??
-                throw new InvalidOperationException(
-                    $"'{value.ToString()}' is not a valid {description} in {typeof(T)}");
+                   throw new InvalidOperationException(
+                       $"'{value.ToString()}' is not a valid {description} in {typeof(T)}");
         }
     }
 }

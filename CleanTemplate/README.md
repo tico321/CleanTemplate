@@ -12,12 +12,13 @@ This template is inspired on the following projects:
     as complex values in the DB instead of just numbers.
     - IAuditableEntity allows us to track changes to entities just by implementing this interface.
     - Entity is a base class that has a default implementation to compare entities by their Id.
+- Based on Commands and Queries.
 - Structured logging with Serilog.
     - Logs are already configured and will be logged to ApplicationLogs table in PostgreSQL.
     - ILoggerAdapter abstraction is used for testability.
 - Consistent style with .editorconfig
 - Samples for different types of tests
-    - Unit tests. Initially application and domain layers are covered 100% by unit tests. 
+    - Unit tests. Initially application and domain layers are covered 100% by unit tests and we strongly recommend to keep it that way.
     - Integration tests. They exercise the application as a black box and cover the API actions at a high level.
         - Note: Integration tests are setup to run in parallel and will share the WebApplicationFactory between test classes,
         This is a personal recommendation that will require a shift in your thinking as you need to consider that the db may be
@@ -26,6 +27,11 @@ This template is inspired on the following projects:
         your tests slower but sometimes is inevitable. https://stackoverflow.com/a/61122438/8765790
     - This project uses FakeItEasy to create test doubles https://github.com/FakeItEasy/FakeItEasy
 - Default API conventions https://docs.microsoft.com/en-us/aspnet/core/web-api/advanced/conventions?view=aspnetcore-3.1
+- Helpful libraries that are used in the project:
+    - Mediatr
+    - Automapper
+    - FakeItEasy
+    - Entity Framework Core
 
 ## Requirements
 - Install docker and docker-compose

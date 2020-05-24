@@ -6,33 +6,34 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace CleanTemplate.Infrastructure.Persistence.Migrations
 {
-	[DbContext(typeof(ApplicationDbContext))]
-	internal class ApplicationDbContextModelSnapshot : ModelSnapshot
-	{
-		protected override void BuildModel(ModelBuilder modelBuilder)
-		{
+    [DbContext(typeof(ApplicationDbContext))]
+    internal class ApplicationDbContextModelSnapshot : ModelSnapshot
+    {
+        protected override void BuildModel(ModelBuilder modelBuilder)
+        {
 #pragma warning disable 612, 618
-			modelBuilder
-				.HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
-				.HasAnnotation("ProductVersion", "3.1.4")
-				.HasAnnotation("Relational:MaxIdentifierLength", 63);
+            modelBuilder
+                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
+                .HasAnnotation("ProductVersion", "3.1.4")
+                .HasAnnotation("Relational:MaxIdentifierLength", value: 63);
 
-			modelBuilder.Entity("CleanTemplate.Domain.Todos.TodoItem", b =>
-			{
-				b.Property<long>("Id")
-					.ValueGeneratedOnAdd()
-					.HasColumnType("bigint")
-					.HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+            modelBuilder.Entity("CleanTemplate.Domain.Todos.TodoItem", b =>
+            {
+                b.Property<long>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("bigint")
+                    .HasAnnotation("Npgsql:ValueGenerationStrategy",
+                        NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-				b.Property<string>("Description")
-					.HasColumnType("character varying(50)")
-					.HasMaxLength(50);
+                b.Property<string>("Description")
+                    .HasColumnType("character varying(50)")
+                    .HasMaxLength(maxLength: 50);
 
-				b.HasKey("Id");
+                b.HasKey("Id");
 
-				b.ToTable("TodoItems");
-			});
+                b.ToTable("TodoItems");
+            });
 #pragma warning restore 612, 618
-		}
-	}
+        }
+    }
 }

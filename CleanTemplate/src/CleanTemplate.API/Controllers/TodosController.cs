@@ -14,7 +14,7 @@ namespace CleanTemplate.API.Controllers
         public async Task<ActionResult<long>> CreateTodo(CreateTodoCommand command)
         {
             var result = await Mediator.Send(command);
-            return CreatedAtAction(nameof(GetById), new { id = result }, result);
+            return CreatedAtAction(nameof(GetById), new {id = result}, result);
         }
 
         [HttpGet]

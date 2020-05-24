@@ -14,6 +14,29 @@ namespace CleanTemplate.Application.Test
 {
     public class DependencyInjectionTest
     {
+        private class FakeLogger<T> : ILogger<T>
+        {
+            public void Log<TState>(
+                LogLevel logLevel,
+                EventId eventId,
+                TState state,
+                Exception exception,
+                Func<TState, Exception, string> formatter)
+            {
+                throw new NotImplementedException();
+            }
+
+            public bool IsEnabled(LogLevel logLevel)
+            {
+                throw new NotImplementedException();
+            }
+
+            public IDisposable BeginScope<TState>(TState state)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         [Fact]
         public void RegistersDependencies()
         {
@@ -30,24 +53,6 @@ namespace CleanTemplate.Application.Test
             Assert.NotNull(provider.GetService<ILoggerAdapter<string>>());
             Assert.NotNull(provider.GetService<IRequestHandler<GetAllTodosQuery, TodoListVm>>());
             Assert.NotNull(provider.GetService<IRequestHandler<CreateTodoCommand, long>>());
-        }
-
-        private class FakeLogger<T> : ILogger<T>
-        {
-            public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
-            {
-                throw new NotImplementedException();
-            }
-
-            public bool IsEnabled(LogLevel logLevel)
-            {
-                throw new NotImplementedException();
-            }
-
-            public IDisposable BeginScope<TState>(TState state)
-            {
-                throw new NotImplementedException();
-            }
         }
     }
 }

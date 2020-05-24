@@ -21,13 +21,13 @@ namespace CleanTemplate.API
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
-                Host.CreateDefaultBuilder(args)
-                        .ConfigureWebHostDefaults(webBuilder =>
-                        {
-                            webBuilder
-                                .UseStartup<Startup>()
-                                .UseSerilog();
-                        });
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder
+                        .UseStartup<Startup>()
+                        .UseSerilog();
+                });
 
         private static void InitLogger()
         {
@@ -40,25 +40,26 @@ namespace CleanTemplate.API
             // Column writers for PostgreSQL sink https://github.com/b00ted/serilog-sinks-postgresql
             IDictionary<string, ColumnWriterBase> columnWriters = new Dictionary<string, ColumnWriterBase>
             {
-                { "Message", new RenderedMessageColumnWriter(NpgsqlDbType.Text) },
-                { "Level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
-                { "TimeStamp", new TimestampColumnWriter(NpgsqlDbType.TimestampTz) },
-                { "Exception", new ExceptionColumnWriter(NpgsqlDbType.Text) },
-                { "MachineName", new SinglePropertyColumnWriter("MachineName") },
-                { "CorrelationId", new SinglePropertyColumnWriter("CorrelationId") },
-                { "UserId", new SinglePropertyColumnWriter("UserId") },
+                {"Message", new RenderedMessageColumnWriter()},
+                {"Level", new LevelColumnWriter(renderAsText: true, NpgsqlDbType.Varchar)},
+                {"TimeStamp", new TimestampColumnWriter()},
+                {"Exception", new ExceptionColumnWriter()},
+                {"MachineName", new SinglePropertyColumnWriter("MachineName")},
+                {"CorrelationId", new SinglePropertyColumnWriter("CorrelationId")},
+                {"UserId", new SinglePropertyColumnWriter("UserId")}
             };
             Log.Logger = new LoggerConfiguration()
-                .Enrich.FromLogContext() //https://github.com/serilog/serilog/wiki/Enrichment used for the CorrelationIdMiddleware
+                .Enrich
+                .FromLogContext() //https://github.com/serilog/serilog/wiki/Enrichment used for the CorrelationIdMiddleware
                 .Enrich.WithMachineName() // https://github.com/saleem-mirza/serilog-enrichers-context/wiki
                 .WriteTo.PostgreSql(
                     connectionString,
-                    tableName: "ApplicationLog",
+                    "ApplicationLog",
                     columnWriters,
                     needAutoCreateTable: true
-                //useCopy: true,
-                //batchSizeLimit: 40,
-                //period: new TimeSpan(0, 0, 10)
+                    //useCopy: true,
+                    //batchSizeLimit: 40,
+                    //period: new TimeSpan(0, 0, 10)
                 )
                 .ReadFrom.Configuration(configuration)
                 .CreateLogger();
