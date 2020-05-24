@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using CleanTemplate.Application.CrossCuttingConcerns.Extensions;
+using CleanTemplate.Application.CrossCuttingConcerns.JSON;
 
 namespace CleanTemplate.Application.CrossCuttingConcerns.Exceptions
 {

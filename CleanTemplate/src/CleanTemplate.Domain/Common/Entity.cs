@@ -7,7 +7,7 @@
 
         public override bool Equals(object obj)
         {
-            if (!(obj is Entity<TId>))
+            if (obj == null || GetType() != obj.GetType())
             {
                 return false;
             }
@@ -15,11 +15,6 @@
             if (ReferenceEquals(this, obj))
             {
                 return true;
-            }
-
-            if (GetType() != obj.GetType())
-            {
-                return false;
             }
 
             var item = (Entity<TId>)obj;

@@ -16,6 +16,10 @@ This template is inspired on the following projects:
     - Logs are already configured and will be logged to ApplicationLogs table in PostgreSQL.
     - ILoggerAdapter abstraction is used for testability.
 - Consistent style with .editorconfig
+- Samples for different types of tests
+    - Unit tests
+    - Integration tests
+    - This project uses FakeItEasy to create test doubles https://github.com/FakeItEasy/FakeItEasy
 
 ## Requirements
 - Install docker and docker-compose
@@ -47,7 +51,9 @@ If you don't want to use VS you may want to run the project from the cli and sta
     and set `localhost` instead of `db`.
     - from CleanTemplate.API run: $  dotnet watch run
     - This will start the project in the port 5000 and 5001 as defined on CleanTemplate.API/Properties/lauchSettings.json
-     
+- To run all the unit tests go to the root of the project and run:
+    - dotnet test ./CleanTemplate.sln
+ 
 #### Include the API in docker-compose
 VS does a lot of things under the hood for which if you want to add it to the docker container without lossing debug capabilities
 you may want to  review https://www.richard-banks.org/2018/07/debugging-core-in-docker.html

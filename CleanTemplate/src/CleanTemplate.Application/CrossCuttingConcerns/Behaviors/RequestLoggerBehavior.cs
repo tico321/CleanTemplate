@@ -10,9 +10,11 @@ namespace CleanTemplate.Application.CrossCuttingConcerns.Behaviors
     public class RequestLoggerBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     {
         private readonly ICurrentUserService currentUserService;
-        private readonly ILoggerAdapter<TRequest> logger;
+        private readonly ILoggerAdapter<RequestLoggerBehavior<TRequest, TResponse>> logger;
 
-        public RequestLoggerBehavior(ILoggerAdapter<TRequest> logger, ICurrentUserService currentUserService)
+        public RequestLoggerBehavior(
+            ILoggerAdapter<RequestLoggerBehavior<TRequest, TResponse>> logger,
+            ICurrentUserService currentUserService)
         {
             this.logger = logger;
             this.currentUserService = currentUserService;
@@ -30,12 +32,12 @@ namespace CleanTemplate.Application.CrossCuttingConcerns.Behaviors
             {
                 var requestLog = GetLogContent(request);
                 logger.LogInformation(
-                    "Request: {@Request} {@UserId} {@User} {@Data}",
+                    "{ request: {@Request}, userId: {@UserId}, user: {@User}, data: {@Data} }",
                     requestName, userId, userName, requestLog);
                 var response = await next();
                 var responseLog = GetLogContent(response);
                 logger.LogInformation(
-                    "Response: {@Status} {@Request} {@UserId} {@User} {@Data}",
+                    "{ status: {@Status}, response: {@Request}, userId {@UserId}, user: {@User}, data: {@Data} }",
                     "Ok", requestName, userId, userName, responseLog);
 
                 return response;
@@ -43,7 +45,7 @@ namespace CleanTemplate.Application.CrossCuttingConcerns.Behaviors
             catch (AppException ex)
             {
                 logger.LogInformation(
-                    "Response: {@Status} {@Request} {@UserId} {@User} @{Failure}",
+                    "{ status: {@Status}, request: {@Request}, userId: {@UserId}, user: {@User}, error: @{Failure} }",
                     "ApplicationError", requestName, userId, userName, ex.GetFormattedMessage());
                 throw;
             }
@@ -51,7 +53,7 @@ namespace CleanTemplate.Application.CrossCuttingConcerns.Behaviors
             {
                 logger.LogError(
                     ex,
-                    "Response: {@Status} {@Request} {@UserId} {@User}",
+                    "{ status: {@Status}, request: {@Request}, userId: {@UserId}, user: {@User} }",
                     "UnexpectedError", requestName, userId, userName);
                 throw;
             }

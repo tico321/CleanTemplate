@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace CleanTemplate.Application.CrossCuttingConcerns.Extensions
+namespace CleanTemplate.Application.CrossCuttingConcerns.JSON
 {
     public static class JsonHelper
     {
@@ -10,7 +10,7 @@ namespace CleanTemplate.Application.CrossCuttingConcerns.Extensions
             return JsonConvert.SerializeObject(
                 obj,
                 // pretty
-                Formatting.Indented,
+                format,
                 // to prevent issues with circular references
                 new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
         }
