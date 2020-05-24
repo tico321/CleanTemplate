@@ -212,17 +212,17 @@ namespace CleanTemplate.Application.Test.CrossCuttingConcerns.Behaviors
             }
         }
 
-        private class SampleRequest
+        public class SampleRequest
         {
             public string RequestData { get; set; }
         }
 
-        private class SampleResponse
+        public class SampleResponse
         {
             public string ResponseData { get; set; }
         }
 
-        private class SampleRequestCustomLogging : ICustomLogging
+        public class SampleRequestCustomLogging : ICustomLogging
         {
             public string ToLog()
             {
@@ -230,7 +230,7 @@ namespace CleanTemplate.Application.Test.CrossCuttingConcerns.Behaviors
             }
         }
 
-        private class SampleResponseCustomLogging : ICustomLogging
+        public class SampleResponseCustomLogging : ICustomLogging
         {
             public string ToLog()
             {

@@ -17,9 +17,15 @@ This template is inspired on the following projects:
     - ILoggerAdapter abstraction is used for testability.
 - Consistent style with .editorconfig
 - Samples for different types of tests
-    - Unit tests
+    - Unit tests.
     - Integration tests
+        - Note: Integration tests are setup to run in parallel and will share the WebApplicationFactory between test classes,
+        This is a personal recommendation that will require a shift in your thinking as you need to consider that the db may be
+        affected by other tests similar to a real application.
+        If you are having problems with tests interfering with each other disable parallelization in x unit, this will make 
+        your tests slower but sometimes is inevitable. https://stackoverflow.com/a/61122438/8765790
     - This project uses FakeItEasy to create test doubles https://github.com/FakeItEasy/FakeItEasy
+- Default API conventions https://docs.microsoft.com/en-us/aspnet/core/web-api/advanced/conventions?view=aspnetcore-3.1
 
 ## Requirements
 - Install docker and docker-compose

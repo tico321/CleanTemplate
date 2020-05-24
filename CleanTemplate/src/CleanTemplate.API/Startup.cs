@@ -3,11 +3,13 @@ using CleanTemplate.Application;
 using CleanTemplate.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 
+[assembly: ApiConventionType(typeof(DefaultApiConventions))]
 namespace CleanTemplate.API
 {
     public class Startup
@@ -23,7 +25,6 @@ namespace CleanTemplate.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-
             services.AddApplication();
             services.AddInfrastructure(Configuration);
         }

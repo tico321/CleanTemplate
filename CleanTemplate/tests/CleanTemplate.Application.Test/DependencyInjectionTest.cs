@@ -18,7 +18,7 @@ namespace CleanTemplate.Application.Test
         public void RegistersDependencies()
         {
             var services = new ServiceCollection();
-            // Register types that will be registered in CleanTemplate.API
+            // Register types that will be registered in CleanTemplate.API.IntegrationTest
             services.AddTransient(typeof(ILogger<>), typeof(FakeLogger<>));
             services.AddTransient<ICurrentUserService, FakeUserService>();
             services.AddTransient(serviceProvider => A.Fake<IApplicationDbContext>());
