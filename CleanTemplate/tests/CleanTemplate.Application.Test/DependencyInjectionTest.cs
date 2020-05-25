@@ -5,6 +5,7 @@ using CleanTemplate.Application.Test.TestHelpers;
 using CleanTemplate.Application.Todos.Commands.Create;
 using CleanTemplate.Application.Todos.Queries.GetAll;
 using FakeItEasy;
+using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -53,6 +54,7 @@ namespace CleanTemplate.Application.Test
             Assert.NotNull(provider.GetService<ILoggerAdapter<string>>());
             Assert.NotNull(provider.GetService<IRequestHandler<GetAllTodosQuery, TodoListVm>>());
             Assert.NotNull(provider.GetService<IRequestHandler<CreateTodoCommand, long>>());
+            Assert.NotNull(provider.GetService<IValidator<CreateTodoCommand>>());
         }
     }
 }

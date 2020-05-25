@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using CleanTemplate.Application.Test.TestHelpers;
 using CleanTemplate.Application.Todos.Commands.Create;
+using FluentValidation.TestHelper;
 using Xunit;
 
 namespace CleanTemplate.Application.Test.Todos.Commands
@@ -21,6 +22,20 @@ namespace CleanTemplate.Application.Test.Todos.Commands
 
             Assert.NotNull(actual);
             Assert.Equal(command.Description, actual.Description);
+        }
+
+        [Fact]
+        public void Validator()
+        {
+            var validator = new CreateTodoCommandValidator();
+
+            validator
+                .ShouldHaveValidationErrorFor(c => c.Description, null as string)
+                .WithErrorMessage("Description cannot be null");
+            validator
+                .ShouldHaveValidationErrorFor(c => c.Description, "123")
+                .WithErrorMessage("5 is the minimum length");
+            validator.ShouldNotHaveValidationErrorFor(c => c.Description, "123456");
         }
     }
 }

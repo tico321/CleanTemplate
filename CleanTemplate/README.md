@@ -28,8 +28,13 @@ This template is inspired on the following projects:
     - This project uses FakeItEasy to create test doubles https://github.com/FakeItEasy/FakeItEasy
 - Default API conventions https://docs.microsoft.com/en-us/aspnet/core/web-api/advanced/conventions?view=aspnetcore-3.1
 - Helpful libraries that are used in the project:
-    - Mediatr
-    - Automapper
+    - Mediatr -> Used to dispatch our Commands and Queries. 
+    IRequest implementations are automatically registered in CleanTemplate.Application/DependencyInjection.cs
+    - Automapper -> Used to map between models and DTOs. 
+    IMapFrom implementation are automatically registered in CleanTemplate.Application/DependencyInjection.cs
+    - FluentValidator. Used to validate Commands and Queries automatically before accessing our core logic.
+    Our Anti-Corruption layer consists on only using Comands and Queries with Mediatr that are validated with FluentValidation.
+    AbstractValidator implementations are automatically registered in CleanTemplate.Application/DependencyInjection.cs. 
     - FakeItEasy
     - Entity Framework Core
 
