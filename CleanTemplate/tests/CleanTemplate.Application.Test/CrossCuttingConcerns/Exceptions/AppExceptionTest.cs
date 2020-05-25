@@ -25,5 +25,16 @@ namespace CleanTemplate.Application.Test.CrossCuttingConcerns.Exceptions
 
             Assert.Equal("some message", actual);
         }
+
+        [Fact]
+        public void ToProblemDetails()
+        {
+            var ex = new AppException("some message");
+
+            var actual = ex.ToProblemDetails();
+
+            Assert.Equal("some message", actual.Message);
+            Assert.Equal(expected: 0, actual.ProblemDetails.Keys.Count);
+        }
     }
 }

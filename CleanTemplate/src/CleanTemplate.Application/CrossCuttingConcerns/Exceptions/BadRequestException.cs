@@ -32,5 +32,10 @@ namespace CleanTemplate.Application.CrossCuttingConcerns.Exceptions
         {
             return Failures.ToJson();
         }
+
+        public override ErrorDetails ToProblemDetails()
+        {
+            return new ErrorDetails(Message, Failures);
+        }
     }
 }

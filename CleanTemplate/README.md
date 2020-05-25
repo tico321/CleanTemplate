@@ -26,7 +26,11 @@ This template is inspired on the following projects:
         If you are having problems with tests interfering with each other disable parallelization in x unit, this will make 
         your tests slower but sometimes is inevitable. https://stackoverflow.com/a/61122438/8765790
     - This project uses FakeItEasy to create test doubles https://github.com/FakeItEasy/FakeItEasy
-- Default API conventions https://docs.microsoft.com/en-us/aspnet/core/web-api/advanced/conventions?view=aspnetcore-3.1
+- API
+    - Default API conventions https://docs.microsoft.com/en-us/aspnet/core/web-api/advanced/conventions?view=aspnetcore-3.1
+    - Errors use [Problem details](https://tools.ietf.org/html/rfc7807) format but we don't use [.net problem details](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.problemdetails?view=aspnetcore-2.2) directly
+    we use [AutoWrapper](https://github.com/proudmonkey/AutoWrapper) To perform the dirty work. 
+     
 - Helpful libraries that are used in the project:
     - Mediatr -> Used to dispatch our Commands and Queries. 
     IRequest implementations are automatically registered in CleanTemplate.Application/DependencyInjection.cs

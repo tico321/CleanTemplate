@@ -28,14 +28,31 @@ namespace CleanTemplate.API.Controllers
             var response = await client.PostAsync("/api/Todos", request);
 
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
-            var id = await ApiTestHelper.GetResponseContent<long>(response);
+            var id = (await ApiTestHelper.GetResponseContent<long>(response)).Result;
             response = await client.GetAsync("/api/Todos");
             var todoList = await ApiTestHelper.GetResponseContent<TodoListVm>(response);
-            Assert.True(todoList.Todos.Any(t => t.Id == id));
+            Assert.Contains(todoList.Result.Todos, t => t.Id == id);
         }
 
         [Fact]
-        public async Task Get_WithTodos()
+        public async Task CreatesATodo_Fail()
+        {
+            var command = new CreateTodoCommand {Description = null};
+            var client = _factory.CreateClient();
+            var request = ApiTestHelper.GetRequestContent(command);
+
+            var response = await client.PostAsync("/api/Todos", request);
+
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+            var apiResponse = await ApiTestHelper.GetResponseContent<long>(response);
+            Assert.True(apiResponse.IsError);
+            Assert.Equal(
+                "Description cannot be null",
+                apiResponse?.ResponseException?.ExceptionMessage?.ProblemDetails["Description"].First());
+        }
+
+        [Fact]
+        public async Task GetTodos()
         {
             var client = _factory.Reset().CreateClient();
 
@@ -43,9 +60,9 @@ namespace CleanTemplate.API.Controllers
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
             var todoList = await ApiTestHelper.GetResponseContent<TodoListVm>(response);
-            Assert.NotNull(todoList);
-            Assert.Contains(todoList.Todos, t => t.Id == TodoSeeder.DefaultTodoItems[index: 0].Id);
-            Assert.Contains(todoList.Todos, t => t.Id == TodoSeeder.DefaultTodoItems[index: 1].Id);
+            Assert.NotNull(todoList.Result);
+            Assert.Contains(todoList.Result.Todos, t => t.Id == TodoSeeder.DefaultTodoItems[index: 0].Id);
+            Assert.Contains(todoList.Result.Todos, t => t.Id == TodoSeeder.DefaultTodoItems[index: 1].Id);
         }
     }
 }

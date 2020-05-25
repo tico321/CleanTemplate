@@ -1,4 +1,5 @@
-﻿using CleanTemplate.API.Middleware;
+﻿using AutoWrapper;
+using CleanTemplate.API.Middleware;
 using CleanTemplate.Application;
 using CleanTemplate.Infrastructure;
 using Microsoft.AspNetCore.Builder;
@@ -40,9 +41,14 @@ namespace CleanTemplate.API
 
             // Logging
             app.UseCorrelationId();
+            // Collects information from a request and logs one event instead of many
             app.UseSerilogRequestLogging();
 
             app.UseHttpsRedirection();
+
+            // Problem Details support added with AutoWrapper https://github.com/proudmonkey/AutoWrapper
+            app.UseApiResponseAndExceptionWrapper();
+
             app.UseRouting();
             app.UseAuthorization();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });

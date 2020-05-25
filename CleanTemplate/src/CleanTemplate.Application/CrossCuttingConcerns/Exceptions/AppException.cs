@@ -18,5 +18,10 @@ namespace CleanTemplate.Application.CrossCuttingConcerns.Exceptions
         {
             return Message;
         }
+
+        public virtual ErrorDetails ToProblemDetails()
+        {
+            return new ErrorDetails(Message);
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using CleanTemplate.Application.CrossCuttingConcerns.Exceptions;
 using CleanTemplate.Application.Todos.Commands.Create;
 using CleanTemplate.Application.Todos.Queries;
 using CleanTemplate.Application.Todos.Queries.GetAll;
@@ -13,8 +14,15 @@ namespace CleanTemplate.API.Controllers
         [HttpPost]
         public async Task<ActionResult<long>> CreateTodo(CreateTodoCommand command)
         {
-            var result = await Mediator.Send(command);
-            return CreatedAtAction(nameof(GetById), new {id = result}, result);
+            try
+            {
+                var result = await Mediator.Send(command);
+                return CreatedAtAction(nameof(GetById), new {id = result}, result);
+            }
+            catch (AppException e)
+            {
+                return BadRequest(e.ToProblemDetails());
+            }
         }
 
         [HttpGet]

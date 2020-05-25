@@ -11,7 +11,7 @@ namespace CleanTemplate.Infrastructure
         public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddPersistence(configuration);
-            services.AddTransient<IDateTime, DateTimeService>();
+            services.AddTransient<IDateTime, DateTimeProvider>();
             services.AddTransient<ICurrentUserService, NullCurrentUserService>();
         }
     }

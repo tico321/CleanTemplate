@@ -3,7 +3,7 @@ using CleanTemplate.Application.CrossCuttingConcerns;
 
 namespace CleanTemplate.Infrastructure.CrossCuttingConcerns
 {
-    public class DateTimeService : IDateTime
+    public class DateTimeProvider : IDateTime
     {
         public DateTime Now => DateTime.Now;
     }
