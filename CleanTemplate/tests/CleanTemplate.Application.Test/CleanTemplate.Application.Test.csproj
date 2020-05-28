@@ -17,6 +17,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\src\CleanTemplate.Application\CleanTemplate.Application.csproj" />
+      <ProjectReference Include="..\..\src\CleanTemplate.Infrastructure\CleanTemplate.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

@@ -10,11 +10,11 @@ namespace CleanTemplate.API.Middleware
     public class CorrelationIdMiddleware
     {
         private const string CorrelationId = "CorrelationId";
-        private readonly RequestDelegate next;
+        private readonly RequestDelegate _next;
 
         public CorrelationIdMiddleware(RequestDelegate next)
         {
-            this.next = next;
+            _next = next;
         }
 
         public async Task Invoke(HttpContext context)
@@ -24,7 +24,7 @@ namespace CleanTemplate.API.Middleware
             // https://github.com/serilog/serilog/wiki/Enrichment
             using (LogContext.PushProperty(CorrelationId, correlationIdValue))
             {
-                await next(context);
+                await _next(context);
             }
         }
     }

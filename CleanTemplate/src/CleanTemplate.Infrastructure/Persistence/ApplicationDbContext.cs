@@ -2,8 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using CleanTemplate.Application.CrossCuttingConcerns;
+using CleanTemplate.Application.Todos.Model;
 using CleanTemplate.Domain.Common;
-using CleanTemplate.Domain.Todos;
 using Microsoft.EntityFrameworkCore;
 
 namespace CleanTemplate.Infrastructure.Persistence
@@ -24,9 +24,12 @@ namespace CleanTemplate.Infrastructure.Persistence
 
         public DbSet<TodoItem> TodoItems { get; set; }
 
+        public DbSet<TodoList> TodoLists { get; set; }
+
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             foreach (var entry in ChangeTracker.Entries<IAuditableEntity>())
+            {
                 switch (entry.State)
                 {
                     case EntityState.Added:
@@ -38,6 +41,7 @@ namespace CleanTemplate.Infrastructure.Persistence
                         entry.Entity.LastModified = _dateTime.Now;
                         break;
                 }
+            }
 
             return base.SaveChangesAsync(cancellationToken);
         }

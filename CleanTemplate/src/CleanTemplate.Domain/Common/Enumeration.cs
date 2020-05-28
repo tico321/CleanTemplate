@@ -74,6 +74,12 @@ namespace CleanTemplate.Domain.Common
             return matchingItem;
         }
 
+        public static bool IsValidName<T>(string displayName) where T : Enumeration
+        {
+            var matchingItem = GetAll<T>().FirstOrDefault(v => v.Name == displayName);
+            return matchingItem != null;
+        }
+
         private static T Parse<T, TValue>(TValue value, string description, Func<T, bool> predicate)
             where T : Enumeration
         {

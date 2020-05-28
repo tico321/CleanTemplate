@@ -9,15 +9,15 @@ namespace CleanTemplate.Application.CrossCuttingConcerns.Behaviors
 {
     public class RequestLoggerBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     {
-        private readonly ICurrentUserService currentUserService;
-        private readonly ILoggerAdapter<RequestLoggerBehavior<TRequest, TResponse>> logger;
+        private readonly ICurrentUserService _currentUserService;
+        private readonly ILoggerAdapter<RequestLoggerBehavior<TRequest, TResponse>> _logger;
 
         public RequestLoggerBehavior(
             ILoggerAdapter<RequestLoggerBehavior<TRequest, TResponse>> logger,
             ICurrentUserService currentUserService)
         {
-            this.logger = logger;
-            this.currentUserService = currentUserService;
+            _logger = logger;
+            _currentUserService = currentUserService;
         }
 
         public async Task<TResponse> Handle(
@@ -26,17 +26,17 @@ namespace CleanTemplate.Application.CrossCuttingConcerns.Behaviors
             RequestHandlerDelegate<TResponse> next)
         {
             var requestName = typeof(TRequest).Name;
-            var userId = currentUserService.UserId ?? string.Empty;
-            var userName = currentUserService.UserName ?? string.Empty;
+            var userId = _currentUserService.UserId ?? string.Empty;
+            var userName = _currentUserService.UserName ?? string.Empty;
             try
             {
                 var requestLog = GetLogContent(request);
-                logger.LogInformation(
+                _logger.LogInformation(
                     "{ request: {@Request}, userId: {@UserId}, user: {@User}, data: {@Data} }",
                     requestName, userId, userName, requestLog);
                 var response = await next();
                 var responseLog = GetLogContent(response);
-                logger.LogInformation(
+                _logger.LogInformation(
                     "{ status: {@Status}, response: {@Request}, userId {@UserId}, user: {@User}, data: {@Data} }",
                     "Ok", requestName, userId, userName, responseLog);
 
@@ -44,14 +44,14 @@ namespace CleanTemplate.Application.CrossCuttingConcerns.Behaviors
             }
             catch (AppException ex)
             {
-                logger.LogInformation(
+                _logger.LogInformation(
                     "{ status: {@Status}, request: {@Request}, userId: {@UserId}, user: {@User}, error: @{Failure} }",
                     "ApplicationError", requestName, userId, userName, ex.GetFormattedMessage());
                 throw;
             }
             catch (Exception ex)
             {
-                logger.LogError(
+                _logger.LogError(
                     ex,
                     "{ status: {@Status}, request: {@Request}, userId: {@UserId}, user: {@User} }",
                     "UnexpectedError", requestName, userId, userName);

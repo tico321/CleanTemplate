@@ -1,4 +1,5 @@
 ﻿using AutoWrapper;
+using CleanTemplate.API.Filters;
 using CleanTemplate.API.Middleware;
 using CleanTemplate.Application;
 using CleanTemplate.Infrastructure;
@@ -26,7 +27,10 @@ namespace CleanTemplate.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers(options =>
+            {
+                options.Filters.Add(new AppExceptionFilter());
+            });
             services.AddApplication();
             services.AddInfrastructure(Configuration);
         }

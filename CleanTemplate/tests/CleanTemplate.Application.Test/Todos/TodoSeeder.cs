@@ -1,25 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CleanTemplate.Application.CrossCuttingConcerns;
-using CleanTemplate.Domain.Todos;
+using CleanTemplate.Application.Todos.Model;
 
 namespace CleanTemplate.Application.Test.Todos
 {
     public class TodoSeeder
     {
-        public static readonly List<TodoItem> DefaultTodoItems = new List<TodoItem>
+        public static readonly List<TodoList> DefaultTodoLists = new List<TodoList>
         {
-            new TodoItem {Id = 1, Description = "Take out the trash"},
-            new TodoItem {Id = 2, Description = "Finish my homework"}
+            new TodoList("0", "Personal", displayOrder: 2),
+            new TodoList("1", "Work", displayOrder: 1)
+                .SequenceAddTodo("Reply Juan Email")
+                .SequenceAddTodo("Finish US 1")
         };
 
-        public static Func<IApplicationDbContext, Task> GetSeeder(List<TodoItem> items)
+        public static Func<IApplicationDbContext, Task> GetSeeder(List<TodoList> items)
         {
             return context =>
             {
-                context.TodoItems.AddRange(items);
+                var todos = context.TodoLists.ToList();
+                context.TodoLists.AddRange(items.Where(i => !todos.Contains(i)));
                 return context.SaveChangesAsync(CancellationToken.None);
             };
         }

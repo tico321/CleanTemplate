@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using CleanTemplate.Domain.Todos;
+using CleanTemplate.Application.Todos.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace CleanTemplate.Application.CrossCuttingConcerns
 {
     public interface IApplicationDbContext : IDisposable
     {
-        DbSet<TodoItem> TodoItems { get; set; }
+        DbSet<TodoList> TodoLists { get; set; } // we only expose AggregateRoots
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

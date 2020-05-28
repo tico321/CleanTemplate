@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using CleanTemplate.Application.CrossCuttingConcerns;
-using CleanTemplate.Domain.Todos;
+using CleanTemplate.Application.Todos.Model;
 using CleanTemplate.Infrastructure.Persistence;
 using FakeItEasy;
 using Microsoft.EntityFrameworkCore;
@@ -26,9 +27,9 @@ namespace CleanTemplate.Infrastructure.IntegrationTest.Persistence
 
             _sut = new ApplicationDbContext(options, currentUserServiceProvider, dateTimeProvider);
 
-            _sut.TodoItems.Add(new TodoItem {Id = ItemId, Description = "Do this thing."});
+            _sut.TodoLists.Add(new TodoList("userId", "list", displayOrder: 1).SequenceAddTodo("item1"));
 
-            _sut.SaveChanges();
+            _sut.SaveChangesAsync().Wait();
         }
 
         public void Dispose()
@@ -38,18 +39,26 @@ namespace CleanTemplate.Infrastructure.IntegrationTest.Persistence
 
         private readonly string _userId;
         private readonly ApplicationDbContext _sut;
-        private readonly long ItemId = 1;
         private readonly DateTime _dateTime = new DateTime(year: 3001, month: 1, day: 1);
 
         [Fact]
         public async Task SaveChangesAsync_GivenExistingTodoItem_ShouldSetLastModifiedProperties()
         {
-            var item = await _sut.TodoItems.FindAsync(ItemId);
+            var list = _sut.TodoLists.First();
+            list.Description = "new description";
+            var item = list.Todos.First();
             item.Description = "new description";
+            // Assert DbContext created the list correctly
+            Assert.NotNull(list.CreatedBy);
+            Assert.Equal(_dateTime, list.Created);
+            Assert.NotNull(item.CreatedBy);
+            Assert.Equal(_dateTime, item.Created);
 
             await _sut.SaveChangesAsync();
 
-            Assert.NotNull(item.LastModified);
+            Assert.NotNull(list.LastModified);
+            Assert.Equal(_dateTime, list.LastModified);
+            Assert.Equal(_userId, list.LastModifiedBy);
             Assert.Equal(_dateTime, item.LastModified);
             Assert.Equal(_userId, item.LastModifiedBy);
         }
@@ -57,20 +66,19 @@ namespace CleanTemplate.Infrastructure.IntegrationTest.Persistence
         [Fact]
         public async Task SaveChangesAsync_GivenNewTodoItem_ShouldSetCreatedProperties()
         {
-            var item = new TodoItem {Id = 2, Description = "This thing is done."};
+            var item = new TodoItem("other task", displayOrder: 2);
 
-            _sut.TodoItems.Add(item);
+            await _sut.TodoItems.AddAsync(item);
 
             await _sut.SaveChangesAsync();
 
             Assert.Equal(_dateTime, item.Created);
             Assert.Equal(_userId, item.CreatedBy);
-        }
+            Assert.Null(item.LastModified);
+            Assert.Null(item.LastModifiedBy);
 
-        [Fact]
-        public async Task SaveChangesAsync_WithNoChanges_ShouldNotUpdateAuditableProperties()
-        {
-            var item = await _sut.TodoItems.FindAsync(ItemId);
+            // If we don't make changes auditable entities should not be updated
+            item = _sut.TodoItems.First(i => i.Description == item.Description);
 
             await _sut.SaveChangesAsync();
 

@@ -1,9 +1,10 @@
 ﻿using System;
+using AutoMapper;
 using CleanTemplate.Application.CrossCuttingConcerns;
 using CleanTemplate.Application.CrossCuttingConcerns.Logging;
 using CleanTemplate.Application.Test.TestHelpers;
-using CleanTemplate.Application.Todos.Commands.Create;
-using CleanTemplate.Application.Todos.Queries.GetAll;
+using CleanTemplate.Application.Todos.Commands.CreateTodoList;
+using CleanTemplate.Application.Todos.Queries.GetTodoListIndex;
 using FakeItEasy;
 using FluentValidation;
 using MediatR;
@@ -50,11 +51,16 @@ namespace CleanTemplate.Application.Test
             services.AddApplication();
             var provider = services.BuildServiceProvider();
 
-            Assert.NotNull(provider.GetService<IPipelineBehavior<GetAllTodosQuery, TodoListVm>>());
+            // Pipelines are registered
+            Assert.NotNull(provider.GetService<IPipelineBehavior<GetTodoListIndexQuery, TodoListIndexResponse>>());
+            // Logging is registered
             Assert.NotNull(provider.GetService<ILoggerAdapter<string>>());
-            Assert.NotNull(provider.GetService<IRequestHandler<GetAllTodosQuery, TodoListVm>>());
-            Assert.NotNull(provider.GetService<IRequestHandler<CreateTodoCommand, long>>());
-            Assert.NotNull(provider.GetService<IValidator<CreateTodoCommand>>());
+            // Commands/Queries are registered
+            Assert.NotNull(provider.GetService<IRequestHandler<GetTodoListIndexQuery, TodoListIndexResponse>>());
+            // Validators are registered
+            Assert.NotNull(provider.GetService<IValidator<CreateTodoListCommand>>());
+            // Mapping profiles are registered
+            Assert.NotNull(provider.GetService<IMapper>());
         }
     }
 }

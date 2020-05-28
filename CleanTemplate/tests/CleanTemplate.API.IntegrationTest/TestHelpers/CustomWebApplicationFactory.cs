@@ -31,7 +31,7 @@ namespace CleanTemplate.API.TestHelpers
         /// <returns>A new HttpClient </returns>
         public WebApplicationFactory<TStartup> Reset(Action<ApplicationDbContext> seeder = null)
         {
-            return this.WithWebHostBuilder(builder =>
+            return WithWebHostBuilder(builder =>
             {
                 builder.ConfigureServices(services =>
                 {
@@ -45,7 +45,10 @@ namespace CleanTemplate.API.TestHelpers
             // Remove the app's ApplicationDbContext registration.
             var descriptor = services.SingleOrDefault(
                 d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
-            if (descriptor != null) services.Remove(descriptor);
+            if (descriptor != null)
+            {
+                services.Remove(descriptor);
+            }
 
             // Add a database context using an in-memory database for testing.
             services.AddDbContext<ApplicationDbContext>(
@@ -87,7 +90,6 @@ namespace CleanTemplate.API.TestHelpers
             {
                 Seeder.Reset(context);
                 seeder(context);
-                context.SaveChanges();
             }
             catch (Exception ex)
             {

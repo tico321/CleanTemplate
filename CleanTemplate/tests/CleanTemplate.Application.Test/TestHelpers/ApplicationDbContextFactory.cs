@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CleanTemplate.Application.CrossCuttingConcerns;
-using CleanTemplate.Domain.Todos;
+using CleanTemplate.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
 namespace CleanTemplate.Application.Test.TestHelpers
@@ -12,15 +12,15 @@ namespace CleanTemplate.Application.Test.TestHelpers
 
         public ApplicationDbContextFactory()
         {
-            this._dbName = Guid.NewGuid().ToString();
+            _dbName = Guid.NewGuid().ToString();
         }
 
         public async Task<IApplicationDbContext> Create(Func<IApplicationDbContext, Task> seederFunction = null)
         {
             var options = new DbContextOptionsBuilder()
-                .UseInMemoryDatabase(this._dbName)
+                .UseInMemoryDatabase(_dbName)
                 .Options;
-            var context = new TestAppDbContext(options);
+            var context = new ApplicationDbContext(options, new FakeUserService(), new FixedDateTimeProvider());
 
             context.Database.EnsureCreated();
 
@@ -31,14 +31,5 @@ namespace CleanTemplate.Application.Test.TestHelpers
 
             return context;
         }
-    }
-
-    public class TestAppDbContext : DbContext, IApplicationDbContext
-    {
-        public TestAppDbContext(DbContextOptions options) : base(options)
-        {
-        }
-
-        public DbSet<TodoItem> TodoItems { get; set; }
     }
 }

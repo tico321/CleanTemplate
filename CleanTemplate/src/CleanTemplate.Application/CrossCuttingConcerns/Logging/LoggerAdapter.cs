@@ -11,7 +11,7 @@ namespace CleanTemplate.Application.CrossCuttingConcerns.Logging
 
         public LoggerAdapter(ILogger<T> logger)
         {
-            this._logger = logger;
+            _logger = logger;
         }
 
         public void LogInformation(string message, params object[] args)

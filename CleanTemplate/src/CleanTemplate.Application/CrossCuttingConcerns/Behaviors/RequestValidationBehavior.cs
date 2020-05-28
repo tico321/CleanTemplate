@@ -15,7 +15,7 @@ namespace CleanTemplate.Application.CrossCuttingConcerns.Behaviors
 
         public RequestValidationBehavior(IEnumerable<IValidator<TRequest>> validators)
         {
-            this._validators = validators;
+            _validators = validators;
         }
 
         public Task<TResponse> Handle(
@@ -31,7 +31,10 @@ namespace CleanTemplate.Application.CrossCuttingConcerns.Behaviors
                 .Where(f => f != null)
                 .ToList();
 
-            if (failures.Count != 0) throw new BadRequestException(failures);
+            if (failures.Count != 0)
+            {
+                throw new BadRequestException(failures);
+            }
 
             return next();
         }
