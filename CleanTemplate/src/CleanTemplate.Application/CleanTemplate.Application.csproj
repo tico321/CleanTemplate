@@ -18,4 +18,8 @@
     <ProjectReference Include="..\CleanTemplate.Domain\CleanTemplate.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="CrossCuttingConcerns\Persistence" />
+  </ItemGroup>
+
 </Project>
