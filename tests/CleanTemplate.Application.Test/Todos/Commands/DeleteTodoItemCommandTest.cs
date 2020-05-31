@@ -10,41 +10,45 @@ using Xunit;
 
 namespace CleanTemplate.Application.Test.Todos.Commands
 {
-    public class DeleteTodoItemCommandTest : IClassFixture<RequestTestFixture>
+    public class DeleteTodoItemCommandTest : IClassFixture<MappingTestFixture>
     {
-        public DeleteTodoItemCommandTest(RequestTestFixture fixture)
+        public DeleteTodoItemCommandTest(MappingTestFixture fixture)
         {
             _fixture = fixture;
         }
 
-        private readonly RequestTestFixture _fixture;
+        private readonly MappingTestFixture _fixture;
 
         [Fact]
         public async Task Handle_RemovesTheItem()
         {
-            var itemDescription = "deleteMe";
-            var todoListWithItem = new TodoList("userId", "desc", displayOrder: 1).SequenceAddTodo(itemDescription);
-            todoListWithItem.Id = 111; // because we are using the same context
+            var factory = new ApplicationDbContextFactory();
+            var description = nameof(Handle_RemovesTheItem);
+            var todoListWithItem =
+                new TodoList("userId", description, displayOrder: 1).SequenceAddTodo(description);
             var todos = new List<TodoList> {todoListWithItem};
-            await TodoSeeder.GetSeeder(todos)(_fixture.Context);
-            var todoList = _fixture.Context.TodoLists.First(t => t.Todos.Any(t => t.Description == itemDescription));
+            var context = await factory.Create(TodoSeeder.GetSeeder(todos));
+            var todoList = context.TodoLists.First(t => t.Description == description);
             var todoItem = todoList.Todos.First();
             var command = new DeleteTodoItemCommand {Id = todoList.Id, ItemId = todoItem.Id};
-            var handler = new DeleteTodoItemCommand.Handler(_fixture.Context);
+            var handler = new DeleteTodoItemCommand.Handler(context);
 
             var result = await handler.Handle(command, CancellationToken.None);
 
             Assert.True(result);
-            var actualTodoList = _fixture.Context.TodoLists.First(t => t.Id == todoList.Id);
+            var actualTodoList = context.TodoLists.First(t => t.Id == todoList.Id);
             Assert.True(actualTodoList.Todos.All(t => t.Id != todoItem.Id));
         }
 
         [Fact]
         public async Task Handle_WhenNotFound_ThrowsNotFoundException()
         {
-            await TodoSeeder.GetSeeder(TodoSeeder.DefaultTodoLists)(_fixture.Context);
+            var factory = new ApplicationDbContextFactory();
+            var seeder = TodoSeeder.GetSeeder(TodoSeeder.DefaultTodoLists);
+            var context = await factory.Create(seeder);
+            await TodoSeeder.GetSeeder(TodoSeeder.DefaultTodoLists)(context);
             var command = new DeleteTodoItemCommand {Id = -1, ItemId = -2};
-            var handler = new DeleteTodoItemCommand.Handler(_fixture.Context);
+            var handler = new DeleteTodoItemCommand.Handler(context);
 
             // When the TodoListId doesn't exist
             try
@@ -58,7 +62,7 @@ namespace CleanTemplate.Application.Test.Todos.Commands
             }
 
             // When the ItemId doesn't exist
-            var existingTodoList = _fixture.Context.TodoLists.First();
+            var existingTodoList = context.TodoLists.First();
             command.Id = existingTodoList.Id;
             try
             {
