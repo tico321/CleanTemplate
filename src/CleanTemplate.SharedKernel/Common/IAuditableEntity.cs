@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CleanTemplate.Domain.Common
+namespace CleanTemplate.SharedKernel.Common
 {
     // based on https://github.com/JasonGT/CleanArchitecture/blob/master/src/Domain/Common/AuditableEntity.cs
     public interface IAuditableEntity

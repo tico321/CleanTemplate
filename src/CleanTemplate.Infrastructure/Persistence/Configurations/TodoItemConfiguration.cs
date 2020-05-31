@@ -1,5 +1,5 @@
 ﻿using CleanTemplate.Application.Todos.Model;
-using CleanTemplate.Domain.Common;
+using CleanTemplate.SharedKernel.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

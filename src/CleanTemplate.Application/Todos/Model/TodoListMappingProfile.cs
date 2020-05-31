@@ -2,7 +2,7 @@
 using CleanTemplate.Application.CrossCuttingConcerns.Mapping;
 using CleanTemplate.Application.Todos.Commands.UpdateTodoItem;
 using CleanTemplate.Application.Todos.Commands.UpdateTodoList;
-using CleanTemplate.Domain.Common;
+using CleanTemplate.SharedKernel.Common;
 
 namespace CleanTemplate.Application.Todos.Model
 {

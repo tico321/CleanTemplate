@@ -19,14 +19,14 @@ namespace CleanTemplate.GraphQL
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddApplication();
             services.AddInfrastructure(Configuration);
-            AddGraphQLAPI(services);
+            AddGraphQlApi(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,7 +45,7 @@ namespace CleanTemplate.GraphQL
         }
 
         // Adds Hotcholate GrahpQL https://hotchocolate.io/docs/introduction
-        private void AddGraphQLAPI(IServiceCollection services)
+        private static void AddGraphQlApi(IServiceCollection services)
         {
             // Add GraphQL exception filter
             services.AddErrorFilter<AppExceptionFilter>();

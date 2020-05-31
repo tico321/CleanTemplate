@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using CleanTemplate.Application.CrossCuttingConcerns.JSON;
-using CleanTemplate.Domain.Common;
+using CleanTemplate.SharedKernel.Common;
 using Xunit;
 
 namespace CleanTemplate.Application.Test.CrossCuttingConcerns.JSON
@@ -47,9 +47,9 @@ namespace CleanTemplate.Application.Test.CrossCuttingConcerns.JSON
             var tests = new List<(object, string)>
             {
                 ("string value", "\"string value\""),
-                (new TestEntity {Description = "description"}, "{\"Description\":\"description\",\"Id\":0}"),
+                (new TestEntity { Description = "description" }, "{\"Description\":\"description\",\"Id\":0}"),
                 (TestEnumeration.EnumA, "{\"Name\":\"EnumA\",\"Id\":1}"),
-                (new TestValueObject {Description = "description"}, "{\"Description\":\"description\"}")
+                (new TestValueObject { Description = "description" }, "{\"Description\":\"description\"}")
             };
 
             foreach (var test in tests)

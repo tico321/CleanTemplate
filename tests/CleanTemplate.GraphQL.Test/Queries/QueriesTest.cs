@@ -7,17 +7,17 @@ namespace CleanTemplate.GraphQL.Test.Queries
 {
     public class QueriesTest : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
-        private readonly CustomWebApplicationFactory<Startup> _factory;
-
         public QueriesTest(CustomWebApplicationFactory<Startup> factory)
         {
             _factory = factory;
         }
 
+        private readonly CustomWebApplicationFactory<Startup> _factory;
+
         [Fact]
         public async Task GetTodoListById()
         {
-            var client = _factory.CreateClient();
+            var client = _factory.Reset().CreateClient();
 
             var query =
                 @"{

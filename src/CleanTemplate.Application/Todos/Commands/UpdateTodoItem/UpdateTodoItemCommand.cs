@@ -6,7 +6,7 @@ using CleanTemplate.Application.CrossCuttingConcerns.JSON;
 using CleanTemplate.Application.CrossCuttingConcerns.Persistence;
 using CleanTemplate.Application.Todos.Model;
 using CleanTemplate.Application.Todos.Queries.QueryObjects;
-using CleanTemplate.Domain.Common;
+using CleanTemplate.SharedKernel.Common;
 using FluentValidation;
 using MediatR;
 

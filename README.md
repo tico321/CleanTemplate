@@ -143,3 +143,4 @@ Is quite similar to the API project but uses GraphQL instead of REST.
     AbstractValidator implementations are automatically registered in CleanTemplate.Application/DependencyInjection.cs. 
     - FakeItEasy
     - Entity Framework Core
+    - Hotcholate -> Hotcholate is the library that allows us to expose our resources through GraphQL. 

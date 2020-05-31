@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CleanTemplate.Domain.Common
+namespace CleanTemplate.SharedKernel.Common
 {
     // learn more at https://docs.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/implement-value-objects
     public abstract class ValueObject

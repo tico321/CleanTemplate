@@ -1,4 +1,4 @@
-﻿using CleanTemplate.Domain.Common;
+﻿using CleanTemplate.SharedKernel.Common;
 
 namespace CleanTemplate.Application.Todos.Model
 {

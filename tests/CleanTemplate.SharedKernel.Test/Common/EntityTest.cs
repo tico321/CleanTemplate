@@ -1,7 +1,7 @@
-using CleanTemplate.Domain.Common;
+using CleanTemplate.SharedKernel.Common;
 using Xunit;
 
-namespace CleanTemplate.Domain.Test.Common
+namespace CleanTemplate.SharedKernel.Test.Common
 {
     public class EntityTest
     {

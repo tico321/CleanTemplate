@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace CleanTemplate.Domain.Common
+namespace CleanTemplate.SharedKernel.Common
 {
     // learn more at https://docs.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/enumeration-classes-over-enum-types
     public abstract class Enumeration : IComparable

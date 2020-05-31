@@ -1,6 +1,6 @@
 using System;
 
-namespace CleanTemplate.Domain.Common
+namespace CleanTemplate.SharedKernel.Common
 {
     // based on https://github.com/dotnet-architecture/eShopOnContainers/blob/dev/src/Services/Ordering/Ordering.Domain/SeedWork/Entity.cs
     public abstract class Entity<TId>

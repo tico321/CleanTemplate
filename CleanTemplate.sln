@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanTemplate.Infrastructur
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanTemplate.Application", "src\CleanTemplate.Application\CleanTemplate.Application.csproj", "{DEF42904-DADE-4E4B-B974-3B40D938FEAA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanTemplate.Domain", "src\CleanTemplate.Domain\CleanTemplate.Domain.csproj", "{860020FD-0C3F-40F0-AD8F-82C5A3A603C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanTemplate.SharedKernel", "src\CleanTemplate.SharedKernel\CleanTemplate.SharedKernel.csproj", "{860020FD-0C3F-40F0-AD8F-82C5A3A603C4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C5569C01-A994-49BB-B221-503EAC51F130}"
 	ProjectSection(SolutionItems) = preProject
@@ -24,7 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C5569C01-A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{E1CE8CD6-CEA2-4A81-99C6-DAA799405C71}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanTemplate.Domain.Test", "tests\CleanTemplate.Domain.Test\CleanTemplate.Domain.Test.csproj", "{BE41B2CC-574E-4E98-BF3D-481453BA222B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanTemplate.SharedKernel.Test", "tests\CleanTemplate.SharedKernel.Test\CleanTemplate.SharedKernel.Test.csproj", "{BE41B2CC-574E-4E98-BF3D-481453BA222B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanTemplate.Application.Test", "tests\CleanTemplate.Application.Test\CleanTemplate.Application.Test.csproj", "{EFEBB9E7-458B-4BDF-8546-4C3B2402CAA2}"
 EndProject
