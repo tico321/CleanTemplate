@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CleanTemplate.Application.Test.TestHelpers;
@@ -51,12 +51,6 @@ namespace CleanTemplate.Application.Test.Todos.Queries
             Assert.NotNull(todoList2);
             Assert.Equal(TodoSeeder.DefaultTodoLists[index: 1].DisplayOrder, todoList2.DisplayOrder);
             Assert.Equal(TodoSeeder.DefaultTodoLists[index: 1].Todos.Count(), todoList2.Count);
-            for (var i = 1; i < actual.Count; i++)
-            {
-                var current = actual[i];
-                var previous = actual[i - 1];
-                Assert.True(current.DisplayOrder > previous.DisplayOrder);
-            }
         }
     }
 }

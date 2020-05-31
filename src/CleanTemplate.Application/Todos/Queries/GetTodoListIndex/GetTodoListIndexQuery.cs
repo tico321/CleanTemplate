@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -29,7 +29,6 @@ namespace CleanTemplate.Application.Todos.Queries.GetTodoListIndex
             {
                 var query = _context.TodoLists
                     .AsNoTracking()
-                    .OrderBy(t => t.DisplayOrder)
                     .ProjectTo<SimplifiedTodoListVm>(_mapper.ConfigurationProvider);
 
                 return Task.FromResult(query);

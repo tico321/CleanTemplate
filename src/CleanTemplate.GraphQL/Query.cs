@@ -14,8 +14,7 @@ namespace CleanTemplate.GraphQL
     public class Query
     {
         // Always define the attributes in this order Paging -> Filtering -> Sorting -> Field Resolver https://hotchocolate.io/docs/filters
-        [UsePaging, UseFiltering]
-        //[UseSorting(SortType = typeof(TodoListSortType))] //review why it's not working
+        [UsePaging, UseFiltering, UseSorting]
         public Task<IQueryable<SimplifiedTodoListVm>> GetTodoLists([Service] IMediator mediator)
         {
             return mediator.Send(new GetTodoListIndexQuery());
