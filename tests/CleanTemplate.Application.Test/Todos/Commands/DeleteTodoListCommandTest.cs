@@ -22,7 +22,7 @@ namespace CleanTemplate.Application.Test.Todos.Commands
         {
             await TodoSeeder.GetSeeder(TodoSeeder.DefaultTodoLists)(_fixture.Context);
             var target = _fixture.Context.TodoLists.First();
-            var command = new DeleteTodoListCommand {Id = target.Id};
+            var command = new DeleteTodoListCommand { Id = target.Id };
             var handler = new DeleteTodoListCommand.Handler(_fixture.Context);
 
             var result = await handler.Handle(command, CancellationToken.None);
@@ -34,7 +34,7 @@ namespace CleanTemplate.Application.Test.Todos.Commands
         [Fact]
         public async Task Handler_WhenTheListDoesntExist_ThrowsNotFoundException()
         {
-            var command = new DeleteTodoListCommand {Id = -1};
+            var command = new DeleteTodoListCommand { Id = -1 };
             var handler = new DeleteTodoListCommand.Handler(_fixture.Context);
 
             try

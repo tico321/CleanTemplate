@@ -59,9 +59,6 @@ namespace CleanTemplate.GraphQL
                     "ApplicationLog",
                     columnWriters,
                     needAutoCreateTable: true
-                    //useCopy: true,
-                    //batchSizeLimit: 40,
-                    //period: new TimeSpan(0, 0, 10)
                 )
                 .ReadFrom.Configuration(configuration)
                 .CreateLogger();

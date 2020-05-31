@@ -23,7 +23,7 @@ namespace CleanTemplate.Application.Test.Todos.Queries
             var factory = new ApplicationDbContextFactory();
             var context = await factory.Create(TodoSeeder.GetSeeder(TodoSeeder.DefaultTodoLists));
             var target = context.TodoLists.First(t => t.Todos.Count() >= 2);
-            var query = new GetTodoListQuery {Id = target.Id};
+            var query = new GetTodoListQuery { Id = target.Id };
             var handler = new GetTodoListQuery.Handler(context, _mapping.Mapper);
 
             var actual = await handler.Handle(query, CancellationToken.None);
@@ -42,7 +42,7 @@ namespace CleanTemplate.Application.Test.Todos.Queries
         {
             var factory = new ApplicationDbContextFactory();
             var context = await factory.Create(TodoSeeder.GetSeeder(TodoSeeder.DefaultTodoLists));
-            var query = new GetTodoListQuery {Id = 100};
+            var query = new GetTodoListQuery { Id = 100 };
             var handler = new GetTodoListQuery.Handler(context, _mapping.Mapper);
 
             try

@@ -34,7 +34,7 @@ namespace CleanTemplate.Application.Test.CrossCuttingConcerns.JSON
         [Fact]
         public void ConvertsObjectToJson_WithPretty()
         {
-            var obj = new TestEntity {Description = "description"};
+            var obj = new TestEntity { Description = "description" };
 
             var actual = obj.ToJson(pretty: true);
 

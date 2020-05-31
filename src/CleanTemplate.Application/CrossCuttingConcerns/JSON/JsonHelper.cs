@@ -12,7 +12,7 @@ namespace CleanTemplate.Application.CrossCuttingConcerns.JSON
                 // pretty
                 format,
                 // to prevent issues with circular references
-                new JsonSerializerSettings {ReferenceLoopHandling = ReferenceLoopHandling.Ignore});
+                new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
         }
     }
 }

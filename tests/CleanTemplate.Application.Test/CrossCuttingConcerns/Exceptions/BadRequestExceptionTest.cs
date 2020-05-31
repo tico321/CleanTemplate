@@ -10,7 +10,7 @@ namespace CleanTemplate.Application.Test.CrossCuttingConcerns.Exceptions
         [Fact]
         public void GetFormattedMessage()
         {
-            var ex = new BadRequestException(new List<ValidationFailure> {new ValidationFailure("data", "invalid")});
+            var ex = new BadRequestException(new List<ValidationFailure> { new ValidationFailure("data", "invalid") });
 
             var actual = ex.GetFormattedMessage();
 
@@ -20,7 +20,7 @@ namespace CleanTemplate.Application.Test.CrossCuttingConcerns.Exceptions
         [Fact]
         public void ToProblemDetails()
         {
-            var ex = new BadRequestException(new List<ValidationFailure> {new ValidationFailure("data", "invalid")});
+            var ex = new BadRequestException(new List<ValidationFailure> { new ValidationFailure("data", "invalid") });
 
             var actual = ex.ToProblemDetails();
 

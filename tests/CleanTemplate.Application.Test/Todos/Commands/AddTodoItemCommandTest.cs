@@ -16,7 +16,7 @@ namespace CleanTemplate.Application.Test.Todos.Commands
             var context = await contextFactory.Create(TodoSeeder.GetSeeder(TodoSeeder.DefaultTodoLists));
             var id = context.TodoLists.First().Id;
             var description = nameof(AddTodoItemCommand);
-            var command = new AddTodoItemCommand {TodoListId = 1, Description = description};
+            var command = new AddTodoItemCommand { TodoListId = 1, Description = description };
             var handler = new AddTodoItemCommand.Handler(context);
 
             var itemId = await handler.Handle(command, CancellationToken.None);
@@ -35,7 +35,7 @@ namespace CleanTemplate.Application.Test.Todos.Commands
             var contextFactory = new ApplicationDbContextFactory();
             var context = await contextFactory.Create(TodoSeeder.GetSeeder(TodoSeeder.DefaultTodoLists));
             var description = nameof(AddTodoItemCommand);
-            var command = new AddTodoItemCommand {TodoListId = 1, Description = description};
+            var command = new AddTodoItemCommand { TodoListId = 1, Description = description };
             var validator = new AddTodoItemCommand.Validator(context);
 
             var validation = validator.Validate(command);

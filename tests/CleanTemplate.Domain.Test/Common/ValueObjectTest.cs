@@ -9,10 +9,10 @@ namespace CleanTemplate.Domain.Test.Common
         [Fact]
         public void Comparison()
         {
-            var address1 = new Address {City = "Some city", Street = "Some street"};
-            var address2 = new Address {City = "Some city 2", Street = "Some street 2"};
-            var address3 = new Address {City = null, Street = "Some street 2"};
-            var email = new Email {Address = "some@email.com"};
+            var address1 = new Address { City = "Some city", Street = "Some street" };
+            var address2 = new Address { City = "Some city 2", Street = "Some street 2" };
+            var address3 = new Address { City = null, Street = "Some street 2" };
+            var email = new Email { Address = "some@email.com" };
 
             Assert.NotEqual(address1, address2);
             Assert.NotEqual(address1, address3);
@@ -21,7 +21,7 @@ namespace CleanTemplate.Domain.Test.Common
             Assert.False(address1 == null);
             Assert.NotEqual(address1.GetHashCode(), address2.GetHashCode());
 
-            var address1Equivalent = new Address {City = "Some city", Street = "Some street"};
+            var address1Equivalent = new Address { City = "Some city", Street = "Some street" };
             Assert.Equal(address1, address1Equivalent);
             Assert.True(address1 == address1Equivalent);
             Assert.False(address1 != address1Equivalent);

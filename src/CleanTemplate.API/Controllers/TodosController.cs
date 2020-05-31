@@ -19,27 +19,27 @@ namespace CleanTemplate.API.Controllers
         public async Task<ActionResult<long>> CreateTodo(CreateTodoListCommand listCommand)
         {
             var result = await Mediator.Send(listCommand);
-            return CreatedAtAction(nameof(GetById), new {id = result}, result);
+            return CreatedAtAction(nameof(GetById), new { id = result }, result);
         }
 
         [HttpGet]
         public async Task<ActionResult<TodoListIndexResponse>> GetAll()
         {
             var result = await Mediator.Send(new GetTodoListIndexQuery());
-            return new TodoListIndexResponse {Todos = result};
+            return new TodoListIndexResponse { Todos = result };
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<TodoListVm>> GetById(int id)
         {
-            var result = await Mediator.Send(new GetTodoListQuery {Id = id});
+            var result = await Mediator.Send(new GetTodoListQuery { Id = id });
             return Ok(result);
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<TodoListVm>> Delete(int id)
         {
-            await Mediator.Send(new DeleteTodoListCommand {Id = id});
+            await Mediator.Send(new DeleteTodoListCommand { Id = id });
             return NoContent();
         }
 
@@ -54,13 +54,13 @@ namespace CleanTemplate.API.Controllers
         public async Task<ActionResult<int>> AddTodoItem(int id, AddTodoItemCommand command)
         {
             var itemId = await Mediator.Send(command);
-            return CreatedAtAction(nameof(GetTodoItem), new {id, itemId}, itemId);
+            return CreatedAtAction(nameof(GetTodoItem), new { id, itemId }, itemId);
         }
 
         [HttpGet("{id}/Item/{itemId}")]
         public async Task<ActionResult<TodoItemVm>> GetTodoItem(int id, int itemId)
         {
-            var result = await Mediator.Send(new GetTodoItemByIdQuery {Id = id, ItemId = itemId});
+            var result = await Mediator.Send(new GetTodoItemByIdQuery { Id = id, ItemId = itemId });
             return Ok(result);
         }
 
@@ -74,7 +74,7 @@ namespace CleanTemplate.API.Controllers
         [HttpDelete("{id}/Item/{itemId}/Delete")]
         public async Task<ActionResult> DeleteTodoItem(int id, int itemId)
         {
-            await Mediator.Send(new DeleteTodoItemCommand {Id = id, ItemId = itemId});
+            await Mediator.Send(new DeleteTodoItemCommand { Id = id, ItemId = itemId });
             return NoContent();
         }
     }

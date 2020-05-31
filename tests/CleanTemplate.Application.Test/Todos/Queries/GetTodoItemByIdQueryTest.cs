@@ -29,7 +29,7 @@ namespace CleanTemplate.Application.Test.Todos.Queries
             };
             await TodoSeeder.GetSeeder(todos)(_fixture.Context);
             var todoList = _fixture.Context.TodoLists.First();
-            var query = new GetTodoItemByIdQuery {Id = todoList.Id, ItemId = todoList.Todos.First().Id};
+            var query = new GetTodoItemByIdQuery { Id = todoList.Id, ItemId = todoList.Todos.First().Id };
             var handler = new GetTodoItemByIdQuery.Handler(_fixture.Context, _fixture.Mapper);
 
             var item = await handler.Handle(query, CancellationToken.None);
@@ -43,10 +43,10 @@ namespace CleanTemplate.Application.Test.Todos.Queries
         [Fact]
         public async Task GetTodoItem_ItemNotFound()
         {
-            var todos = new List<TodoList> {new TodoList("userId", "desc2", displayOrder: 0)};
+            var todos = new List<TodoList> { new TodoList("userId", "desc2", displayOrder: 0) };
             await TodoSeeder.GetSeeder(todos)(_fixture.Context);
             var todoList = _fixture.Context.TodoLists.First();
-            var query = new GetTodoItemByIdQuery {Id = todoList.Id, ItemId = 2};
+            var query = new GetTodoItemByIdQuery { Id = todoList.Id, ItemId = 2 };
             var handler = new GetTodoItemByIdQuery.Handler(_fixture.Context, _fixture.Mapper);
 
             try
@@ -63,7 +63,7 @@ namespace CleanTemplate.Application.Test.Todos.Queries
         [Fact]
         public async Task GetTodoItem_ListNotFound()
         {
-            var query = new GetTodoItemByIdQuery {Id = 10, ItemId = 2};
+            var query = new GetTodoItemByIdQuery { Id = 10, ItemId = 2 };
             var handler = new GetTodoItemByIdQuery.Handler(_fixture.Context, _fixture.Mapper);
 
             try

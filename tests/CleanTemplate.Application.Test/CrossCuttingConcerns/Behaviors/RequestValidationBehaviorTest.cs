@@ -29,7 +29,7 @@ namespace CleanTemplate.Application.Test.CrossCuttingConcerns.Behaviors
         [Fact]
         public async Task Handle_WithInvalidData()
         {
-            var sut = new RequestValidationBehavior<Model, Model>(new List<IValidator<Model>> {new ModelValidator()});
+            var sut = new RequestValidationBehavior<Model, Model>(new List<IValidator<Model>> { new ModelValidator() });
             var nullData = new Model();
 
             try
@@ -43,7 +43,7 @@ namespace CleanTemplate.Application.Test.CrossCuttingConcerns.Behaviors
                 Assert.Contains("Data cannot be null", e.Failures[nameof(Model.Data)]);
             }
 
-            var invalidLength = new Model {Data = string.Empty};
+            var invalidLength = new Model { Data = string.Empty };
             try
             {
                 await sut.Handle(invalidLength, CancellationToken.None, () => Task.FromResult(null as Model));
@@ -59,8 +59,8 @@ namespace CleanTemplate.Application.Test.CrossCuttingConcerns.Behaviors
         [Fact]
         public async Task Handle_WithValidData()
         {
-            var sut = new RequestValidationBehavior<Model, Model>(new List<IValidator<Model>> {new ModelValidator()});
-            var model = new Model {Data = nameof(Model)};
+            var sut = new RequestValidationBehavior<Model, Model>(new List<IValidator<Model>> { new ModelValidator() });
+            var model = new Model { Data = nameof(Model) };
 
             await sut.Handle(model, CancellationToken.None, () => Task.FromResult(null as Model));
 

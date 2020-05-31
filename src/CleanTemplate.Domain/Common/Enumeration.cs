@@ -20,7 +20,11 @@ namespace CleanTemplate.Domain.Common
 
         public int CompareTo(object? other)
         {
-            if (other == null) return -1;
+            if (other == null)
+            {
+                return -1;
+            }
+
             return Id.CompareTo(((Enumeration)other).Id);
         }
 

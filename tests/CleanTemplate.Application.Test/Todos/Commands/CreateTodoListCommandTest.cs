@@ -14,7 +14,7 @@ namespace CleanTemplate.Application.Test.Todos.Commands
         {
             var dbFactory = new ApplicationDbContextFactory();
             using var context = await dbFactory.Create();
-            var command = new CreateTodoListCommand {Description = "Description"};
+            var command = new CreateTodoListCommand { Description = "Description" };
             var handler = new CreateTodoListCommand.Handler(context, new FakeUserService());
 
             var id = await handler.Handle(command, CancellationToken.None);

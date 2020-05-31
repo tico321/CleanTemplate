@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using CleanTemplate.Application.CrossCuttingConcerns;
 using CleanTemplate.Application.CrossCuttingConcerns.Persistence;
 using CleanTemplate.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;

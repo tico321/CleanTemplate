@@ -30,9 +30,11 @@ namespace CleanTemplate.Application.Todos.Model
 
         public TodoItem AddTodo(string description)
         {
-            var todoItem = new TodoItem(description, _todos.Count + 1);
-            todoItem.TodoList = this;
-            todoItem.TodoListId = Id;
+            var todoItem = new TodoItem(description, _todos.Count + 1)
+            {
+                TodoList = this,
+                TodoListId = Id
+            };
             _todos.Add(todoItem);
             return todoItem;
         }

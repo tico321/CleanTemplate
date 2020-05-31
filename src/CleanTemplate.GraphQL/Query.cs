@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CleanTemplate.Application.Todos.Queries.GetTodoListById;
@@ -25,7 +25,7 @@ namespace CleanTemplate.GraphQL
         {
             return context.CacheDataLoader<int, TodoListVm>(
                     "todoListById",
-                    (key, token) => mediator.Send(new GetTodoListQuery {Id = id}, token))
+                    (key, token) => mediator.Send(new GetTodoListQuery { Id = id }, token))
                 .LoadAsync(id, CancellationToken.None);
         }
     }

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
@@ -59,9 +59,6 @@ namespace CleanTemplate.API
                     "ApplicationLog",
                     columnWriters,
                     needAutoCreateTable: true
-                    //useCopy: true,
-                    //batchSizeLimit: 40,
-                    //period: new TimeSpan(0, 0, 10)
                 )
                 .ReadFrom.Configuration(configuration)
                 .CreateLogger();

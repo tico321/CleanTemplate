@@ -9,7 +9,7 @@ namespace CleanTemplate.Application.Test.CrossCuttingConcerns.Exceptions
         [Fact]
         public void GetFormattedMessage_ListConstructor()
         {
-            var ex = new AppException(new List<string> {"m1", "m2"});
+            var ex = new AppException(new List<string> { "m1", "m2" });
 
             var actual = ex.GetFormattedMessage();
 

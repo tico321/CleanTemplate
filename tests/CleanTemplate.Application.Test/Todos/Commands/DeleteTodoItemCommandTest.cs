@@ -26,11 +26,11 @@ namespace CleanTemplate.Application.Test.Todos.Commands
             var description = nameof(Handle_RemovesTheItem);
             var todoListWithItem =
                 new TodoList("userId", description, displayOrder: 1).SequenceAddTodo(description);
-            var todos = new List<TodoList> {todoListWithItem};
+            var todos = new List<TodoList> { todoListWithItem };
             var context = await factory.Create(TodoSeeder.GetSeeder(todos));
             var todoList = context.TodoLists.First(t => t.Description == description);
             var todoItem = todoList.Todos.First();
-            var command = new DeleteTodoItemCommand {Id = todoList.Id, ItemId = todoItem.Id};
+            var command = new DeleteTodoItemCommand { Id = todoList.Id, ItemId = todoItem.Id };
             var handler = new DeleteTodoItemCommand.Handler(context);
 
             var result = await handler.Handle(command, CancellationToken.None);
@@ -47,7 +47,7 @@ namespace CleanTemplate.Application.Test.Todos.Commands
             var seeder = TodoSeeder.GetSeeder(TodoSeeder.DefaultTodoLists);
             var context = await factory.Create(seeder);
             await TodoSeeder.GetSeeder(TodoSeeder.DefaultTodoLists)(context);
-            var command = new DeleteTodoItemCommand {Id = -1, ItemId = -2};
+            var command = new DeleteTodoItemCommand { Id = -1, ItemId = -2 };
             var handler = new DeleteTodoItemCommand.Handler(context);
 
             // When the TodoListId doesn't exist
