@@ -1,22 +1,22 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using CleanTemplate.Application.CrossCuttingConcerns;
 using CleanTemplate.Application.CrossCuttingConcerns.Exceptions;
 using CleanTemplate.Application.CrossCuttingConcerns.JSON;
-using CleanTemplate.Application.Todos.Queries.GetTodoList;
+using CleanTemplate.Application.CrossCuttingConcerns.Persistence;
+using CleanTemplate.Application.Todos.Queries.GetTodoListById;
 using CleanTemplate.Application.Todos.Queries.QueryObjects;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace CleanTemplate.Application.Todos.Queries.GetTodoItem
+namespace CleanTemplate.Application.Todos.Queries.GetTodoItemById
 {
-    public class GetTodoItemQuery : IRequest<TodoItemVm>
+    public class GetTodoItemByIdQuery : IRequest<TodoItemVm>
     {
         public int Id { get; set; }
         public int ItemId { get; set; }
 
-        public class Handler : IRequestHandler<GetTodoItemQuery, TodoItemVm>
+        public class Handler : IRequestHandler<GetTodoItemByIdQuery, TodoItemVm>
         {
             private readonly IApplicationDbContext _context;
             private readonly IMapper _mapper;
@@ -27,7 +27,7 @@ namespace CleanTemplate.Application.Todos.Queries.GetTodoItem
                 _mapper = mapper;
             }
 
-            public async Task<TodoItemVm> Handle(GetTodoItemQuery request, CancellationToken cancellationToken)
+            public async Task<TodoItemVm> Handle(GetTodoItemByIdQuery request, CancellationToken cancellationToken)
             {
                 var result = await _context.TodoLists
                     .AsNoTracking()

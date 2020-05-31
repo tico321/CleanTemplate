@@ -3,15 +3,16 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using CleanTemplate.Application.CrossCuttingConcerns;
+using CleanTemplate.Application.CrossCuttingConcerns.Persistence;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace CleanTemplate.Application.Todos.Queries.GetTodoListIndex
 {
-    public class GetTodoListIndexQuery : IRequest<TodoListIndexResponse>
+    // We should try to avoid returning IQueryable<> results but we do it for convenience for GraphQL.
+    public class GetTodoListIndexQuery : IRequest<IQueryable<SimplifiedTodoListVm>>
     {
-        public class Handler : IRequestHandler<GetTodoListIndexQuery, TodoListIndexResponse>
+        public class Handler : IRequestHandler<GetTodoListIndexQuery, IQueryable<SimplifiedTodoListVm>>
         {
             private readonly IApplicationDbContext _context;
             private readonly IMapper _mapper;
@@ -22,16 +23,16 @@ namespace CleanTemplate.Application.Todos.Queries.GetTodoListIndex
                 _mapper = mapper;
             }
 
-            public async Task<TodoListIndexResponse> Handle(
+            public Task<IQueryable<SimplifiedTodoListVm>> Handle(
                 GetTodoListIndexQuery request,
                 CancellationToken cancellationToken)
             {
-                var todos = await _context.TodoLists
+                var query = _context.TodoLists
                     .AsNoTracking()
                     .OrderBy(t => t.DisplayOrder)
-                    .ProjectTo<SimplifiedTodoListVm>(_mapper.ConfigurationProvider)
-                    .ToListAsync(cancellationToken);
-                return new TodoListIndexResponse {Todos = todos};
+                    .ProjectTo<SimplifiedTodoListVm>(_mapper.ConfigurationProvider);
+
+                return Task.FromResult(query);
             }
         }
     }

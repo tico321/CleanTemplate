@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using CleanTemplate.Application.CrossCuttingConcerns;
+using CleanTemplate.Application.CrossCuttingConcerns.Persistence;
 using CleanTemplate.Application.Todos.Model;
 using CleanTemplate.Domain.Common;
 using Microsoft.EntityFrameworkCore;

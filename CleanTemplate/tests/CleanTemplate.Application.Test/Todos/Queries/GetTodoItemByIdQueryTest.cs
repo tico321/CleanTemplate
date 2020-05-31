@@ -5,14 +5,14 @@ using System.Threading.Tasks;
 using CleanTemplate.Application.CrossCuttingConcerns.Exceptions;
 using CleanTemplate.Application.Test.TestHelpers;
 using CleanTemplate.Application.Todos.Model;
-using CleanTemplate.Application.Todos.Queries.GetTodoItem;
+using CleanTemplate.Application.Todos.Queries.GetTodoItemById;
 using Xunit;
 
 namespace CleanTemplate.Application.Test.Todos.Queries
 {
-    public class GetTodoItemQueryTest : IClassFixture<RequestTestFixture>
+    public class GetTodoItemByIdQueryTest : IClassFixture<RequestTestFixture>
     {
-        public GetTodoItemQueryTest(RequestTestFixture fixture)
+        public GetTodoItemByIdQueryTest(RequestTestFixture fixture)
         {
             _fixture = fixture;
         }
@@ -29,8 +29,8 @@ namespace CleanTemplate.Application.Test.Todos.Queries
             };
             await TodoSeeder.GetSeeder(todos)(_fixture.Context);
             var todoList = _fixture.Context.TodoLists.First();
-            var query = new GetTodoItemQuery {Id = todoList.Id, ItemId = todoList.Todos.First().Id};
-            var handler = new GetTodoItemQuery.Handler(_fixture.Context, _fixture.Mapper);
+            var query = new GetTodoItemByIdQuery {Id = todoList.Id, ItemId = todoList.Todos.First().Id};
+            var handler = new GetTodoItemByIdQuery.Handler(_fixture.Context, _fixture.Mapper);
 
             var item = await handler.Handle(query, CancellationToken.None);
 
@@ -46,8 +46,8 @@ namespace CleanTemplate.Application.Test.Todos.Queries
             var todos = new List<TodoList> {new TodoList("userId", "desc2", displayOrder: 0)};
             await TodoSeeder.GetSeeder(todos)(_fixture.Context);
             var todoList = _fixture.Context.TodoLists.First();
-            var query = new GetTodoItemQuery {Id = todoList.Id, ItemId = 2};
-            var handler = new GetTodoItemQuery.Handler(_fixture.Context, _fixture.Mapper);
+            var query = new GetTodoItemByIdQuery {Id = todoList.Id, ItemId = 2};
+            var handler = new GetTodoItemByIdQuery.Handler(_fixture.Context, _fixture.Mapper);
 
             try
             {
@@ -63,8 +63,8 @@ namespace CleanTemplate.Application.Test.Todos.Queries
         [Fact]
         public async Task GetTodoItem_ListNotFound()
         {
-            var query = new GetTodoItemQuery {Id = 10, ItemId = 2};
-            var handler = new GetTodoItemQuery.Handler(_fixture.Context, _fixture.Mapper);
+            var query = new GetTodoItemByIdQuery {Id = 10, ItemId = 2};
+            var handler = new GetTodoItemByIdQuery.Handler(_fixture.Context, _fixture.Mapper);
 
             try
             {

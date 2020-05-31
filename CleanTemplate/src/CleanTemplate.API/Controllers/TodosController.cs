@@ -5,8 +5,8 @@ using CleanTemplate.Application.Todos.Commands.DeleteTodoItem;
 using CleanTemplate.Application.Todos.Commands.DeleteTodoList;
 using CleanTemplate.Application.Todos.Commands.UpdateTodoItem;
 using CleanTemplate.Application.Todos.Commands.UpdateTodoList;
-using CleanTemplate.Application.Todos.Queries.GetTodoItem;
-using CleanTemplate.Application.Todos.Queries.GetTodoList;
+using CleanTemplate.Application.Todos.Queries.GetTodoItemById;
+using CleanTemplate.Application.Todos.Queries.GetTodoListById;
 using CleanTemplate.Application.Todos.Queries.GetTodoListIndex;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,7 +25,8 @@ namespace CleanTemplate.API.Controllers
         [HttpGet]
         public async Task<ActionResult<TodoListIndexResponse>> GetAll()
         {
-            return await Mediator.Send(new GetTodoListIndexQuery());
+            var result = await Mediator.Send(new GetTodoListIndexQuery());
+            return new TodoListIndexResponse {Todos = result};
         }
 
         [HttpGet("{id}")]
@@ -59,7 +60,7 @@ namespace CleanTemplate.API.Controllers
         [HttpGet("{id}/Item/{itemId}")]
         public async Task<ActionResult<TodoItemVm>> GetTodoItem(int id, int itemId)
         {
-            var result = await Mediator.Send(new GetTodoItemQuery {Id = id, ItemId = itemId});
+            var result = await Mediator.Send(new GetTodoItemByIdQuery {Id = id, ItemId = itemId});
             return Ok(result);
         }
 

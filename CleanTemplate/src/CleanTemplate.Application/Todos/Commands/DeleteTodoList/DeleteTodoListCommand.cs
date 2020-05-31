@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using CleanTemplate.Application.CrossCuttingConcerns;
 using CleanTemplate.Application.CrossCuttingConcerns.Exceptions;
+using CleanTemplate.Application.CrossCuttingConcerns.Persistence;
 using MediatR;
 
 namespace CleanTemplate.Application.Todos.Commands.DeleteTodoList

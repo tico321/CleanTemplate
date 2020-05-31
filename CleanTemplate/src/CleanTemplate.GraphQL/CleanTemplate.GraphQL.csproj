@@ -12,6 +12,8 @@
     <ItemGroup>
       <PackageReference Include="HaemmerElectronics.SeppPenner.SerilogSinkForPostgreSQL" Version="1.7.0" />
       <PackageReference Include="HotChocolate.AspNetCore" Version="11.0.0-preview.133" />
+      <PackageReference Include="HotChocolate.Types.Filters" Version="11.0.0-preview.133" />
+      <PackageReference Include="HotChocolate.Types.Sorting" Version="11.0.0-preview.133" />
       <PackageReference Include="Serilog" Version="2.10.0-dev-01187" />
       <PackageReference Include="Serilog.AspNetCore" Version="3.4.0-dev-00168" />
       <PackageReference Include="Serilog.Enrichers.Context" Version="4.5.0-develop-00040" />

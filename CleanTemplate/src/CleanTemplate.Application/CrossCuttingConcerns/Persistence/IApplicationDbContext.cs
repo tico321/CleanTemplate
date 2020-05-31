@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using CleanTemplate.Application.Todos.Model;
 using Microsoft.EntityFrameworkCore;
 
-namespace CleanTemplate.Application.CrossCuttingConcerns
+namespace CleanTemplate.Application.CrossCuttingConcerns.Persistence
 {
     public interface IApplicationDbContext : IDisposable
     {

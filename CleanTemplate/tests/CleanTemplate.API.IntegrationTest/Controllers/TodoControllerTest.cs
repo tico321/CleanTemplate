@@ -8,7 +8,7 @@ using CleanTemplate.Application.Todos.Commands.CreateTodoList;
 using CleanTemplate.Application.Todos.Commands.UpdateTodoItem;
 using CleanTemplate.Application.Todos.Commands.UpdateTodoList;
 using CleanTemplate.Application.Todos.Model;
-using CleanTemplate.Application.Todos.Queries.GetTodoList;
+using CleanTemplate.Application.Todos.Queries.GetTodoListById;
 using CleanTemplate.Application.Todos.Queries.GetTodoListIndex;
 using Xunit;
 

@@ -26,7 +26,7 @@ namespace CleanTemplate.Application.Test.Todos.Queries
             var actual = await handler.Handle(new GetTodoListIndexQuery(), CancellationToken.None);
 
             Assert.NotNull(actual);
-            Assert.Empty(actual.Todos);
+            Assert.Empty(actual);
         }
 
         [Fact]
@@ -37,25 +37,24 @@ namespace CleanTemplate.Application.Test.Todos.Queries
             var context = await contextFactory.Create(seederFunction);
             var handler = new GetTodoListIndexQuery.Handler(context, _mapping.Mapper);
 
-            var actual = await handler.Handle(new GetTodoListIndexQuery(), CancellationToken.None);
+            var actual = (await handler.Handle(new GetTodoListIndexQuery(), CancellationToken.None)).ToList();
 
             Assert.NotNull(actual);
-            Assert.Equal(TodoSeeder.DefaultTodoLists.Count, actual.Todos.Count());
+            Assert.Equal(TodoSeeder.DefaultTodoLists.Count, actual.Count());
             var todoList1 =
-                actual.Todos.FirstOrDefault(t => t.Description == TodoSeeder.DefaultTodoLists[index: 0].Description);
+                actual.FirstOrDefault(t => t.Description == TodoSeeder.DefaultTodoLists[index: 0].Description);
             var todoList2 =
-                actual.Todos.FirstOrDefault(t => t.Description == TodoSeeder.DefaultTodoLists[index: 1].Description);
+                actual.FirstOrDefault(t => t.Description == TodoSeeder.DefaultTodoLists[index: 1].Description);
             Assert.NotNull(todoList1);
             Assert.Equal(TodoSeeder.DefaultTodoLists[index: 0].DisplayOrder, todoList1.DisplayOrder);
             Assert.Equal(TodoSeeder.DefaultTodoLists[index: 0].Todos.Count(), todoList1.Count);
             Assert.NotNull(todoList2);
             Assert.Equal(TodoSeeder.DefaultTodoLists[index: 1].DisplayOrder, todoList2.DisplayOrder);
             Assert.Equal(TodoSeeder.DefaultTodoLists[index: 1].Todos.Count(), todoList2.Count);
-            var todos = actual.Todos.ToList();
-            for (var i = 1; i < todos.Count; i++)
+            for (var i = 1; i < actual.Count; i++)
             {
-                var current = todos[i];
-                var previous = todos[i - 1];
+                var current = actual[i];
+                var previous = actual[i - 1];
                 Assert.True(current.DisplayOrder > previous.DisplayOrder);
             }
         }

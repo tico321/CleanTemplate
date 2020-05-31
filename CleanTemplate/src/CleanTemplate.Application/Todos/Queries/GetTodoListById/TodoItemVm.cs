@@ -2,7 +2,7 @@
 using CleanTemplate.Application.CrossCuttingConcerns.Mapping;
 using CleanTemplate.Application.Todos.Model;
 
-namespace CleanTemplate.Application.Todos.Queries.GetTodoList
+namespace CleanTemplate.Application.Todos.Queries.GetTodoListById
 {
     public class TodoItemVm : IMapFrom<TodoItem>
     {

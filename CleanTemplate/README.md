@@ -99,6 +99,10 @@ from [eShopOnWeb](https://github.com/dotnet-architecture/eShopOnWeb) Microsoft s
  The Composition Root is a single, logical location in an application where modules are composed together. In this project we use
  the default DI container to build the dependency tree and associate concrete instances to abstractions.
 
+### GraphQL
+This project exposes the functionality through [HotChocolate](https://hotchocolate.io/docs/introduction) GraphQL implementation.
+Is quite similar to the API project but uses GraphQL instead of REST.
+
  ### Presentation
  The presentation layer in this case is implemented with the VueJS framework, this is the face of the application.
  It provides a way for users to interact with the system.

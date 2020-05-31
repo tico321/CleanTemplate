@@ -3,14 +3,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using CleanTemplate.Application.CrossCuttingConcerns.Exceptions;
 using CleanTemplate.Application.Test.TestHelpers;
-using CleanTemplate.Application.Todos.Queries.GetTodoList;
+using CleanTemplate.Application.Todos.Queries.GetTodoListById;
 using Xunit;
 
 namespace CleanTemplate.Application.Test.Todos.Queries
 {
-    public class GetTodoListQueryTest : IClassFixture<MappingTestFixture>
+    public class GetTodoListByIdQueryTest : IClassFixture<MappingTestFixture>
     {
-        public GetTodoListQueryTest(MappingTestFixture mapping)
+        public GetTodoListByIdQueryTest(MappingTestFixture mapping)
         {
             _mapping = mapping;
         }

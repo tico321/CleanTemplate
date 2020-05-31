@@ -1,13 +1,13 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using CleanTemplate.Application.CrossCuttingConcerns;
 using CleanTemplate.Application.CrossCuttingConcerns.Exceptions;
+using CleanTemplate.Application.CrossCuttingConcerns.Persistence;
 using CleanTemplate.Application.Todos.Queries.QueryObjects;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace CleanTemplate.Application.Todos.Queries.GetTodoList
+namespace CleanTemplate.Application.Todos.Queries.GetTodoListById
 {
     public class GetTodoListQuery : IRequest<TodoListVm>
     {

@@ -1,4 +1,5 @@
 ﻿using CleanTemplate.Application.CrossCuttingConcerns;
+using CleanTemplate.Application.CrossCuttingConcerns.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

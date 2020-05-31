@@ -24,7 +24,7 @@ namespace CleanTemplate.Application.Test.Todos.Commands
         {
             var itemDescription = "deleteMe";
             var todoListWithItem = new TodoList("userId", "desc", displayOrder: 1).SequenceAddTodo(itemDescription);
-            todoListWithItem.Id = 11; // because we are using the same context
+            todoListWithItem.Id = 111; // because we are using the same context
             var todos = new List<TodoList> {todoListWithItem};
             await TodoSeeder.GetSeeder(todos)(_fixture.Context);
             var todoList = _fixture.Context.TodoLists.First(t => t.Todos.Any(t => t.Description == itemDescription));

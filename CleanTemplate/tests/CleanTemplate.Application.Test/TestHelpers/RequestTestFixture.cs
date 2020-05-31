@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CleanTemplate.Application.CrossCuttingConcerns;
 using CleanTemplate.Application.CrossCuttingConcerns.Mapping;
+using CleanTemplate.Application.CrossCuttingConcerns.Persistence;
 
 namespace CleanTemplate.Application.Test.TestHelpers
 {

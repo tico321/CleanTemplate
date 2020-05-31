@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using AutoMapper;
 using CleanTemplate.Application.CrossCuttingConcerns;
 using CleanTemplate.Application.CrossCuttingConcerns.Logging;
+using CleanTemplate.Application.CrossCuttingConcerns.Persistence;
 using CleanTemplate.Application.Test.TestHelpers;
 using CleanTemplate.Application.Todos.Commands.CreateTodoList;
 using CleanTemplate.Application.Todos.Queries.GetTodoListIndex;
@@ -52,11 +54,13 @@ namespace CleanTemplate.Application.Test
             var provider = services.BuildServiceProvider();
 
             // Pipelines are registered
-            Assert.NotNull(provider.GetService<IPipelineBehavior<GetTodoListIndexQuery, TodoListIndexResponse>>());
+            Assert.NotNull(provider
+                .GetService<IPipelineBehavior<GetTodoListIndexQuery, IQueryable<SimplifiedTodoListVm>>>());
             // Logging is registered
             Assert.NotNull(provider.GetService<ILoggerAdapter<string>>());
             // Commands/Queries are registered
-            Assert.NotNull(provider.GetService<IRequestHandler<GetTodoListIndexQuery, TodoListIndexResponse>>());
+            Assert.NotNull(
+                provider.GetService<IRequestHandler<GetTodoListIndexQuery, IQueryable<SimplifiedTodoListVm>>>());
             // Validators are registered
             Assert.NotNull(provider.GetService<IValidator<CreateTodoListCommand>>());
             // Mapping profiles are registered

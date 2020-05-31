@@ -26,10 +26,7 @@ namespace CleanTemplate.GraphQL
         {
             services.AddApplication();
             services.AddInfrastructure(Configuration);
-            services.AddErrorFilter<AppExceptionFilter>();
-            services.AddGraphQL(new SchemaBuilder()
-                .AddQueryType<Query>()
-                .Create());
+            AddGraphQLAPI(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +42,21 @@ namespace CleanTemplate.GraphQL
             app
                 .UseRouting()
                 .UseGraphQL();
+        }
+
+        // Adds Hotcholate GrahpQL https://hotchocolate.io/docs/introduction
+        private void AddGraphQLAPI(IServiceCollection services)
+        {
+            // Add GraphQL exception filter
+            services.AddErrorFilter<AppExceptionFilter>();
+            // if you want to read more about DataLoader in general, you can head over to Facebook's GitHub repository https://github.com/graphql/dataloader
+            // DataLoader solves the called n+1 problem for GraphQL.
+            services.AddDataLoaderRegistry(); //repository https://github.com/ChilliCream/greendonut
+            // Add GraphQL Schema
+            services.AddGraphQL(new SchemaBuilder()
+                .AddQueryType<Query>()
+                .AddMutationType<Mutation>()
+                .Create());
         }
     }
 }
