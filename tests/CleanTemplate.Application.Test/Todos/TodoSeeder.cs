@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -15,7 +15,7 @@ namespace CleanTemplate.Application.Test.Todos
             new TodoList("0", "Personal", displayOrder: 2),
             new TodoList("1", "Work", displayOrder: 1)
                 .SequenceAddTodo("Reply Juan Email")
-                .SequenceAddTodo("Finish US 1")
+                .SequenceAddTodo("Finish monthly report")
         };
 
         public static Func<IApplicationDbContext, Task> GetSeeder(List<TodoList> items)

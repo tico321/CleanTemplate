@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using CleanTemplate.API.TestHelpers;
@@ -27,7 +27,7 @@ namespace CleanTemplate.API.Controllers
         public async Task AddTodoListItem_Fail()
         {
             var client = _factory.CreateClient();
-            var command = new AddTodoItemCommand {TodoListId = -1, Description = nameof(TodoControllerTest)};
+            var command = new AddTodoItemCommand { TodoListId = -1, Description = nameof(TodoControllerTest) };
             var request = ApiTestHelper.GetRequestContent(command);
 
             var response = await client.PostAsync("/api/Todos/1/Item/Add", request);
@@ -40,7 +40,7 @@ namespace CleanTemplate.API.Controllers
         {
             // First we create a todo item
             var client = _factory.CreateClient();
-            var command = new AddTodoItemCommand {TodoListId = 1, Description = nameof(TodoControllerTest)};
+            var command = new AddTodoItemCommand { TodoListId = 1, Description = nameof(TodoControllerTest) };
             var request = ApiTestHelper.GetRequestContent(command);
 
             var response = await client.PostAsync("/api/Todos/1/Item/Add", request);
@@ -75,7 +75,7 @@ namespace CleanTemplate.API.Controllers
         public async Task CreatesATodoList_RetrieveIt_UpdateIt_ThenRemoveIt()
         {
             // Create the list
-            var command = new CreateTodoListCommand {Description = "description"};
+            var command = new CreateTodoListCommand { Description = "description" };
             var client = _factory.CreateClient();
             var request = ApiTestHelper.GetRequestContent(command);
 
@@ -89,7 +89,7 @@ namespace CleanTemplate.API.Controllers
             Assert.Contains(todoList.Result.Todos, t => t.Id == id);
 
             // Update the list
-            var updateCommand = new UpdateTodoListCommand {Id = id, Description = "new description", DisplayOrder = 10};
+            var updateCommand = new UpdateTodoListCommand { Id = id, Description = "new description", DisplayOrder = 10 };
             response = await client.PutAsync($"/api/Todos/{id}", ApiTestHelper.GetRequestContent(updateCommand));
             Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
 
@@ -101,7 +101,7 @@ namespace CleanTemplate.API.Controllers
         [Fact]
         public async Task CreatesATodoLists_Fail()
         {
-            var command = new CreateTodoListCommand {Description = null};
+            var command = new CreateTodoListCommand { Description = null };
             var client = _factory.CreateClient();
             var request = ApiTestHelper.GetRequestContent(command);
 

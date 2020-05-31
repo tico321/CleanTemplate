@@ -2,10 +2,10 @@ version: '3.7'
 
 services:
   cleantemplate.api:
-    image: ${DOCKER_REGISTRY-}cleantemplateapi
+    image: ${DOCKER_REGISTRY-}cleantemplategraphql
     build:
       context: .
-      dockerfile: src/CleanTemplate.API/Dockerfile
+      dockerfile: src/CleanTemplate.GraphQL/Dockerfile
     environment:
       COMPUTERNAME: "docker-compose"
     depends_on:

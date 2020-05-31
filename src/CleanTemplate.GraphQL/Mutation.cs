@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using CleanTemplate.Application.Todos.Commands.AddTodoItem;
 using CleanTemplate.Application.Todos.Commands.CreateTodoList;
 using CleanTemplate.Application.Todos.Commands.DeleteTodoItem;
@@ -12,14 +12,14 @@ namespace CleanTemplate.GraphQL
 {
     public class Mutation
     {
-        public Task<int> CreteTodoList([Service] IMediator mediator, CreateTodoListCommand command)
+        public Task<int> CreateTodoList([Service] IMediator mediator, CreateTodoListCommand command)
         {
             return mediator.Send(command);
         }
 
         public Task<bool> DeleteTodoList([Service] IMediator mediator, int id)
         {
-            return mediator.Send(new DeleteTodoListCommand {Id = id});
+            return mediator.Send(new DeleteTodoListCommand { Id = id });
         }
 
         public Task<bool> UpdateTodoList([Service] IMediator mediator, UpdateTodoListCommand command)
@@ -32,9 +32,9 @@ namespace CleanTemplate.GraphQL
             return mediator.Send(command);
         }
 
-        public Task<bool> DeleteTodoItem([Service] IMediator mediator, int id)
+        public Task<bool> DeleteTodoItem([Service] IMediator mediator, int id, int itemId)
         {
-            return mediator.Send(new DeleteTodoItemCommand {Id = id});
+            return mediator.Send(new DeleteTodoItemCommand { Id = id, ItemId = itemId });
         }
 
         public Task<bool> UpdateTodoItem([Service] IMediator mediator, UpdateTodoItemCommand command)
