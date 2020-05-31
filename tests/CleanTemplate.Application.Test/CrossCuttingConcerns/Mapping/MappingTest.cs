@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
@@ -97,7 +97,7 @@ namespace CleanTemplate.Application.Test.CrossCuttingConcerns.Mapping
             var tests = new (object, object)[]
             {
                 (new UpdateTodoListCommand(), new TodoList("userId", "desc", displayOrder: 1)),
-                (new UpdateTodoItemCommand(), new TodoItem("des", displayOrder: 1))
+                (new UpdateTodoItemCommand(){ State = "Pending" }, new TodoItem("des", displayOrder: 1))
             };
             foreach (var (source, destination) in tests)
             {

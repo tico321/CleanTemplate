@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using CleanTemplate.Domain.Common;
 using Xunit;
@@ -54,10 +54,11 @@ namespace CleanTemplate.Domain.Test.Common
             Assert.True(enumA.CompareTo(enumA2) == 0);
             Assert.True(enumA.CompareTo(enumB) == -1);
             Assert.True(enumB.CompareTo(enumA) == 1);
+            Assert.True(enumB.CompareTo(null) == -1);
 
             var enumBA = CustomEnumerationB.EnumA;
             Assert.False(enumA.Equals(enumBA));
-            var classA = new CustomClass {Id = CustomEnumeration.EnumA.Id, Name = CustomEnumeration.EnumA.Name};
+            var classA = new CustomClass { Id = CustomEnumeration.EnumA.Id, Name = CustomEnumeration.EnumA.Name };
             Assert.False(enumA.Equals(classA));
         }
 
@@ -104,6 +105,13 @@ namespace CleanTemplate.Domain.Test.Common
         public void ToString_ReturnsTheName()
         {
             Assert.Equal("EnumA", CustomEnumeration.EnumA.ToString());
+        }
+
+        [Fact]
+        public void IsValidName()
+        {
+            Assert.True(Enumeration.IsValidName<CustomEnumeration>(CustomEnumeration.EnumA.Name));
+            Assert.False(Enumeration.IsValidName<CustomEnumeration>("invalid"));
         }
     }
 }

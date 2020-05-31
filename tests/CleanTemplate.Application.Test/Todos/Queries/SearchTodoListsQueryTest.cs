@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CleanTemplate.Application.Test.TestHelpers;
@@ -25,7 +25,7 @@ namespace CleanTemplate.Application.Test.Todos.Queries
                 .Select(i => new TodoList("userId", $"todo {i}", i))
                 .ToList();
             await TodoSeeder.GetSeeder(todos)(_fixture.Context);
-            var query = new SearchTodoListsQuery {Page = 1, PageSize = 5};
+            var query = new SearchTodoListsQuery { Page = 1, PageSize = 5 };
             var handler = new SearchTodoListsQuery.Handler(_fixture.Context, _fixture.Mapper);
 
             var actual = await handler.Handle(query, CancellationToken.None);
@@ -36,6 +36,7 @@ namespace CleanTemplate.Application.Test.Todos.Queries
             Assert.Equal(expected: 3, actual.EndPage);
             Assert.Equal(expected: 1, actual.StartPage);
             Assert.Equal(expected: 3, actual.TotalPages);
+            Assert.Equal(expected: 5, actual.PageSize);
             var data = actual.Data.ToList();
             Assert.Equal(expected: 5, data.Count);
             Assert.Contains(data, d => d.DisplayOrder == 1);
@@ -54,6 +55,7 @@ namespace CleanTemplate.Application.Test.Todos.Queries
             Assert.Equal(expected: 1, actual.StartPage);
             Assert.Equal(expected: 3, actual.TotalPages);
             Assert.Equal(expected: 5, actual.Data.Count());
+            Assert.Equal(expected: 5, actual.PageSize);
             data = actual.Data.ToList();
             Assert.Equal(expected: 5, data.Count);
             Assert.Contains(data, d => d.DisplayOrder == 6);
@@ -72,6 +74,7 @@ namespace CleanTemplate.Application.Test.Todos.Queries
             Assert.Equal(expected: 1, actual.StartPage);
             Assert.Equal(expected: 3, actual.TotalPages);
             Assert.Equal(expected: 5, actual.Data.Count());
+            Assert.Equal(expected: 5, actual.PageSize);
             data = actual.Data.ToList();
             Assert.Equal(expected: 5, data.Count);
             Assert.Contains(data, d => d.DisplayOrder == 11);
@@ -88,6 +91,7 @@ namespace CleanTemplate.Application.Test.Todos.Queries
             Assert.Equal(expected: 3, actual.EndPage);
             Assert.Equal(expected: 1, actual.StartPage);
             Assert.Equal(expected: 3, actual.TotalPages);
+            Assert.Equal(expected: 5, actual.PageSize);
             Assert.Empty(actual.Data);
         }
 

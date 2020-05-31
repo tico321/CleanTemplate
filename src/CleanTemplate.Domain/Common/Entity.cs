@@ -1,11 +1,13 @@
-﻿namespace CleanTemplate.Domain.Common
+using System;
+
+namespace CleanTemplate.Domain.Common
 {
     // based on https://github.com/dotnet-architecture/eShopOnContainers/blob/dev/src/Services/Ordering/Ordering.Domain/SeedWork/Entity.cs
     public abstract class Entity<TId>
     {
-        public virtual TId Id { get; set; }
+        public virtual TId Id { get; set; } = default!;
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj == null || GetType() != obj.GetType())
             {
@@ -19,12 +21,12 @@
 
             var item = (Entity<TId>)obj;
 
-            return item.Id.Equals(Id);
+            return item.Id?.Equals(Id) ?? throw new InvalidOperationException();
         }
 
         public override int GetHashCode()
         {
-            return Id.GetHashCode();
+            return Id?.GetHashCode() ?? throw new InvalidOperationException();
         }
 
         public static bool operator ==(Entity<TId> left, Entity<TId> right)

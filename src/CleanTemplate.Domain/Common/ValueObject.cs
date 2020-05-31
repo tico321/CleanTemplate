@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace CleanTemplate.Domain.Common
@@ -8,7 +8,7 @@ namespace CleanTemplate.Domain.Common
     {
         protected abstract IEnumerable<object> GetAtomicValues();
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj == null || obj.GetType() != GetType())
             {
@@ -16,8 +16,8 @@ namespace CleanTemplate.Domain.Common
             }
 
             var other = (ValueObject)obj;
-            var thisValues = GetAtomicValues().GetEnumerator();
-            var otherValues = other.GetAtomicValues().GetEnumerator();
+            using var thisValues = GetAtomicValues().GetEnumerator();
+            using var otherValues = other.GetAtomicValues().GetEnumerator();
             while (thisValues.MoveNext() && otherValues.MoveNext())
             {
                 if (ReferenceEquals(thisValues.Current, objB: null) ^ ReferenceEquals(otherValues.Current, objB: null))
@@ -43,7 +43,7 @@ namespace CleanTemplate.Domain.Common
 
         public ValueObject GetCopy()
         {
-            return MemberwiseClone() as ValueObject;
+            return (ValueObject)MemberwiseClone();
         }
 
         public static bool operator ==(ValueObject left, ValueObject right)

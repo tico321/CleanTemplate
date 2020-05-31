@@ -1,6 +1,7 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using CleanTemplate.Application.CrossCuttingConcerns.Exceptions;
 using CleanTemplate.Application.Test.TestHelpers;
 using CleanTemplate.Application.Todos.Commands.UpdateTodoList;
 using FluentValidation.TestHelper;
@@ -24,7 +25,9 @@ namespace CleanTemplate.Application.Test.Todos.Commands
             var target = _fixture.Context.TodoLists.First();
             var command = new UpdateTodoListCommand
             {
-                Id = target.Id, Description = "new description", DisplayOrder = 23
+                Id = target.Id,
+                Description = "new description",
+                DisplayOrder = 23
             };
             var handler = new UpdateTodoListCommand.Handler(_fixture.Context, _fixture.Mapper);
 
@@ -34,6 +37,28 @@ namespace CleanTemplate.Application.Test.Todos.Commands
             var actual = await _fixture.Context.TodoLists.FindAsync(target.Id);
             Assert.Equal(command.Description, actual.Description);
             Assert.Equal(command.DisplayOrder, actual.DisplayOrder);
+        }
+
+        [Fact]
+        public async Task Handler_WhenTheTodoDoesNotExist_ThrowsException()
+        {
+            var command = new UpdateTodoListCommand
+            {
+                Id = 123,
+                Description = "new description",
+                DisplayOrder = 23
+            };
+            var handler = new UpdateTodoListCommand.Handler(_fixture.Context, _fixture.Mapper);
+
+            try
+            {
+                var result = await handler.Handle(command, CancellationToken.None);
+                Assert.True(false, "should throw NotFoundException");
+            }
+            catch (NotFoundException e)
+            {
+                Assert.Contains("123", e.Key);
+            }
         }
 
         [Fact]

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using CleanTemplate.Domain.Common;
 
 namespace CleanTemplate.Application.Todos.Model

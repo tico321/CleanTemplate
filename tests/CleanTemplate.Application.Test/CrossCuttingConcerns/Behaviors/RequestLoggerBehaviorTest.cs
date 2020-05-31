@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -46,8 +46,8 @@ namespace CleanTemplate.Application.Test.CrossCuttingConcerns.Behaviors
             var logger = A.Fake<ILoggerAdapter<RequestLoggerBehavior<SampleRequest, SampleResponse>>>();
             var userService = new FakeUserService();
             var sut = new RequestLoggerBehavior<SampleRequest, SampleResponse>(logger, userService);
-            var request = new SampleRequest {RequestData = "request data"};
-            var response = new SampleResponse {ResponseData = "response data"};
+            var request = new SampleRequest { RequestData = "request data" };
+            var response = new SampleResponse { ResponseData = "response data" };
             var capturedCalls = new List<(string, object[])>();
             A
                 .CallTo(() => logger.LogInformation(A<string>._, A<object[]>._))
@@ -84,7 +84,7 @@ namespace CleanTemplate.Application.Test.CrossCuttingConcerns.Behaviors
             var logger = A.Fake<ILoggerAdapter<RequestLoggerBehavior<SampleRequest, SampleResponse>>>();
             var userService = new FakeUserService();
             var sut = new RequestLoggerBehavior<SampleRequest, SampleResponse>(logger, userService);
-            var request = new SampleRequest {RequestData = "request data"};
+            var request = new SampleRequest { RequestData = "request data" };
             var capturedLogCalls = new List<(string, object[])>();
             A
                 .CallTo(() => logger.LogInformation(A<string>._, A<object[]>._))
@@ -130,8 +130,8 @@ namespace CleanTemplate.Application.Test.CrossCuttingConcerns.Behaviors
             var logger = A.Fake<ILoggerAdapter<RequestLoggerBehavior<SampleRequest, SampleResponse>>>();
             var userService = new FakeUserService();
             var sut = new RequestLoggerBehavior<SampleRequest, SampleResponse>(logger, userService);
-            var request = new SampleRequest {RequestData = "request data"};
-            var response = new SampleResponse {ResponseData = "response data"};
+            var request = new SampleRequest { RequestData = "request data" };
+            var response = new SampleResponse { ResponseData = "response data" };
             var capturedCalls = new List<(string, object[])>();
             A
                 .CallTo(() => logger.LogInformation(A<string>._, A<object[]>._))
@@ -145,7 +145,7 @@ namespace CleanTemplate.Application.Test.CrossCuttingConcerns.Behaviors
                     () => throw new AppException("AppException Message"));
                 Assert.False(condition: true, "It should bubble up the exception");
             }
-            catch (AppException e)
+            catch (AppException)
             {
                 Assert.Equal(expected: 2, capturedCalls.Count);
                 // Logs the request
@@ -215,8 +215,8 @@ namespace CleanTemplate.Application.Test.CrossCuttingConcerns.Behaviors
             var logger = A.Fake<ILoggerAdapter<RequestLoggerBehavior<SampleRequest, SampleResponse>>>();
             var userService = A.Fake<ICurrentUserService>();
             var sut = new RequestLoggerBehavior<SampleRequest, SampleResponse>(logger, userService);
-            var request = new SampleRequest {RequestData = "request data"};
-            var response = new SampleResponse {ResponseData = "response data"};
+            var request = new SampleRequest { RequestData = "request data" };
+            var response = new SampleResponse { ResponseData = "response data" };
             var capturedCalls = new List<(string, object[])>();
             A
                 .CallTo(() => logger.LogInformation(A<string>._, A<object[]>._))

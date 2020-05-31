@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Reflection;
 using AutoMapper;
@@ -27,7 +27,7 @@ namespace CleanTemplate.Application.CrossCuttingConcerns.Mapping
                 var methodInfo = type.GetMethod("Mapping")
                                  ?? type.GetInterface("IMapFrom`1").GetMethod("Mapping");
 
-                methodInfo?.Invoke(instance, new object[] {this});
+                methodInfo?.Invoke(instance, new object[] { this });
             }
         }
     }

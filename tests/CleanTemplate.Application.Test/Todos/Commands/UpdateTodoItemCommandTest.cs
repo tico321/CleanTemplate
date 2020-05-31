@@ -1,6 +1,7 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using CleanTemplate.Application.CrossCuttingConcerns.Exceptions;
 using CleanTemplate.Application.Test.TestHelpers;
 using CleanTemplate.Application.Todos.Commands.UpdateTodoItem;
 using CleanTemplate.Application.Todos.Model;
@@ -45,6 +46,30 @@ namespace CleanTemplate.Application.Test.Todos.Commands
             Assert.Equal(command.Description, actual.Description);
             Assert.Equal(command.DisplayOrder, actual.DisplayOrder);
             Assert.Equal(TodoItemState.Completed, actual.State);
+        }
+
+        [Fact]
+        public async Task Handler_WhenTheItemIsNotFound_ThrowsNotFoundException()
+        {
+            var command = new UpdateTodoItemCommand
+            {
+                Id = 123,
+                ItemId = 456,
+                Description = "new description",
+                DisplayOrder = 23,
+                State = TodoItemState.Completed.Name
+            };
+            var handler = new UpdateTodoItemCommand.Handler(_fixture.Context, _fixture.Mapper);
+
+            try
+            {
+                await handler.Handle(command, CancellationToken.None);
+                Assert.True(false, "should throw NotFoundException");
+            }
+            catch (NotFoundException e)
+            {
+                Assert.Contains("123", e.Key);
+            }
         }
 
         [Fact]

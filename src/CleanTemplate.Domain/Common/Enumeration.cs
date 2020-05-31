@@ -18,8 +18,9 @@ namespace CleanTemplate.Domain.Common
 
         public int Id { get; }
 
-        public int CompareTo(object other)
+        public int CompareTo(object? other)
         {
+            if (other == null) return -1;
             return Id.CompareTo(((Enumeration)other).Id);
         }
 
@@ -36,16 +37,14 @@ namespace CleanTemplate.Domain.Common
             return fields.Select(f => f.GetValue(obj: null)).Cast<T>();
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
-            var otherValue = obj as Enumeration;
-
-            if (otherValue == null)
+            if (!(obj is Enumeration otherValue))
             {
                 return false;
             }
 
-            var typeMatches = GetType().Equals(obj.GetType());
+            var typeMatches = GetType() == obj.GetType();
             var valueMatches = Id.Equals(otherValue.Id);
 
             return typeMatches && valueMatches;
@@ -86,7 +85,7 @@ namespace CleanTemplate.Domain.Common
             var matchingItem = GetAll<T>().FirstOrDefault(predicate);
             return matchingItem ??
                    throw new InvalidOperationException(
-                       $"'{value.ToString()}' is not a valid {description} in {typeof(T)}");
+                       $"'{value?.ToString() ?? "null"}' is not a valid {description} in {typeof(T)}");
         }
     }
 }
