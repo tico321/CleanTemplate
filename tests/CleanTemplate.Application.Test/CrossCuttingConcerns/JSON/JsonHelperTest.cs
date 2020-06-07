@@ -14,7 +14,7 @@ namespace CleanTemplate.Application.Test.CrossCuttingConcerns.JSON
 
         private class TestEnumeration : Enumeration
         {
-            public static readonly TestEnumeration EnumA = new TestEnumeration(id: 1, "EnumA");
+            public static readonly TestEnumeration EnumA = new TestEnumeration(1, "EnumA");
 
             private TestEnumeration(int id, string name) : base(id, name)
             {
@@ -36,9 +36,10 @@ namespace CleanTemplate.Application.Test.CrossCuttingConcerns.JSON
         {
             var obj = new TestEntity { Description = "description" };
 
-            var actual = obj.ToJson(pretty: true);
+            var actual = obj.ToJson(true);
 
-            Assert.Equal("{\r\n  \"Description\": \"description\",\r\n  \"Id\": 0\r\n}", actual);
+            Assert.Contains("\"Description\": \"description\"", actual);
+            Assert.Contains("\"Id\": 0", actual);
         }
 
         [Fact]
