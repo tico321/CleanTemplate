@@ -2,8 +2,12 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using System.Linq;
+using System.Reflection;
 using CleanTemplate.Auth.Application.Model;
 using CleanTemplate.Auth.Persistence;
+using IdentityServer4.EntityFramework.DbContexts;
+using IdentityServer4.EntityFramework.Mappers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -34,6 +38,7 @@ namespace CleanTemplate.Auth
 
         public void Configure(IApplicationBuilder app)
         {
+            InitializeDatabase(app);
             if (Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -71,15 +76,16 @@ namespace CleanTemplate.Auth
         private void ConfigureIdentity(IServiceCollection services)
         {
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<AuthDbContext>(options =>
                 options.UseNpgsql(
                     connectionString,
-                    b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+                    b => b.MigrationsAssembly(typeof(AuthDbContext).Assembly.FullName)));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddEntityFrameworkStores<AuthDbContext>()
                 .AddDefaultTokenProviders();
 
+            var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
             var builder = services
                 .AddIdentityServer(options =>
                 {
@@ -88,15 +94,45 @@ namespace CleanTemplate.Auth
                     options.Events.RaiseFailureEvents = true;
                     options.Events.RaiseSuccessEvents = true;
                 })
-                .AddInMemoryIdentityResources(Config.Ids)
-                .AddInMemoryApiResources(Config.Apis)
-                .AddInMemoryClients(Config.Clients)
+                // to use sql server instead review https://identityserver4.readthedocs.io/en/latest/quickstarts/5_entityframework.html
+                // AddConfigurationStore can be found in the IdentityServer4.EntityFramework package.
+                .AddConfigurationStore(options =>
+                    options.ConfigureDbContext = b => b.UseNpgsql(connectionString, o => o.MigrationsAssembly(migrationsAssembly)))
+                .AddOperationalStore(options =>
+                    options.ConfigureDbContext = b => b.UseNpgsql(connectionString, o => o.MigrationsAssembly(migrationsAssembly)))
                 .AddAspNetIdentity<ApplicationUser>();
 
             // not recommended for production - you need to store your key material somewhere secure
             builder.AddDeveloperSigningCredential();
 
             services.AddAuthentication();
+        }
+
+        private void InitializeDatabase(IApplicationBuilder app)
+        {
+            using var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
+            //serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
+
+            var context = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>(); // Requires IdentityServer4.Storage package.
+            //context.Database.Migrate();
+            context.Database.EnsureCreated();
+            if (!context.Clients.Any())
+            {
+                foreach (var client in Config.Clients) context.Clients.Add(client.ToEntity());
+                context.SaveChanges();
+            }
+
+            if (!context.IdentityResources.Any())
+            {
+                foreach (var resource in Config.Ids) context.IdentityResources.Add(resource.ToEntity());
+                context.SaveChanges();
+            }
+
+            if (!context.ApiResources.Any())
+            {
+                foreach (var resource in Config.Apis) context.ApiResources.Add(resource.ToEntity());
+                context.SaveChanges();
+            }
         }
     }
 }

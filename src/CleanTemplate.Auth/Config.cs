@@ -1,4 +1,4 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
+// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
@@ -20,8 +20,8 @@ namespace CleanTemplate.Auth
         public static IEnumerable<ApiResource> Apis =>
             new[]
             {
-                new ApiResource("todo.api", "Todo Rest API Access"),
-                new ApiResource("todo.graphql", "Todo GraphQL API Access")
+                new ApiResource("todo_api", "Todo Rest API Access"),
+                new ApiResource("todo_graphql", "Todo GraphQL API Access")
             };
 
 
@@ -40,7 +40,7 @@ namespace CleanTemplate.Auth
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
 
                     // scopes that client has access to
-                    AllowedScopes = { "todo.api" }
+                    AllowedScopes = { "todo_api", "todo_graphql" }
                 },
 
                 // Javascript Client
@@ -48,7 +48,6 @@ namespace CleanTemplate.Auth
                 {
                     ClientId = "VueJSClient",
                     ClientName = "VueJs Client",
-                    ClientSecrets = { new Secret("secret".Sha256()) },
 
                     // The Authorization Code grant type is used by confidential and public clients to exchange an authorization code for an access token.
                     // The Authorization Code grant type is used by web and mobile apps. It differs from most of the other grant types by first requiring the app launch a browser to begin the flow. At a high level, the flow has the following steps:
@@ -60,14 +59,14 @@ namespace CleanTemplate.Auth
                     // It is recommended that all clients use the PKCE extension with this flow as well to provide better security.
                     AllowedGrantTypes = GrantTypes.Code,
                     RequirePkce = true, // an extension to the Authorization Code flow to prevent certain attacks
-                    RequireClientSecret = false, // as is a JS client we don't want to send the secret to the browser
+                    RequireClientSecret = false, // as it's a JS client we don't want to send the secret to the browser
 
                     // where to redirect to after login
-                    RedirectUris = { "http://localhost:5003/callback.html" },
+                    RedirectUris = { "http://localhost:5000/callback.html" },
                     // where to redirect to after logout
-                    PostLogoutRedirectUris = { "http://localhost:5003/index.html" },
+                    PostLogoutRedirectUris = { "http://localhost:5000/index.html" },
                     // So the app can query this Server
-                    AllowedCorsOrigins = { "http://localhost:5003" },
+                    AllowedCorsOrigins = { "http://localhost:5000", "https://localhost:5001" },
 
 
                     // IdentityServer will return two tokens: the identity token containing the information about the authentication and session,
@@ -79,12 +78,9 @@ namespace CleanTemplate.Auth
                         IdentityServerConstants.StandardScopes.Profile,
                         IdentityServerConstants.StandardScopes.Email,
                         // API resources
-                        "todo.api",
-                        "todo.graphql"
-                    },
-
-                    // AllowOfflineAccess to enable support for refresh tokens
-                    AllowOfflineAccess = true
+                        "todo_api",
+                        "todo_graphql"
+                    }
                 }
             };
     }

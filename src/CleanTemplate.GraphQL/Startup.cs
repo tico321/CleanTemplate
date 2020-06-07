@@ -1,8 +1,6 @@
 using CleanTemplate.Application;
-using CleanTemplate.GraphQL.Filters;
 using CleanTemplate.GraphQL.Middleware;
 using CleanTemplate.Infrastructure;
-using HotChocolate;
 using HotChocolate.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -26,13 +24,20 @@ namespace CleanTemplate.GraphQL
         {
             services.AddApplication();
             services.AddInfrastructure(Configuration);
-            AddGraphQlApi(services);
+            services.AddAuthServer();
+            services.AddGraphQlApi();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseHttpsRedirection();
+
+            // Auth
+            // UseAuthentication adds the authentication middleware to the pipeline so authentication is performed on every call into the host.
+            app.UseAuthentication();
+            // UseAuthorization adds the authorization middleware to make sure our API cannot be accessed by anonymous clients.
+            app.UseAuthorization();
 
             // Logging
             app.UseCorrelationId();
@@ -42,21 +47,6 @@ namespace CleanTemplate.GraphQL
             app
                 .UseRouting()
                 .UseGraphQL();
-        }
-
-        // Adds Hotcholate GrahpQL https://hotchocolate.io/docs/introduction
-        private static void AddGraphQlApi(IServiceCollection services)
-        {
-            // Add GraphQL exception filter
-            services.AddErrorFilter<AppExceptionFilter>();
-            // if you want to read more about DataLoader in general, you can head over to Facebook's GitHub repository https://github.com/graphql/dataloader
-            // DataLoader solves the called n+1 problem for GraphQL.
-            services.AddDataLoaderRegistry(); //repository https://github.com/ChilliCream/greendonut
-            // Add GraphQL Schema
-            services.AddGraphQL(new SchemaBuilder()
-                .AddQueryType<Query>()
-                .AddMutationType<Mutation>()
-                .Create());
         }
     }
 }

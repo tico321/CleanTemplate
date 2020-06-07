@@ -53,6 +53,19 @@ To recreate the database run:
     $ dotnet ef database drop
     $ dotnet ef database update
 
+### Auth project migrations
+Auth project has two DbContext, one from IdentityServer4 and the project one.
+To add migrations for the AuthDbContext run:
+    $ dotnet ef migrations Add InitialCreate -o Persistence/Migrations -c AuthDbContext
+and to run the migrations:
+    $ dotnet ef database update -c AuthDbContext
+To add migrations for the IdentityServer4 DbContext run: (only necessary in case of an update to the library on which the model is updated)
+    $ dotnet ef migrations Add InitialCreate -o Persistence/IS4Migrations -c ConfigurationDbContext
+and to run the migrations:
+    $ dotnet ef database update -c ConfigurationDbContext
+Please note that we are using different migration folders for each context.
+Note: the first time you run the migrations you need to run AuthDbContext migrations first.
+
 ## Architecture
 This project follows DDD architecture philosophy but the implementation takes many great ideas from the following repositories:
 - EShop containers https://github.com/dotnet-architecture/eShopOnContainers

@@ -10,6 +10,7 @@ services:
             COMPUTERNAME: "docker-compose"
             ASPNETCORE_ENVIRONMENT: "Development"
             ASPNETCORE_URLS: "https://+:443;http://+:80"
+            AUTHSERVER_AUTHORITY: "http://cleantemplate.auth:80"
         ports:
             - 5000:80
             - 5001:443

@@ -6,9 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanTemplate.Auth.Persistence
 {
-    public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
+    public class AuthDbContextFactory : IDesignTimeDbContextFactory<AuthDbContext>
     {
-        public ApplicationDbContext CreateDbContext(string[] args)
+        public AuthDbContext CreateDbContext(string[] args)
         {
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -17,9 +17,9 @@ namespace CleanTemplate.Auth.Persistence
             var connectionString = configuration.GetConnectionString("DefaultConnection");
 
             IServiceCollection services = new ServiceCollection();
-            services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
+            services.AddDbContext<AuthDbContext>(options => options.UseNpgsql(connectionString));
 
-            var context = services.BuildServiceProvider().GetService<ApplicationDbContext>();
+            var context = services.BuildServiceProvider().GetService<AuthDbContext>();
             return context;
         }
     }
