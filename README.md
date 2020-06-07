@@ -4,39 +4,42 @@ Take a look to the Architecture section to understand what this project gives yo
 
 ## Requirements
 - Install docker and docker-compose
-  - PostgreSQL image https://hub.docker.com/_/postgres
-  - Admininer image
-    - http://localhost:8080/
-    - Loging info in the connection string.
 - Install .NET core
+- Install .NET core tools (dotnet tool install --global dotnet-ef)
 - Install nodejs
+- Visual Studio (Recommended for it's docker tools, if you don't want to use it review Run from another IDE section).
 
 ## Run the application
 
-### Run the docker-compose project
+### In Visual Studio Run the docker-compose project
 The easiest way to run the application is to do it from VS Studio.
 Visual Studio recognizes the docker-compose project so you just need to:
 - Mark docker-compose project as startup project.
 - Run the project.
-- Run the migrations with $ dotnet ef database update
+- Run the migrations
+    - from CleanTemplate.Auth project run $ dotnet ef database update
+    - from CleanTemplate.Infrastructure run $ dotnet ef database update
+You are ready to go.
 
 ### Run from another IDE
 #### Use the CLI
 If you don't want to use VS you may want to run the project from the cli and start DB and other containers manually.
 - Go the the root of the project and start PostgreSQL and adminer with:
     - $ docker-compose -f docker-compose.dev.yml up
-- Run the migrations from the CleanTemplate.Infrastructure directory:
-    - $ dotnet ef database update 
-- To run the dotnet project:
+- Run the migrations:
+    - from CleanTemplate.Auth project run $ dotnet ef database update
+    - from CleanTemplate.Infrastructure run $ dotnet ef database update
+- To run the dotnet projects:
     - Update CleanTemplate.API/appsettings.Development.json and CleanTemplate.API/appsettings.json connection strings 
     and set `localhost` instead of `db`.
     - from CleanTemplate.API run: $  dotnet watch run
     - This will start the project in the port 5000 and 5001 as defined on CleanTemplate.API/Properties/lauchSettings.json
-- To run all the unit tests go to the root of the project and run:
+    - repeat steps above for CleanTemplate.Auth project.
+- To run all the unit tests go to the root folder and run:
     - dotnet test ./CleanTemplate.sln
  
-#### Include the API in docker-compose
-VS does a lot of things under the hood for which if you want to add it to the docker container without lossing debug capabilities
+##### Include the API in docker-compose
+VS does a lot of things under the hood for which if you want to add it to the docker container without lossing debugging capabilities
 you may want to  review https://www.richard-banks.org/2018/07/debugging-core-in-docker.html
 
 ## Migrations
@@ -56,20 +59,20 @@ This project follows DDD architecture philosophy but the implementation takes ma
 - jasontaylordev Clean Architecture https://github.com/jasontaylordev/CleanArchitecture
 - Ardalis Clean Architecture https://github.com/ardalis/CleanArchitecture
 
-This project is structured in the following way, at the core we have the Domain which holds enterprise logic. 
-On top of the Domain we have the Application which holds the types and business logic that are specific to the system. 
+This project is structured in the following way, at the core we have the SharedKernel which holds enterprise logic. 
+On top of the SharedKernel we have the Application which holds the types and business logic that are specific to the system. 
 Infrastructure groups all external concerns and finally the API is just a mean to expose the behavior defined in the Application layer.
 
-### Domain
-The Domain holds enterprise logic that can be shared across systems. 
+### SharedKernel
+The SharedKernel holds enterprise logic that can be shared across systems. 
 It doesn't have a dependency in any other layer and it's the core of the project.
 Folders should be build around context boundaries and should follow DDD principles.
 
 ### Application
-Application has business logic and types that is specific for this system. This layer is intended to be the fattest one as it should 
-contain all the logic. It only depends on the Domain which makes it testable.
+Application has business logic and types that are specific for this system. This layer is intended to be the fattest one as it should 
+contain all the logic. It only depends on the SharedKernel which makes it testable.
 All the logic is build based on commands and queries which are grouped by concrete features of the application, you can think on each 
-feature as a vertical slice similar to the [Vertical Slice Architecture](https://jimmybogard.com/vertical-slice-architecture/) but contained 
+feature as a vertical slice **similar** to the [Vertical Slice Architecture](https://jimmybogard.com/vertical-slice-architecture/) but contained 
 in this layer. This will make each Command/Query independent and more maintainable. External dependencies are abstracted in interfaces so 
 there is no real dependency to any concrete technology.
 
@@ -84,7 +87,19 @@ from [eShopOnWeb](https://github.com/dotnet-architecture/eShopOnWeb) Microsoft s
  ### Infrastructure
  Depends on application and contains all the external concerns (ex. Persistence, API clients, etc.)
  No layer should depend on infrastructure, all concrete implementations should be added here but should cohesively be grouped
- in folders so it's easy to move to a separate project if convenient.
+ in folders so it's easy to move them to a separate project if convenient.
+
+### Auth
+Authentication uses [Identity](https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity?view=aspnetcore-3.1&tabs=visual-studio) to store the users and to handle authentication it uses [IdentityServer4](https://docs.identityserver.io/en/latest/index.html).
+ASP.NET Core Identity allows you to manage users, passwords, profile data, roles, claims, tokens, email confirmation, and more.
+IdentityServer4 is an OpenID Connect and OAuth 2.0 framework for ASP.NET Core. IdentityServer4 enables the following security features:
+* Authentication as a Service (AaaS)
+* Single sign-on/off (SSO) over multiple application types
+* Access control for APIs
+* Federation Gateway
+
+Although we just use the bare functionality of IdentityServer as we only use it to secure the API and to provide authentication 
+it is meant to be extensible so you are able to add things like Single Sign On and other features that IdentityServer supports.
 
  ### API
  API project only concern is to build the composition root and to provide a way to access our well defined views and models defined
@@ -100,7 +115,7 @@ from [eShopOnWeb](https://github.com/dotnet-architecture/eShopOnWeb) Microsoft s
  the default DI container to build the dependency tree and associate concrete instances to abstractions.
 
 ### GraphQL
-This project exposes the functionality through [HotChocolate](https://hotchocolate.io/docs/introduction) GraphQL implementation.
+This project has the same responsibilities as the API project but it  exposes the functionality through [HotChocolate](https://hotchocolate.io/docs/introduction) GraphQL implementation.
 Is quite similar to the API project but uses GraphQL instead of REST.
 
  ### Presentation
@@ -144,3 +159,4 @@ Is quite similar to the API project but uses GraphQL instead of REST.
     - FakeItEasy
     - Entity Framework Core
     - Hotcholate -> Hotcholate is the library that allows us to expose our resources through GraphQL. 
+    - IdentityServer4 -> Auth service is implemented with the help of IdentityServer4.

@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using CleanTemplate.Application.CrossCuttingConcerns;
 using CleanTemplate.Infrastructure.CrossCuttingConcerns;
 using Microsoft.EntityFrameworkCore;
@@ -23,7 +23,6 @@ namespace CleanTemplate.Infrastructure.Persistence
             services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
             services.AddTransient<ICurrentUserService, NullCurrentUserService>();
             services.AddTransient<IDateTime, DateTimeProvider>();
-
 
             var context = services.BuildServiceProvider().GetService<ApplicationDbContext>();
             return context;

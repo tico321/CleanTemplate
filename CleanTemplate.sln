@@ -36,6 +36,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanTemplate.GraphQL", "sr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanTemplate.GraphQL.Test", "tests\CleanTemplate.GraphQL.Test\CleanTemplate.GraphQL.Test.csproj", "{AE0EFE92-2D83-4E98-BEE6-2B453184DDD0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanTemplate.Auth", "src\CleanTemplate.Auth\CleanTemplate.Auth.csproj", "{55F4582F-332C-4C3F-9713-89B52B72E0E0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,6 +88,10 @@ Global
 		{AE0EFE92-2D83-4E98-BEE6-2B453184DDD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE0EFE92-2D83-4E98-BEE6-2B453184DDD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE0EFE92-2D83-4E98-BEE6-2B453184DDD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55F4582F-332C-4C3F-9713-89B52B72E0E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55F4582F-332C-4C3F-9713-89B52B72E0E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55F4582F-332C-4C3F-9713-89B52B72E0E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55F4582F-332C-4C3F-9713-89B52B72E0E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -102,6 +108,7 @@ Global
 		{4C78E6F2-B002-4A55-8291-99486F078788} = {E1CE8CD6-CEA2-4A81-99C6-DAA799405C71}
 		{7D07ABE1-67A7-4A7A-9192-3198214BE390} = {9ABCEA75-D154-4635-97C3-1993E5903398}
 		{AE0EFE92-2D83-4E98-BEE6-2B453184DDD0} = {E1CE8CD6-CEA2-4A81-99C6-DAA799405C71}
+		{55F4582F-332C-4C3F-9713-89B52B72E0E0} = {9ABCEA75-D154-4635-97C3-1993E5903398}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3C5DA3FF-BFB3-4F75-B2B5-06A13BF2F232}
