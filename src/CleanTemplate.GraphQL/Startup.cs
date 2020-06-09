@@ -22,10 +22,11 @@ namespace CleanTemplate.GraphQL
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddApplication();
-            services.AddInfrastructure(Configuration);
-            services.AddAuthServer();
-            services.AddGraphQlApi();
+            services
+                .AddApplication()
+                .AddInfrastructure(Configuration)
+                .AddAuthServer()
+                .AddGraphQlApi();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -34,15 +35,19 @@ namespace CleanTemplate.GraphQL
             app.UseHttpsRedirection();
 
             // Auth
-            // UseAuthentication adds the authentication middleware to the pipeline so authentication is performed on every call into the host.
-            app.UseAuthentication();
-            // UseAuthorization adds the authorization middleware to make sure our API cannot be accessed by anonymous clients.
-            app.UseAuthorization();
+            app
+                // UseAuthentication adds the authentication middleware to the pipeline so authentication is performed on every call into the host.
+                .UseAuthentication()
+                // UseAuthorization adds the authorization middleware to make sure our API cannot be accessed by anonymous clients.
+                .UseAuthorization();
+
 
             // Logging
-            app.UseCorrelationId();
-            // Collects information from a request and logs one event instead of many
-            app.UseSerilogRequestLogging();
+            app
+                // Adds a unique Id per request, if the header CorrelationId is present it will use it instead.
+                .UseCorrelationId()
+                // Collects information from a request and logs one event instead of many
+                .UseSerilogRequestLogging();
 
             app
                 .UseRouting()

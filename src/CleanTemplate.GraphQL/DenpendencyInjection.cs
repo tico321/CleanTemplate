@@ -1,6 +1,9 @@
 using System;
+using System.Net.Http;
+using System.Security.Cryptography.X509Certificates;
 using CleanTemplate.GraphQL.Filters;
 using HotChocolate;
+using IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,14 +19,45 @@ namespace CleanTemplate.GraphQL
             IdentityModelEventSource.ShowPII = true;
 
             var authority = Environment.GetEnvironmentVariable("AUTHSERVER_AUTHORITY");
+            var secretKey = Environment.GetEnvironmentVariable("AUTHSERVER_SECRET_KEY");
+            if (string.IsNullOrEmpty(authority) || string.IsNullOrEmpty(secretKey))
+            {
+                throw new Exception("Missing AuthServer configuration.");
+            }
+
+            using (X509Store store = new X509Store(StoreName.My, StoreLocation.CurrentUser, OpenFlags.ReadWrite))
+            {
+                var certificate = new X509Certificate2("./CleanTemplateServerCert.pfx", secretKey, X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.PersistKeySet | X509KeyStorageFlags.Exportable);
+                store.Add(certificate);
+            }
+
+            var client = new HttpClient();
+            var disco = client.GetDiscoveryDocumentAsync(authority).Result;
+            if (disco.IsError)
+            {
+                Console.WriteLine(disco.Error);
+                throw new Exception();
+            }
+
+            //var certificate = new X509Certificate2("./CleanTemplateServerCert.pfx", secretKey, X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.PersistKeySet);
+            //X509Store store = new X509Store(StoreName.My, StoreLocation.CurrentUser);
+            //store.Open(OpenFlags.ReadWrite);
+            //var certificates = store.Certificates;
+            //store.Add(certificate);
+            //store.Close();
+
             // We use package Microsoft.AspNetCore.Authentication.JwtBearer
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme) // Adds the authentication services to DI
-                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options => // configures Bearer as the default scheme
-                {
-                    options.Authority = authority; // AuthServer URL
-                    options.Audience = "todo_graphql"; // clients need permissions to access this resource
-                    options.RequireHttpsMetadata = false;
-                });
+            services
+                // Adds the authentication services to DI
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                // configures Bearer as the default scheme
+                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme,
+                    options =>
+                    {
+                        options.Authority = authority; // AuthServer URL
+                        options.Audience = "todo_graphql"; // clients need this scope to access the API
+                        //options.RequireHttpsMetadata = false;
+                    });
 
             services.AddAuthorization(options =>
             {

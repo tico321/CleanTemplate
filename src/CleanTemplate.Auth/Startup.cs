@@ -2,8 +2,10 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using System;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 using CleanTemplate.Auth.Application.Model;
 using CleanTemplate.Auth.Persistence;
 using IdentityServer4.EntityFramework.DbContexts;
@@ -15,6 +17,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 
 namespace CleanTemplate.Auth
 {
@@ -32,8 +35,8 @@ namespace CleanTemplate.Auth
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            ConfigureIISOptions(services);
-            ConfigureIdentity(services);
+            AddIISOptions(services);
+            AddIdentity(services);
         }
 
         public void Configure(IApplicationBuilder app)
@@ -56,7 +59,7 @@ namespace CleanTemplate.Auth
             });
         }
 
-        private void ConfigureIISOptions(IServiceCollection services)
+        private void AddIISOptions(IServiceCollection services)
         {
             // configures IIS out-of-proc settings (see https://github.com/aspnet/AspNetCore/issues/14882)
             services.Configure<IISOptions>(iis =>
@@ -73,7 +76,7 @@ namespace CleanTemplate.Auth
             });
         }
 
-        private void ConfigureIdentity(IServiceCollection services)
+        private void AddIdentity(IServiceCollection services)
         {
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<AuthDbContext>(options =>
@@ -97,13 +100,24 @@ namespace CleanTemplate.Auth
                 // to use sql server instead review https://identityserver4.readthedocs.io/en/latest/quickstarts/5_entityframework.html
                 // AddConfigurationStore can be found in the IdentityServer4.EntityFramework package.
                 .AddConfigurationStore(options =>
-                    options.ConfigureDbContext = b => b.UseNpgsql(connectionString, o => o.MigrationsAssembly(migrationsAssembly)))
+                    options.ConfigureDbContext = b =>
+                        b.UseNpgsql(connectionString, o => o.MigrationsAssembly(migrationsAssembly)))
                 .AddOperationalStore(options =>
-                    options.ConfigureDbContext = b => b.UseNpgsql(connectionString, o => o.MigrationsAssembly(migrationsAssembly)))
+                    options.ConfigureDbContext = b =>
+                        b.UseNpgsql(connectionString, o => o.MigrationsAssembly(migrationsAssembly)))
                 .AddAspNetIdentity<ApplicationUser>();
 
-            // not recommended for production - you need to store your key material somewhere secure
-            builder.AddDeveloperSigningCredential();
+            // Add sign-in credentials
+            var secretKey = System.Environment.GetEnvironmentVariable("AUTHSERVER_SECRET_KEY");
+            if (string.IsNullOrEmpty(secretKey))
+            {
+                throw new Exception("Missing secret key.");
+            }
+
+            var credentials = new X509SigningCredentials(new X509Certificate2("./CleanTemplateServerCert.pfx", secretKey));
+            builder.AddSigningCredential(credentials);
+
+            // builder.AddDeveloperSigningCredential();
 
             services.AddAuthentication();
         }
@@ -113,24 +127,38 @@ namespace CleanTemplate.Auth
             using var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
             //serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
 
-            var context = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>(); // Requires IdentityServer4.Storage package.
+            var context =
+                serviceScope.ServiceProvider
+                    .GetRequiredService<ConfigurationDbContext>(); // Requires IdentityServer4.Storage package.
             //context.Database.Migrate();
             context.Database.EnsureCreated();
             if (!context.Clients.Any())
             {
-                foreach (var client in Config.Clients) context.Clients.Add(client.ToEntity());
+                foreach (var client in Config.Clients)
+                {
+                    context.Clients.Add(client.ToEntity());
+                }
+
                 context.SaveChanges();
             }
 
             if (!context.IdentityResources.Any())
             {
-                foreach (var resource in Config.Ids) context.IdentityResources.Add(resource.ToEntity());
+                foreach (var resource in Config.Ids)
+                {
+                    context.IdentityResources.Add(resource.ToEntity());
+                }
+
                 context.SaveChanges();
             }
 
             if (!context.ApiResources.Any())
             {
-                foreach (var resource in Config.Apis) context.ApiResources.Add(resource.ToEntity());
+                foreach (var resource in Config.Apis)
+                {
+                    context.ApiResources.Add(resource.ToEntity());
+                }
+
                 context.SaveChanges();
             }
         }

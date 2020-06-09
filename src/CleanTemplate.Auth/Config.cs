@@ -60,6 +60,7 @@ namespace CleanTemplate.Auth
                     AllowedGrantTypes = GrantTypes.Code,
                     RequirePkce = true, // an extension to the Authorization Code flow to prevent certain attacks
                     RequireClientSecret = false, // as it's a JS client we don't want to send the secret to the browser
+                    AllowOfflineAccess = true, // so we get a refresh token
 
                     // where to redirect to after login
                     RedirectUris = { "http://localhost:5000/callback.html" },

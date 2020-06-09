@@ -25,4 +25,10 @@
 
     <PackageReference Include="Serilog.AspNetCore" Version="3.4.0-dev-00168" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="CleanTemplateServerCert.pfx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

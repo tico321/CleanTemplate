@@ -17,12 +17,22 @@
       <PackageReference Include="HotChocolate.AspNetCore" Version="11.0.0-preview.133" />
       <PackageReference Include="HotChocolate.Types.Filters" Version="11.0.0-preview.133" />
       <PackageReference Include="HotChocolate.Types.Sorting" Version="11.0.0-preview.133" />
+      <PackageReference Include="IdentityModel" Version="4.3.0" />
       <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.4" />
       <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
       <PackageReference Include="Serilog" Version="2.10.0-dev-01187" />
       <PackageReference Include="Serilog.AspNetCore" Version="3.4.0-dev-00168" />
       <PackageReference Include="Serilog.Enrichers.Context" Version="4.5.0-develop-00040" />
       <PackageReference Include="Serilog.Enrichers.Thread" Version="3.2.0-dev-00747" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="CleanTemplateServerCert.crt">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="CleanTemplateServerCert.pfx">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 
