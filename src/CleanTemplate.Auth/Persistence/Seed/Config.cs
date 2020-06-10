@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using IdentityServer4;
 using IdentityServer4.Models;
 
-namespace CleanTemplate.Auth
+namespace CleanTemplate.Auth.Persistence.Seed
 {
     public static class Config
     {

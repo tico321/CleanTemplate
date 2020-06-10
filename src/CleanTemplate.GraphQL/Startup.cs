@@ -34,13 +34,7 @@ namespace CleanTemplate.GraphQL
         {
             app.UseHttpsRedirection();
 
-            // Auth
-            app
-                // UseAuthentication adds the authentication middleware to the pipeline so authentication is performed on every call into the host.
-                .UseAuthentication()
-                // UseAuthorization adds the authorization middleware to make sure our API cannot be accessed by anonymous clients.
-                .UseAuthorization();
-
+            app.UseRouting();
 
             // Logging
             app
@@ -49,9 +43,15 @@ namespace CleanTemplate.GraphQL
                 // Collects information from a request and logs one event instead of many
                 .UseSerilogRequestLogging();
 
+            // Auth
             app
-                .UseRouting()
-                .UseGraphQL();
+                // UseAuthentication adds the authentication middleware to the pipeline so authentication is performed on every call into the host.
+                .UseAuthentication()
+                // UseAuthorization adds the authorization middleware to make sure our API cannot be accessed by anonymous clients.
+                .UseAuthorization();
+
+            // GraphQL
+            app.UseGraphQL();
         }
     }
 }

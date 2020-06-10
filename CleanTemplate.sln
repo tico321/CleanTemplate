@@ -34,9 +34,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanTemplate.Infrastructur
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanTemplate.GraphQL", "src\CleanTemplate.GraphQL\CleanTemplate.GraphQL.csproj", "{7D07ABE1-67A7-4A7A-9192-3198214BE390}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanTemplate.GraphQL.Test", "tests\CleanTemplate.GraphQL.Test\CleanTemplate.GraphQL.Test.csproj", "{AE0EFE92-2D83-4E98-BEE6-2B453184DDD0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanTemplate.GraphQL.Test", "tests\CleanTemplate.GraphQL.Test\CleanTemplate.GraphQL.Test.csproj", "{AE0EFE92-2D83-4E98-BEE6-2B453184DDD0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanTemplate.Auth", "src\CleanTemplate.Auth\CleanTemplate.Auth.csproj", "{55F4582F-332C-4C3F-9713-89B52B72E0E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanTemplate.Auth", "src\CleanTemplate.Auth\CleanTemplate.Auth.csproj", "{55F4582F-332C-4C3F-9713-89B52B72E0E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

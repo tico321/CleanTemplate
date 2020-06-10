@@ -17,8 +17,17 @@ Visual Studio recognizes the docker-compose project so you just need to:
 - Mark docker-compose project as startup project.
 - Run the project.
 - Run the migrations
-    - from CleanTemplate.Auth project run $ dotnet ef database update
     - from CleanTemplate.Infrastructure run $ dotnet ef database update
+You are ready to go.
+
+The GraphQL project uses the CleanTemplate.Auth as IdentityServer, in order to run it you need to:
+- Go to docker-compose.yml file
+    - Replace `${DOCKER_REGISTRY-}cleantemplategraphql` with `${DOCKER_REGISTRY-}cleantemplateapi`
+    - Replace `dockerfile: src/CleanTemplate.API/Dockerfile` with `dockerfile: src/CleanTemplate.GraphQL/Dockerfile`
+- Run CleanTemplate.Auth migrations from the CleanTemplate.Auth folder:
+    - update the appsettings.json file and point to localhost instead of db. (This is needed because I was not able to set up a ContextFactory for ConfigurationDbContext yet)
+    - dotnet ef database update -c AuthDbContext
+    - dotnet ef database update -c ConfigurationDbContext
 You are ready to go.
 
 ### Run from another IDE
@@ -27,14 +36,12 @@ If you don't want to use VS you may want to run the project from the cli and sta
 - Go the the root of the project and start PostgreSQL and adminer with:
     - $ docker-compose -f docker-compose.dev.yml up
 - Run the migrations:
-    - from CleanTemplate.Auth project run $ dotnet ef database update
     - from CleanTemplate.Infrastructure run $ dotnet ef database update
 - To run the dotnet projects:
     - Update CleanTemplate.API/appsettings.Development.json and CleanTemplate.API/appsettings.json connection strings 
     and set `localhost` instead of `db`.
     - from CleanTemplate.API run: $  dotnet watch run
     - This will start the project in the port 5000 and 5001 as defined on CleanTemplate.API/Properties/lauchSettings.json
-    - repeat steps above for CleanTemplate.Auth project.
 - To run all the unit tests go to the root folder and run:
     - dotnet test ./CleanTemplate.sln
  
@@ -113,8 +120,9 @@ IdentityServer4 is an OpenID Connect and OAuth 2.0 framework for ASP.NET Core. I
 
 Although we just use the bare functionality of IdentityServer as we only use it to secure the API and to provide authentication 
 it is meant to be extensible so you are able to add things like Single Sign On and other features that IdentityServer supports.
+IMPORTANT: We use a development certificate you should replace it with a trusted certificate for production.
 
- ### API
+### API
  API project only concern is to build the composition root and to provide a way to access our well defined views and models defined
  in the core of the system by making the API available to consumers. The only real concern this layer controls is Authentication.
 
@@ -131,7 +139,7 @@ it is meant to be extensible so you are able to add things like Single Sign On a
 This project has the same responsibilities as the API project but it  exposes the functionality through [HotChocolate](https://hotchocolate.io/docs/introduction) GraphQL implementation.
 Is quite similar to the API project but uses GraphQL instead of REST.
 
- ### Presentation
+### Presentation
  The presentation layer in this case is implemented with the VueJS framework, this is the face of the application.
  It provides a way for users to interact with the system.
 
@@ -160,7 +168,14 @@ Is quite similar to the API project but uses GraphQL instead of REST.
     - Default API conventions https://docs.microsoft.com/en-us/aspnet/core/web-api/advanced/conventions?view=aspnetcore-3.1
     - Errors use [Problem details](https://tools.ietf.org/html/rfc7807) format but we don't use [.net problem details](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.problemdetails?view=aspnetcore-2.2) directly
     we use [AutoWrapper](https://github.com/proudmonkey/AutoWrapper) To perform the dirty work. 
-     
+
+- GraphQL api
+    - GraphQL Api is implemented with [HotChocolate](https://hotchocolate.io/docs/introduction) implementation.
+    - [Banana Cake Pop](https://hotchocolate.io/docs/banana-cakepop) is a client that goes along with HotChocolate until we setup graphiql.
+- Auth
+    - Oath and OpenId are exposed in the Auth project with the help of [IdentityServer4](https://docs.identityserver.io/en/latest/index.html).
+    - An example of securing an Api can be seen in the GraphQL project.
+
 - Helpful libraries that are used in the project:
     - Mediatr -> Used to dispatch our Commands and Queries. 
     IRequest implementations are automatically registered in CleanTemplate.Application/DependencyInjection.cs
