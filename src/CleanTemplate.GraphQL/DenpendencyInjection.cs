@@ -3,6 +3,7 @@ using CleanTemplate.GraphQL.Filters;
 using HotChocolate;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanTemplate.GraphQL
@@ -11,6 +12,11 @@ namespace CleanTemplate.GraphQL
     {
         public static IServiceCollection AddAuthServer(this IServiceCollection services)
         {
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Test")
+            {
+                return services;
+            }
+
             // Uncomment this to see Identiy error details https://github.com/AzureAD/azure-activedirectory-identitymodel-extensions-for-dotnet/wiki/PII
             // IdentityModelEventSource.ShowPII = true;
 
@@ -42,6 +48,22 @@ namespace CleanTemplate.GraphQL
             });
 
             return services;
+        }
+
+        public static IApplicationBuilder UseAuth(this IApplicationBuilder app)
+        {
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Test")
+            {
+                return app;
+            }
+
+            app
+                // UseAuthentication adds the authentication middleware to the pipeline so authentication is performed on every call into the host.
+                .UseAuthentication()
+                // UseAuthorization adds the authorization middleware to make sure our API cannot be accessed by anonymous clients.
+                .UseAuthorization();
+
+            return app;
         }
 
         // Adds Hotcholate GrahpQL https://hotchocolate.io/docs/introduction

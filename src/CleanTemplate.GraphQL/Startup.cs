@@ -32,8 +32,6 @@ namespace CleanTemplate.GraphQL
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseHttpsRedirection();
-
             app.UseRouting();
 
             // Logging
@@ -43,12 +41,8 @@ namespace CleanTemplate.GraphQL
                 // Collects information from a request and logs one event instead of many
                 .UseSerilogRequestLogging();
 
-            // Auth
-            app
-                // UseAuthentication adds the authentication middleware to the pipeline so authentication is performed on every call into the host.
-                .UseAuthentication()
-                // UseAuthorization adds the authorization middleware to make sure our API cannot be accessed by anonymous clients.
-                .UseAuthorization();
+            // Use authentication and authorization middleware
+            app.UseAuth();
 
             // GraphQL
             app.UseGraphQL();
