@@ -17,14 +17,14 @@ Visual Studio recognizes the docker-compose project so you just need to:
 - Mark docker-compose project as startup project.
 - Run the project.
 - Run the migrations
-    - from CleanTemplate.Infrastructure run $ dotnet ef database update
+    - from src/Infrastructure/CleanTemplate.Infrastructure run $ dotnet ef database update
 You are ready to go.
 
 The GraphQL project uses the CleanTemplate.Auth as IdentityServer, in order to run it you need to:
 - Go to docker-compose.yml file
     - Replace `${DOCKER_REGISTRY-}cleantemplategraphql` with `${DOCKER_REGISTRY-}cleantemplateapi`
-    - Replace `dockerfile: src/CleanTemplate.API/Dockerfile` with `dockerfile: src/CleanTemplate.GraphQL/Dockerfile`
-- Run CleanTemplate.Auth migrations from the CleanTemplate.Auth folder:
+    - Replace `dockerfile: ../CleanTemplate.API/Dockerfile` with `dockerfile: ../CleanTemplate.GraphQL/Dockerfile`
+- Run CleanTemplate.Auth migrations from the src/Presentation/CleanTemplate.Auth folder:
     - update the appsettings.json file and point to localhost instead of db. (This is needed because I was not able to set up a ContextFactory for ConfigurationDbContext yet)
     - dotnet ef database update -c AuthDbContext
     - dotnet ef database update -c ConfigurationDbContext
@@ -33,10 +33,12 @@ You are ready to go.
 ### Run from another IDE
 #### Use the CLI
 If you don't want to use VS you may want to run the project from the cli and start DB and other containers manually.
-- Go the the root of the project and start PostgreSQL and adminer with:
+- Go the the src/Docker folder and start PostgreSQL and adminer with:
     - $ docker-compose -f docker-compose.dev.yml up
 - Run the migrations:
-    - from CleanTemplate.Infrastructure run $ dotnet ef database update
+    - Go to src/Infrastructure/CleanTemplate.Infrastructure folder
+    - update connection string server from db to localhost.
+    - run $ dotnet ef database update
 - To run the dotnet projects:
     - Update CleanTemplate.API/appsettings.Development.json and CleanTemplate.API/appsettings.json connection strings 
     and set `localhost` instead of `db`.
