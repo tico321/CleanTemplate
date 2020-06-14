@@ -24,8 +24,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\CleanTemplate.API\CleanTemplate.API.csproj" />
-      <ProjectReference Include="..\CleanTemplate.Application.Test\CleanTemplate.Application.Test.csproj" />
+      <ProjectReference Include="..\..\..\src\Presentation\CleanTemplate.API\CleanTemplate.API.csproj" />
+      <ProjectReference Include="..\..\Core\CleanTemplate.Application.Test\CleanTemplate.Application.Test.csproj" />
     </ItemGroup>
 
 </Project>

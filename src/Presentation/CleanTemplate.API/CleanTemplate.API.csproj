@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CleanTemplate.Infrastructure\CleanTemplate.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\CleanTemplate.Infrastructure\CleanTemplate.Infrastructure.csproj" />
   </ItemGroup>
 
 

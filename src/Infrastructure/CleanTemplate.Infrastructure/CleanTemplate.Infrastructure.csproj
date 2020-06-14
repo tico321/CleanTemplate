@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CleanTemplate.Application\CleanTemplate.Application.csproj" />
+    <ProjectReference Include="..\..\Core\CleanTemplate.Application\CleanTemplate.Application.csproj" />
   </ItemGroup>
 
 </Project>

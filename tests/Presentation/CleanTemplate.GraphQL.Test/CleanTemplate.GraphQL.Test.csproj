@@ -21,8 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\CleanTemplate.GraphQL\CleanTemplate.GraphQL.csproj" />
-    <ProjectReference Include="..\CleanTemplate.Application.Test\CleanTemplate.Application.Test.csproj" />
+    <ProjectReference Include="..\..\..\src\Presentation\CleanTemplate.GraphQL\CleanTemplate.GraphQL.csproj" />
+    <ProjectReference Include="..\..\Core\CleanTemplate.Application.Test\CleanTemplate.Application.Test.csproj" />
   </ItemGroup>
 
 </Project>

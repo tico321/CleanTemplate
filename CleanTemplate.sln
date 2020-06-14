@@ -5,15 +5,15 @@ VisualStudioVersion = 16.0.30104.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9ABCEA75-D154-4635-97C3-1993E5903398}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanTemplate.API", "src\CleanTemplate.API\CleanTemplate.API.csproj", "{8348CAE5-8F4D-4248-9672-7FA866CC19A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanTemplate.API", "src\Presentation\CleanTemplate.API\CleanTemplate.API.csproj", "{8348CAE5-8F4D-4248-9672-7FA866CC19A6}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{73D8C011-BD6D-4602-8BFA-5AAD0A6EF61A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanTemplate.Infrastructure", "src\CleanTemplate.Infrastructure\CleanTemplate.Infrastructure.csproj", "{1DA8DCB4-BB98-46BC-82E2-9E4602AA5DC8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanTemplate.Infrastructure", "src\Infrastructure\CleanTemplate.Infrastructure\CleanTemplate.Infrastructure.csproj", "{1DA8DCB4-BB98-46BC-82E2-9E4602AA5DC8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanTemplate.Application", "src\CleanTemplate.Application\CleanTemplate.Application.csproj", "{DEF42904-DADE-4E4B-B974-3B40D938FEAA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanTemplate.Application", "src\Core\CleanTemplate.Application\CleanTemplate.Application.csproj", "{DEF42904-DADE-4E4B-B974-3B40D938FEAA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanTemplate.SharedKernel", "src\CleanTemplate.SharedKernel\CleanTemplate.SharedKernel.csproj", "{860020FD-0C3F-40F0-AD8F-82C5A3A603C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanTemplate.SharedKernel", "src\Core\CleanTemplate.SharedKernel\CleanTemplate.SharedKernel.csproj", "{860020FD-0C3F-40F0-AD8F-82C5A3A603C4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C5569C01-A994-49BB-B221-503EAC51F130}"
 	ProjectSection(SolutionItems) = preProject
@@ -24,25 +24,31 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C5569C01-A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{E1CE8CD6-CEA2-4A81-99C6-DAA799405C71}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanTemplate.SharedKernel.Test", "tests\CleanTemplate.SharedKernel.Test\CleanTemplate.SharedKernel.Test.csproj", "{BE41B2CC-574E-4E98-BF3D-481453BA222B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanTemplate.SharedKernel.Test", "tests\Core\CleanTemplate.SharedKernel.Test\CleanTemplate.SharedKernel.Test.csproj", "{BE41B2CC-574E-4E98-BF3D-481453BA222B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanTemplate.Application.Test", "tests\CleanTemplate.Application.Test\CleanTemplate.Application.Test.csproj", "{EFEBB9E7-458B-4BDF-8546-4C3B2402CAA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanTemplate.Application.Test", "tests\Core\CleanTemplate.Application.Test\CleanTemplate.Application.Test.csproj", "{EFEBB9E7-458B-4BDF-8546-4C3B2402CAA2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanTemplate.API.IntegrationTest", "tests\CleanTemplate.API.IntegrationTest\CleanTemplate.API.IntegrationTest.csproj", "{85D651B5-CF79-4F8D-8E4A-3F7A396D4934}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanTemplate.API.IntegrationTest", "tests\Presentation\CleanTemplate.API.IntegrationTest\CleanTemplate.API.IntegrationTest.csproj", "{85D651B5-CF79-4F8D-8E4A-3F7A396D4934}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanTemplate.Infrastructure.IntegrationTest", "tests\CleanTemplate.Infrastructure.IntegrationTest\CleanTemplate.Infrastructure.IntegrationTest.csproj", "{4C78E6F2-B002-4A55-8291-99486F078788}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanTemplate.Infrastructure.IntegrationTest", "tests\Infrastructure\CleanTemplate.Infrastructure.IntegrationTest\CleanTemplate.Infrastructure.IntegrationTest.csproj", "{4C78E6F2-B002-4A55-8291-99486F078788}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanTemplate.GraphQL", "src\CleanTemplate.GraphQL\CleanTemplate.GraphQL.csproj", "{7D07ABE1-67A7-4A7A-9192-3198214BE390}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanTemplate.GraphQL", "src\Presentation\CleanTemplate.GraphQL\CleanTemplate.GraphQL.csproj", "{7D07ABE1-67A7-4A7A-9192-3198214BE390}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanTemplate.GraphQL.Test", "tests\CleanTemplate.GraphQL.Test\CleanTemplate.GraphQL.Test.csproj", "{AE0EFE92-2D83-4E98-BEE6-2B453184DDD0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanTemplate.GraphQL.Test", "tests\Presentation\CleanTemplate.GraphQL.Test\CleanTemplate.GraphQL.Test.csproj", "{AE0EFE92-2D83-4E98-BEE6-2B453184DDD0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanTemplate.Auth", "src\CleanTemplate.Auth\CleanTemplate.Auth.csproj", "{55F4582F-332C-4C3F-9713-89B52B72E0E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanTemplate.Auth", "src\Presentation\CleanTemplate.Auth\CleanTemplate.Auth.csproj", "{55F4582F-332C-4C3F-9713-89B52B72E0E0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{687408D7-53F7-4159-B9A6-30347F2C0E90}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{707F4057-815E-4432-95AF-307ECE886D18}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{E24C5956-6B3C-4653-92F5-2861AB18F1D2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{BBA06F92-5BBA-4574-B497-6344CCEAA0F5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{AC32081F-EEB1-4D8D-BD7F-0B93BF5531F0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{E423AE49-99A2-42EA-B394-4F124829BC94}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -108,16 +114,19 @@ Global
 		{1DA8DCB4-BB98-46BC-82E2-9E4602AA5DC8} = {707F4057-815E-4432-95AF-307ECE886D18}
 		{DEF42904-DADE-4E4B-B974-3B40D938FEAA} = {687408D7-53F7-4159-B9A6-30347F2C0E90}
 		{860020FD-0C3F-40F0-AD8F-82C5A3A603C4} = {687408D7-53F7-4159-B9A6-30347F2C0E90}
-		{BE41B2CC-574E-4E98-BF3D-481453BA222B} = {E1CE8CD6-CEA2-4A81-99C6-DAA799405C71}
-		{EFEBB9E7-458B-4BDF-8546-4C3B2402CAA2} = {E1CE8CD6-CEA2-4A81-99C6-DAA799405C71}
-		{85D651B5-CF79-4F8D-8E4A-3F7A396D4934} = {E1CE8CD6-CEA2-4A81-99C6-DAA799405C71}
-		{4C78E6F2-B002-4A55-8291-99486F078788} = {E1CE8CD6-CEA2-4A81-99C6-DAA799405C71}
+		{BE41B2CC-574E-4E98-BF3D-481453BA222B} = {BBA06F92-5BBA-4574-B497-6344CCEAA0F5}
+		{EFEBB9E7-458B-4BDF-8546-4C3B2402CAA2} = {BBA06F92-5BBA-4574-B497-6344CCEAA0F5}
+		{85D651B5-CF79-4F8D-8E4A-3F7A396D4934} = {E423AE49-99A2-42EA-B394-4F124829BC94}
+		{4C78E6F2-B002-4A55-8291-99486F078788} = {AC32081F-EEB1-4D8D-BD7F-0B93BF5531F0}
 		{7D07ABE1-67A7-4A7A-9192-3198214BE390} = {E24C5956-6B3C-4653-92F5-2861AB18F1D2}
-		{AE0EFE92-2D83-4E98-BEE6-2B453184DDD0} = {E1CE8CD6-CEA2-4A81-99C6-DAA799405C71}
+		{AE0EFE92-2D83-4E98-BEE6-2B453184DDD0} = {E423AE49-99A2-42EA-B394-4F124829BC94}
 		{55F4582F-332C-4C3F-9713-89B52B72E0E0} = {E24C5956-6B3C-4653-92F5-2861AB18F1D2}
 		{687408D7-53F7-4159-B9A6-30347F2C0E90} = {9ABCEA75-D154-4635-97C3-1993E5903398}
 		{707F4057-815E-4432-95AF-307ECE886D18} = {9ABCEA75-D154-4635-97C3-1993E5903398}
 		{E24C5956-6B3C-4653-92F5-2861AB18F1D2} = {9ABCEA75-D154-4635-97C3-1993E5903398}
+		{BBA06F92-5BBA-4574-B497-6344CCEAA0F5} = {E1CE8CD6-CEA2-4A81-99C6-DAA799405C71}
+		{AC32081F-EEB1-4D8D-BD7F-0B93BF5531F0} = {E1CE8CD6-CEA2-4A81-99C6-DAA799405C71}
+		{E423AE49-99A2-42EA-B394-4F124829BC94} = {E1CE8CD6-CEA2-4A81-99C6-DAA799405C71}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3C5DA3FF-BFB3-4F75-B2B5-06A13BF2F232}
