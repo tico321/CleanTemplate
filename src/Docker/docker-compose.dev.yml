@@ -1,52 +1,36 @@
 ﻿version: '3.7'
 
 services:
-  cleantemplate.api:
-    image: ${DOCKER_REGISTRY-}cleantemplategraphql
-    build:
-      context: .
-      dockerfile: src/CleanTemplate.GraphQL/Dockerfile
-    environment:
-      COMPUTERNAME: "docker-compose"
-      ASPNETCORE_ENVIRONMENT: "Development"
-      ASPNETCORE_URLS: "https://+:443;http://+:80"
-    ports:
-      - 5000:80
-      - 5001:443
-    depends_on:
-      - cleantemplate.auth
-  cleantemplate.auth:
-    image: ${DOCKER_REGISTRY-}cleantemplateauth
-    build:
-      context: .
-      dockerfile: src/CleanTemplate.Auth/Dockerfile
-    environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
-      ASPNETCORE_URLS: "https://+:443;http://+:80"
-    ports:
-      - 5002:80
-      - 5003:443
-    depends_on:
-      - db
-  db:
-    image: "postgres:12.2"
-    container_name: postgresdb
-    environment:
-      POSTGRES_DB: CleanTemplate
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    ports:
-      - 5432:5432
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-      - pgconf:/etc/postgresql
-      - pglog:/var/log/postgresql
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
+    cleantemplate.auth:
+        image: ${DOCKER_REGISTRY-}cleantemplateauth
+        build:
+            context: .
+            dockerfile: ../Presentation/CleanTemplate.Auth/Dockerfile
+        environment:
+            ASPNETCORE_ENVIRONMENT: "Development"
+            ASPNETCORE_URLS: "https://+:443;http://+:80"
+        ports:
+            - 5002:80
+            - 5003:443
+        depends_on:
+            - db
+    db:
+        # https://hub.docker.com/_/mariadb?tab=description
+        image: "mariadb:10.4.0"
+        container_name: mariadb
+        environment:
+            MYSQL_DATABASE: CleanTemplate
+            MYSQL_USER: mariadb
+            MYSQL_PASSWORD: mariadb
+            MYSQL_ROOT_PASSWORD: mariadb
+        ports:
+            - 3306:3306
+        volumes:
+            - mysql:/var/lib/mysql
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+            - 8080:8080
 volumes:
-  pgdata:
-  pgconf:
-  pglog:
+    mysql:

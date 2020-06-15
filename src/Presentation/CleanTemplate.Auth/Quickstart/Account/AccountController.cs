@@ -4,10 +4,11 @@
 
 using System;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using CleanTemplate.Auth.Application.Model;
+using CleanTemplate.Auth.Persistence.Seed;
 using IdentityModel;
+using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.Events;
 using IdentityServer4.Extensions;
 using IdentityServer4.Models;
@@ -31,6 +32,7 @@ namespace IdentityServer4.Quickstart.UI
         private readonly IClientStore _clientStore;
         private readonly IAuthenticationSchemeProvider _schemeProvider;
         private readonly IEventService _events;
+        private readonly ConfigurationDbContext _configurationDbContext;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -38,7 +40,8 @@ namespace IdentityServer4.Quickstart.UI
             IIdentityServerInteractionService interaction,
             IClientStore clientStore,
             IAuthenticationSchemeProvider schemeProvider,
-            IEventService events)
+            IEventService events,
+            ConfigurationDbContext configurationDbContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -46,6 +49,7 @@ namespace IdentityServer4.Quickstart.UI
             _clientStore = clientStore;
             _schemeProvider = schemeProvider;
             _events = events;
+            _configurationDbContext = configurationDbContext;
         }
 
         /// <summary>
@@ -212,45 +216,8 @@ namespace IdentityServer4.Quickstart.UI
         [HttpPost]
         public async Task<IActionResult> Seed()
         {
-            var alice = _userManager.FindByNameAsync("alice").Result;
-            if (alice == null)
-            {
-                alice = new ApplicationUser
-                {
-                    UserName = "alice"
-                };
-                var result = await _userManager.CreateAsync(alice, "Pass123$");
-                result = await _userManager.AddClaimsAsync(alice, new Claim[]{
-                        new Claim(JwtClaimTypes.Name, "Alice Smith"),
-                        new Claim(JwtClaimTypes.GivenName, "Alice"),
-                        new Claim(JwtClaimTypes.FamilyName, "Smith"),
-                        new Claim(JwtClaimTypes.Email, "AliceSmith@email.com"),
-                        new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
-                        new Claim(JwtClaimTypes.WebSite, "http://alice.com"),
-                        new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json)
-                    });
-            }
-
-            var bob = _userManager.FindByNameAsync("bob").Result;
-            if (bob == null)
-            {
-                bob = new ApplicationUser
-                {
-                    UserName = "bob"
-                };
-                var result = await _userManager.CreateAsync(bob, "Pass123$");
-                result = await _userManager.AddClaimsAsync(bob, new Claim[]{
-                        new Claim(JwtClaimTypes.Name, "Bob Smith"),
-                        new Claim(JwtClaimTypes.GivenName, "Bob"),
-                        new Claim(JwtClaimTypes.FamilyName, "Smith"),
-                        new Claim(JwtClaimTypes.Email, "BobSmith@email.com"),
-                        new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
-                        new Claim(JwtClaimTypes.WebSite, "http://bob.com"),
-                        new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json),
-                        new Claim("location", "somewhere")
-                    });
-            }
-
+            await DbSeeder.SeedClients(_configurationDbContext);
+            await DbSeeder.SeedUsers(_userManager);
             return Ok();
         }
 

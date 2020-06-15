@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Serilog.Context;
 
-namespace CleanTemplate.GraphQL.Middleware
+namespace CleanTemplate.Infrastructure.Logging
 {
     public class CorrelationIdMiddleware
     {

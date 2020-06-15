@@ -1,22 +1,18 @@
 using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using CleanTemplate.Auth.Application.Model;
+using IdentityModel;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Identity;
 
 namespace CleanTemplate.Auth.Persistence.Seed
 {
     public class DbSeeder
     {
-        public static void InitializeDatabase(IApplicationBuilder app)
+        public static async Task SeedClients(ConfigurationDbContext context)
         {
-            using var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
-            //serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
-
-            var context = serviceScope.ServiceProvider
-                .GetRequiredService<ConfigurationDbContext>(); // Requires IdentityServer4.Storage package.
-
-            //context.Database.Migrate();
             context.Database.EnsureCreated();
             if (!context.Clients.Any())
             {
@@ -25,7 +21,7 @@ namespace CleanTemplate.Auth.Persistence.Seed
                     context.Clients.Add(client.ToEntity());
                 }
 
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
 
             if (!context.IdentityResources.Any())
@@ -35,7 +31,7 @@ namespace CleanTemplate.Auth.Persistence.Seed
                     context.IdentityResources.Add(resource.ToEntity());
                 }
 
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
 
             if (!context.ApiResources.Any())
@@ -45,7 +41,49 @@ namespace CleanTemplate.Auth.Persistence.Seed
                     context.ApiResources.Add(resource.ToEntity());
                 }
 
-                context.SaveChanges();
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public static async Task SeedUsers(UserManager<ApplicationUser> userManager)
+        {
+            var alice = userManager.FindByNameAsync("alice").Result;
+            if (alice == null)
+            {
+                alice = new ApplicationUser
+                {
+                    UserName = "alice"
+                };
+                var result = await userManager.CreateAsync(alice, "Pass123$");
+                result = await userManager.AddClaimsAsync(alice, new Claim[]{
+                        new Claim(JwtClaimTypes.Name, "Alice Smith"),
+                        new Claim(JwtClaimTypes.GivenName, "Alice"),
+                        new Claim(JwtClaimTypes.FamilyName, "Smith"),
+                        new Claim(JwtClaimTypes.Email, "AliceSmith@email.com"),
+                        new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
+                        new Claim(JwtClaimTypes.WebSite, "http://alice.com"),
+                        new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json)
+                    });
+            }
+
+            var bob = userManager.FindByNameAsync("bob").Result;
+            if (bob == null)
+            {
+                bob = new ApplicationUser
+                {
+                    UserName = "bob"
+                };
+                var result = await userManager.CreateAsync(bob, "Pass123$");
+                result = await userManager.AddClaimsAsync(bob, new Claim[]{
+                        new Claim(JwtClaimTypes.Name, "Bob Smith"),
+                        new Claim(JwtClaimTypes.GivenName, "Bob"),
+                        new Claim(JwtClaimTypes.FamilyName, "Smith"),
+                        new Claim(JwtClaimTypes.Email, "BobSmith@email.com"),
+                        new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
+                        new Claim(JwtClaimTypes.WebSite, "http://bob.com"),
+                        new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json),
+                        new Claim("location", "somewhere")
+                    });
             }
         }
     }

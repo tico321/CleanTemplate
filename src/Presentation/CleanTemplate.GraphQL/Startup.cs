@@ -1,6 +1,6 @@
 using CleanTemplate.Application;
-using CleanTemplate.GraphQL.Middleware;
 using CleanTemplate.Infrastructure;
+using CleanTemplate.Infrastructure.Logging;
 using HotChocolate.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

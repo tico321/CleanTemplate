@@ -1,7 +1,9 @@
-﻿using CleanTemplate.Application.CrossCuttingConcerns.Persistence;
+using System;
+using CleanTemplate.Application.CrossCuttingConcerns.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 namespace CleanTemplate.Infrastructure.Persistence
 {
@@ -9,11 +11,13 @@ namespace CleanTemplate.Infrastructure.Persistence
     {
         public static void AddPersistence(this IServiceCollection services, IConfiguration configuration)
         {
-            var conn = configuration.GetConnectionString("DefaultConnection");
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(
-                    conn,
-                    b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+                options.UseMySql(
+                    connectionString,
+                    sqlOptions => sqlOptions
+                        .MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)
+                        .ServerVersion(new Version(10, 4, 0), ServerType.MySql)));
 
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
         }

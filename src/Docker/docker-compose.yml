@@ -30,24 +30,22 @@ services:
         depends_on:
             - db
     db:
-        image: "postgres:12.2"
-        container_name: postgresdb
+        # https://hub.docker.com/_/mariadb?tab=description
+        image: "mariadb:10.4.0"
+        container_name: mariadb
         environment:
-            POSTGRES_DB: CleanTemplate
-            POSTGRES_USER: postgres
-            POSTGRES_PASSWORD: postgres
+            MYSQL_DATABASE: CleanTemplate
+            MYSQL_USER: mariadb
+            MYSQL_PASSWORD: mariadb
+            MYSQL_ROOT_PASSWORD: mariadb
         ports:
-            - 5432:5432
+            - 3306:3306
         volumes:
-            - pgdata:/var/lib/postgresql/data
-            - pgconf:/etc/postgresql
-            - pglog:/var/log/postgresql
+            - mysql:/var/lib/mysql
     adminer:
         image: adminer
         restart: always
         ports:
             - 8080:8080
 volumes:
-    pgdata:
-    pgconf:
-    pglog:
+    mysql:

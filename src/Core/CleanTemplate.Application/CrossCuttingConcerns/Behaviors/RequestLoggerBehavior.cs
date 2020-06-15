@@ -32,29 +32,29 @@ namespace CleanTemplate.Application.CrossCuttingConcerns.Behaviors
             {
                 var requestLog = GetLogContent(request);
                 _logger.LogInformation(
-                    "{ request: {@Request}, userId: {@UserId}, user: {@User}, data: {@Data} }",
+                    "Processed request {@Request} for user {@UserId}-{@User} with data {@Data}",
                     requestName, userId, userName, requestLog);
                 var response = await next();
                 var responseLog = GetLogContent(response);
                 _logger.LogInformation(
-                    "{ status: {@Status}, response: {@Request}, userId {@UserId}, user: {@User}, data: {@Data} }",
-                    "Ok", requestName, userId, userName, responseLog);
+                    "Result {@Status} for request {@Request}: {@Data}",
+                    "Ok", requestName, responseLog);
 
                 return response;
             }
             catch (AppException ex)
             {
                 _logger.LogInformation(
-                    "{ status: {@Status}, request: {@Request}, userId: {@UserId}, user: {@User}, error: @{Failure} }",
-                    "ApplicationError", requestName, userId, userName, ex.GetFormattedMessage());
+                    "Result {@Status} for request {@Request}: @{Failure} }",
+                    "ApplicationError", requestName, ex.GetFormattedMessage());
                 throw;
             }
             catch (Exception ex)
             {
                 _logger.LogError(
                     ex,
-                    "{ status: {@Status}, request: {@Request}, userId: {@UserId}, user: {@User} }",
-                    "UnexpectedError", requestName, userId, userName);
+                    "Result {@Status} for request {@Request}: @{Failure} }",
+                    "UnexpectedError", requestName, ex.Message);
                 throw;
             }
         }

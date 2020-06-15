@@ -1,9 +1,10 @@
-﻿using System.Reflection;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using CleanTemplate.Application.CrossCuttingConcerns;
 using CleanTemplate.Application.CrossCuttingConcerns.Persistence;
 using CleanTemplate.Application.Todos.Model;
+using CleanTemplate.Infrastructure.Logging;
 using CleanTemplate.SharedKernel.Common;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,6 +27,8 @@ namespace CleanTemplate.Infrastructure.Persistence
         public DbSet<TodoItem> TodoItems { get; set; }
 
         public DbSet<TodoList> TodoLists { get; set; }
+
+        public DbSet<Log> Logs { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {

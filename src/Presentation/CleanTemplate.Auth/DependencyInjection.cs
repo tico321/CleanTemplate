@@ -1,3 +1,4 @@
+using System;
 using System.Reflection;
 using CleanTemplate.Auth.Application.Model;
 using CleanTemplate.Auth.Persistence;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 namespace CleanTemplate.Auth
 {
@@ -34,9 +36,11 @@ namespace CleanTemplate.Auth
         {
             var connectionString = configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<AuthDbContext>(options =>
-                options.UseNpgsql(
+                options.UseMySql(
                     connectionString,
-                    b => b.MigrationsAssembly(typeof(AuthDbContext).Assembly.FullName)));
+                    sqlOptions => sqlOptions
+                        .MigrationsAssembly(typeof(AuthDbContext).Assembly.FullName)
+                        .ServerVersion(new Version(10, 4, 0), ServerType.MySql)));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<AuthDbContext>()
@@ -59,11 +63,13 @@ namespace CleanTemplate.Auth
                 // to use sql server instead review https://identityserver4.readthedocs.io/en/latest/quickstarts/5_entityframework.html
                 // AddConfigurationStore can be found in the IdentityServer4.EntityFramework package.
                 .AddConfigurationStore(options =>
-                    options.ConfigureDbContext = b =>
-                        b.UseNpgsql(connectionString, o => o.MigrationsAssembly(migrationsAssembly)))
+                    options.ConfigureDbContext = b => b
+                        .UseMySql(connectionString, o => o.MigrationsAssembly(migrationsAssembly)
+                        .ServerVersion(new Version(10, 4, 0), ServerType.MySql)))
                 .AddOperationalStore(options =>
-                    options.ConfigureDbContext = b =>
-                        b.UseNpgsql(connectionString, o => o.MigrationsAssembly(migrationsAssembly)))
+                    options.ConfigureDbContext = b => b
+                        .UseMySql(connectionString, o => o.MigrationsAssembly(migrationsAssembly)
+                        .ServerVersion(new Version(10, 4, 0), ServerType.MySql)))
                 .AddAspNetIdentity<ApplicationUser>();
 
             // Add sign-in credentials

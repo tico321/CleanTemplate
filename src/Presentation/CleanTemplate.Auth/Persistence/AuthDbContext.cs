@@ -1,4 +1,5 @@
 using CleanTemplate.Auth.Application.Model;
+using CleanTemplate.Infrastructure.Logging;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,8 @@ namespace CleanTemplate.Auth.Persistence
         }
 
         public DbSet<Policy> Policies { get; set; }
+
+        public DbSet<Log> Logs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

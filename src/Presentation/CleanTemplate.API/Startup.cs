@@ -1,8 +1,8 @@
 using AutoWrapper;
 using CleanTemplate.API.Filters;
-using CleanTemplate.API.Middleware;
 using CleanTemplate.Application;
 using CleanTemplate.Infrastructure;
+using CleanTemplate.Infrastructure.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;

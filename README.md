@@ -28,21 +28,23 @@ The GraphQL project uses the CleanTemplate.Auth as IdentityServer, in order to r
     - update the appsettings.json file and point to localhost instead of db. (This is needed because I was not able to set up a ContextFactory for ConfigurationDbContext yet)
     - dotnet ef database update -c AuthDbContext
     - dotnet ef database update -c ConfigurationDbContext
+- Seed Auth Data
+    - Send a Post request to /Account/Seed endpoint.
 You are ready to go.
 
 ### Run from another IDE
 #### Use the CLI
 If you don't want to use VS you may want to run the project from the cli and start DB and other containers manually.
-- Go the the src/Docker folder and start PostgreSQL and adminer with:
+- Go the the src/Docker folder and start MariaDb, adminer and the CleanTemplate.Auth project with:
     - $ docker-compose -f docker-compose.dev.yml up
 - Run the migrations:
     - Go to src/Infrastructure/CleanTemplate.Infrastructure folder
-    - update connection string server from db to localhost.
+    - update the server in the connection string and set `localhost` instead of `db`.
     - run $ dotnet ef database update
 - To run the dotnet projects:
     - Update CleanTemplate.API/appsettings.Development.json and CleanTemplate.API/appsettings.json connection strings 
     and set `localhost` instead of `db`.
-    - from CleanTemplate.API run: $  dotnet watch run
+    - from CleanTemplate.API run: $ dotnet watch run
     - This will start the project in the port 5000 and 5001 as defined on CleanTemplate.API/Properties/lauchSettings.json
 - To run all the unit tests go to the root folder and run:
     - dotnet test ./CleanTemplate.sln
@@ -154,7 +156,7 @@ Is quite similar to the API project but uses GraphQL instead of REST.
     - Entity is a base class that has a default implementation to compare entities by their Id.
 - Commands and Queries. 
 - Structured logging with Serilog.
-    - Logs are already configured and will be logged to ApplicationLogs table in PostgreSQL.
+    - Logs are already configured with [MariaDb sink](https://github.com/TeleSoftas/serilog-sinks-mariadb) and will be logged to the Logs table and to the console.
     - ILoggerAdapter abstraction is used for testability.
 - Consistent style with .editorconfig
 - Samples for different types of tests
@@ -190,3 +192,4 @@ Is quite similar to the API project but uses GraphQL instead of REST.
     - Entity Framework Core
     - Hotcholate -> Hotcholate is the library that allows us to expose our resources through GraphQL. 
     - IdentityServer4 -> Auth service is implemented with the help of IdentityServer4.
+    - EF with [Pomelo](https://github.com/PomeloFoundation/Pomelo.EntityFrameworkCore.MySql) to connect with MariaDb.

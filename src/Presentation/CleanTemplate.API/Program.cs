@@ -1,13 +1,10 @@
-using System.Collections.Generic;
-using System.Diagnostics;
+using System;
 using System.IO;
+using CleanTemplate.Infrastructure.CrossCuttingConcerns;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using NpgsqlTypes;
 using Serilog;
-using Serilog.Debugging;
-using Serilog.Sinks.PostgreSQL;
 
 namespace CleanTemplate.API
 {
@@ -16,8 +13,28 @@ namespace CleanTemplate.API
         public static void Main(string[] args)
         {
             // We initialize logging before the host so we have logging even if startup fails
-            InitLogger();
-            CreateHostBuilder(args).Build().Run();
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+            SerilogLogging.InitLogger(configuration, connectionString);
+
+            try
+            {
+                var host = CreateHostBuilder(args).Build();
+                Log.Information("Starting host...");
+                host.Run();
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Host terminated unexpectedly.");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args)
@@ -29,47 +46,6 @@ namespace CleanTemplate.API
                         .UseStartup<Startup>()
                         .UseSerilog();
                 });
-        }
-
-        private static void InitLogger()
-        {
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .Build();
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
-
-            // Column writers for PostgreSQL sink https://github.com/b00ted/serilog-sinks-postgresql
-            IDictionary<string, ColumnWriterBase> columnWriters = new Dictionary<string, ColumnWriterBase>
-            {
-                {"Message", new RenderedMessageColumnWriter()},
-                {"Level", new LevelColumnWriter(renderAsText: true, NpgsqlDbType.Varchar)},
-                {"TimeStamp", new TimestampColumnWriter()},
-                {"Exception", new ExceptionColumnWriter()},
-                {"MachineName", new SinglePropertyColumnWriter("MachineName")},
-                {"CorrelationId", new SinglePropertyColumnWriter("CorrelationId")},
-                {"UserId", new SinglePropertyColumnWriter("UserId")}
-            };
-            Log.Logger = new LoggerConfiguration()
-                .Enrich
-                .FromLogContext() //https://github.com/serilog/serilog/wiki/Enrichment used for the CorrelationIdMiddleware
-                .Enrich.WithMachineName() // https://github.com/saleem-mirza/serilog-enrichers-context/wiki
-                .WriteTo.PostgreSql(
-                    connectionString,
-                    "ApplicationLog",
-                    columnWriters,
-                    needAutoCreateTable: true
-                )
-                .ReadFrom.Configuration(configuration)
-                .CreateLogger();
-#if DEBUG
-            // This will break automatically if Serilog throws an exception.
-            SelfLog.Enable(msg =>
-            {
-                Debug.Print(msg);
-                Debugger.Break();
-            });
-#endif
         }
     }
 }
