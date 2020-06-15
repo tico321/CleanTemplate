@@ -1,4 +1,4 @@
-﻿using AutoWrapper;
+using AutoWrapper;
 using CleanTemplate.API.Filters;
 using CleanTemplate.API.Middleware;
 using CleanTemplate.Application;
@@ -27,6 +27,8 @@ namespace CleanTemplate.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // .Net core healthchecks https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-3.1
+            services.AddHealthChecks();
             services.AddControllers(options =>
             {
                 options.Filters.Add(new AppExceptionFilter());
@@ -55,7 +57,11 @@ namespace CleanTemplate.API
 
             app.UseRouting();
             app.UseAuthorization();
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapHealthChecks("/health");
+            });
         }
     }
 }
