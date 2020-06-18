@@ -47,7 +47,9 @@ namespace CleanTemplate.Auth
                 .AddDefaultTokenProviders();
 
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
-            var serverUri = "http://cleantemplate.auth:80";
+            var serverUri = Environment.GetEnvironmentVariable("AUTHSERVER_AUTHORITY") ??
+                            throw new Exception("AUTHORITY_URL is not defined");
+
             var builder = services
                 .AddIdentityServer(options =>
                 {
@@ -65,11 +67,11 @@ namespace CleanTemplate.Auth
                 .AddConfigurationStore(options =>
                     options.ConfigureDbContext = b => b
                         .UseMySql(connectionString, o => o.MigrationsAssembly(migrationsAssembly)
-                        .ServerVersion(new Version(10, 4, 0), ServerType.MySql)))
+                            .ServerVersion(new Version(10, 4, 0), ServerType.MySql)))
                 .AddOperationalStore(options =>
                     options.ConfigureDbContext = b => b
                         .UseMySql(connectionString, o => o.MigrationsAssembly(migrationsAssembly)
-                        .ServerVersion(new Version(10, 4, 0), ServerType.MySql)))
+                            .ServerVersion(new Version(10, 4, 0), ServerType.MySql)))
                 .AddAspNetIdentity<ApplicationUser>();
 
             // Add sign-in credentials

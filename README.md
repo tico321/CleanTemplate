@@ -37,9 +37,10 @@ You are ready to go.
 If you don't want to use VS you may want to run the project from the cli and start DB and other containers manually.
 - Go the the src/Docker folder and start MariaDb, adminer and the CleanTemplate.Auth project with:
     - $ docker-compose -f docker-compose.dev.yml up
+- If you want to remove all the containers you can run:
+    - $ docker rm -f mariadb adminer CleanTemplate.Auth CleanTemplate.GraphQL CleanTemplate.API
 - Run the migrations:
     - Go to src/Infrastructure/CleanTemplate.Infrastructure folder
-    - update the server in the connection string and set `localhost` instead of `db`.
     - run $ dotnet ef database update
 - To run the dotnet projects:
     - Update CleanTemplate.API/appsettings.Development.json and CleanTemplate.API/appsettings.json connection strings 
@@ -48,6 +49,7 @@ If you don't want to use VS you may want to run the project from the cli and sta
     - This will start the project in the port 5000 and 5001 as defined on CleanTemplate.API/Properties/lauchSettings.json
 - To run all the unit tests go to the root folder and run:
     - dotnet test ./CleanTemplate.sln
+ - To run GraphQL project you need to setup CleanTemplate.Auth migrations as described on the Running on Visual Studio section.
  
 ##### Include the API in docker-compose
 VS does a lot of things under the hood for which if you want to add it to the docker container without lossing debugging capabilities

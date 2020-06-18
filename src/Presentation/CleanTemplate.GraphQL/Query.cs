@@ -14,7 +14,9 @@ namespace CleanTemplate.GraphQL
     public class Query
     {
         // Always define the attributes in this order Paging -> Filtering -> Sorting -> Field Resolver https://hotchocolate.io/docs/filters
-        [UsePaging, UseFiltering, UseSorting]
+        [UsePaging]
+        [UseFiltering]
+        [UseSorting]
         public Task<IQueryable<SimplifiedTodoListVm>> GetTodoLists([Service] IMediator mediator)
         {
             return mediator.Send(new GetTodoListIndexQuery());
