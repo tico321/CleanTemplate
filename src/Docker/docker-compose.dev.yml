@@ -2,7 +2,7 @@
 
 services:
     cleantemplate.auth:
-        image: ${DOCKER_REGISTRY-}cleantemplateauth
+        image: ${DOCKER_REGISTRY-}cleantemplateauthdev
         build:
             context: .
             dockerfile: ../Presentation/CleanTemplate.Auth/Dockerfile
@@ -15,9 +15,9 @@ services:
         depends_on:
             - db
     db:
-        # https://hub.docker.com/_/mariadb?tab=description
+        # Docker page https://hub.docker.com/_/mariadb?tab=description
         image: "mariadb:10.4.0"
-        container_name: mariadb
+        container_name: mariadbdev
         environment:
             MYSQL_DATABASE: CleanTemplate
             MYSQL_USER: mariadb
@@ -28,6 +28,8 @@ services:
         volumes:
             - mysql:/var/lib/mysql
     adminer:
+        # Useful tool to review the db
+        # Docker page https://hub.docker.com/_/adminer/
         image: adminer
         restart: always
         ports:

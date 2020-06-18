@@ -7,10 +7,13 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["src/CleanTemplate.Auth/CleanTemplate.Auth.csproj", "src/CleanTemplate.Auth/"]
-RUN dotnet restore "src/CleanTemplate.Auth/CleanTemplate.Auth.csproj"
+COPY ["src/Presentation/CleanTemplate.Auth/CleanTemplate.Auth.csproj", "src/Presentation/CleanTemplate.Auth/"]
+COPY ["src/Infrastructure/CleanTemplate.Infrastructure/CleanTemplate.Infrastructure.csproj", "src/Infrastructure/CleanTemplate.Infrastructure/"]
+COPY ["src/Core/CleanTemplate.Application/CleanTemplate.Application.csproj", "src/Core/CleanTemplate.Application/"]
+COPY ["src/Core/CleanTemplate.SharedKernel/CleanTemplate.SharedKernel.csproj", "src/Core/CleanTemplate.SharedKernel/"]
+RUN dotnet restore "src/Presentation/CleanTemplate.Auth/CleanTemplate.Auth.csproj"
 COPY . .
-WORKDIR "/src/src/CleanTemplate.Auth"
+WORKDIR "/src/src/Presentation/CleanTemplate.Auth"
 RUN dotnet build "CleanTemplate.Auth.csproj" -c Release -o /app/build
 
 FROM build AS publish

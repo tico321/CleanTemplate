@@ -7,10 +7,13 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["src/CleanTemplate.API/CleanTemplate.API.csproj", "src/CleanTemplate.API/"]
-RUN dotnet restore "src/CleanTemplate.API/CleanTemplate.API.csproj"
+COPY ["src/Presentation/CleanTemplate.API/CleanTemplate.API.csproj", "src/Presentation/CleanTemplate.API/"]
+COPY ["src/Infrastructure/CleanTemplate.Infrastructure/CleanTemplate.Infrastructure.csproj", "src/Infrastructure/CleanTemplate.Infrastructure/"]
+COPY ["src/Core/CleanTemplate.Application/CleanTemplate.Application.csproj", "src/Core/CleanTemplate.Application/"]
+COPY ["src/Core/CleanTemplate.SharedKernel/CleanTemplate.SharedKernel.csproj", "src/Core/CleanTemplate.SharedKernel/"]
+RUN dotnet restore "src/Presentation/CleanTemplate.API/CleanTemplate.API.csproj"
 COPY . .
-WORKDIR "/src/src/CleanTemplate.API"
+WORKDIR "/src/src/Presentation/CleanTemplate.API"
 RUN dotnet build "CleanTemplate.API.csproj" -c Release -o /app/build
 
 FROM build AS publish
