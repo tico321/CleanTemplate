@@ -24,13 +24,14 @@ services:
         environment:
             ASPNETCORE_ENVIRONMENT: "Development"
             ASPNETCORE_URLS: "https://+:443;http://+:80"
+            AUTHSERVER_AUTHORITY: "http://cleantemplate.auth:80"
         ports:
             - 5002:80
             - 5003:443
         depends_on:
             - db
     db:
-        # https://hub.docker.com/_/mariadb?tab=description
+        # Docker page https://hub.docker.com/_/mariadb?tab=description
         image: "mariadb:10.4.0"
         container_name: mariadb
         environment:
@@ -43,7 +44,10 @@ services:
         volumes:
             - mysql:/var/lib/mysql
     adminer:
+        # Useful tool to review the db
+        # Docker page https://hub.docker.com/_/adminer/
         image: adminer
+        container_name: adminer
         restart: always
         ports:
             - 8080:8080
