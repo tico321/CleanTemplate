@@ -29,6 +29,11 @@ namespace CleanTemplate.API.Controllers
             return new TodoListIndexResponse { Todos = result };
         }
 
+        /// <summary>
+        /// Get a TodoList by the Id
+        /// </summary>
+        /// <param name="id">The id of the TodoList</param>
+        /// <returns>A ToList that includes its TodoItems.</returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<TodoListVm>> GetById(int id)
         {
