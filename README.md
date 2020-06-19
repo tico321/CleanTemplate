@@ -171,7 +171,8 @@ Is quite similar to the API project but uses GraphQL instead of REST.
     - Default API conventions https://docs.microsoft.com/en-us/aspnet/core/web-api/advanced/conventions?view=aspnetcore-3.1
     - Errors use [Problem details](https://tools.ietf.org/html/rfc7807) format but we don't use [.net problem details](https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.problemdetails?view=aspnetcore-2.2) directly
     we use [AutoWrapper](https://github.com/proudmonkey/AutoWrapper) To perform the dirty work. 
-
+    - To expose the API we use [Swashbuckle](https://docs.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-3.1&tabs=visual-studio).
+    
 - GraphQL api
     - GraphQL Api is implemented with [HotChocolate](https://hotchocolate.io/docs/introduction) implementation.
     - [Banana Cake Pop](https://hotchocolate.io/docs/banana-cakepop) is a client that goes along with HotChocolate until we setup graphiql.
