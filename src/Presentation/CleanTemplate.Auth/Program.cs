@@ -4,7 +4,6 @@
 
 using System;
 using System.IO;
-using CleanTemplate.Infrastructure.CrossCuttingConcerns;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -19,10 +18,12 @@ namespace CleanTemplate.Auth
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
+                // Environment Variables will override default appsettings.json
+                .AddEnvironmentVariables()
                 .Build();
             var connectionString = configuration.GetConnectionString("DefaultConnection");
 
-            SerilogLogging.InitLogger(configuration, connectionString);
+            Infrastructure.Logging.SerilogLogging.InitLogger(configuration, connectionString);
 
             try
             {

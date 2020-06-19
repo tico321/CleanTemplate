@@ -47,8 +47,7 @@ namespace CleanTemplate.Auth
                 .AddDefaultTokenProviders();
 
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
-            var serverUri = Environment.GetEnvironmentVariable("AUTHSERVER_AUTHORITY") ??
-                            throw new Exception("AUTHORITY_URL is not defined");
+            var serverUri = Environment.GetEnvironmentVariable("AUTHSERVER_AUTHORITY");
 
             var builder = services
                 .AddIdentityServer(options =>

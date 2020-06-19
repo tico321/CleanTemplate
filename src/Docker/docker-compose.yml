@@ -8,9 +8,10 @@ services:
             dockerfile: ../Presentation/CleanTemplate.GraphQL/Dockerfile
         environment:
             COMPUTERNAME: "docker-compose"
-            ASPNETCORE_ENVIRONMENT: "Development"
-            ASPNETCORE_URLS: "https://+:443;http://+:80"
+            ASPNETCORE_ENVIRONMENT: "Docker"
+            ASPNETCORE_URLS: "http://+:80"
             AUTHSERVER_AUTHORITY: "http://cleantemplate.auth:80"
+            ConnectionStrings__DefaultConnection: "Username=root;Password=mariadb;Server=db;Database=CleanTemplate"
         ports:
             - 5000:80
             - 5001:443
@@ -22,9 +23,10 @@ services:
             context: .
             dockerfile: ../Presentation/CleanTemplate.Auth/Dockerfile
         environment:
-            ASPNETCORE_ENVIRONMENT: "Development"
-            ASPNETCORE_URLS: "https://+:443;http://+:80"
+            ASPNETCORE_ENVIRONMENT: "Docker"
+            ASPNETCORE_URLS: "http://+:80"
             AUTHSERVER_AUTHORITY: "http://cleantemplate.auth:80"
+            ConnectionStrings__DefaultConnection: "Username=root;Password=mariadb;Server=db;Database=Auth"
         ports:
             - 5002:80
             - 5003:443

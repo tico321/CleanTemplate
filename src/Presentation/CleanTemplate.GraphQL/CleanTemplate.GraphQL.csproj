@@ -31,6 +31,7 @@
       <None Update="CleanTemplateServerCert.pfx">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <None Include="appsettings.Docker.json" />
     </ItemGroup>
 
 

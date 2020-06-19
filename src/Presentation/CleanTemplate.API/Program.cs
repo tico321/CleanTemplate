@@ -1,10 +1,12 @@
 using System;
 using System.IO;
 using CleanTemplate.Infrastructure.CrossCuttingConcerns;
+using CleanTemplate.Infrastructure.Logging;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+using Log = Serilog.Log;
 
 namespace CleanTemplate.API
 {
@@ -16,6 +18,8 @@ namespace CleanTemplate.API
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
+                // Environment Variables will override default appsettings.json
+                .AddEnvironmentVariables()
                 .Build();
             var connectionString = configuration.GetConnectionString("DefaultConnection");
 

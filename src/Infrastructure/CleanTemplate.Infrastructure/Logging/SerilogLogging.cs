@@ -7,29 +7,29 @@ using Serilog.Sinks.MariaDB;
 using Serilog.Sinks.MariaDB.Extensions;
 using Serilog.Sinks.SystemConsole.Themes;
 
-namespace CleanTemplate.Infrastructure.CrossCuttingConcerns
+namespace CleanTemplate.Infrastructure.Logging
 {
     public static class SerilogLogging
     {
         /// <summary>
-        /// Configures Serilog to log to the db and to the console.
+        ///     Configures Serilog to log to the db and to the console.
         /// </summary>
         /// <param name="configuration">
-        /// Is used to read the configuration levels from the app config file, for example:
-        /// "Serilog": {
-        ///     "MinimumLevel": {
-        ///         "Default": "Information",
-        ///         "Override": {
-        ///             "Microsoft": "Warning"
+        ///     Is used to read the configuration levels from the app config file, for example:
+        ///     "Serilog": {
+        ///         "MinimumLevel": {
+        ///             "Default": "Information",
+        ///             "Override": {
+        ///                 "Microsoft": "Warning"
+        ///             }
         ///         }
         ///     }
-        /// }
         /// </param>
         /// <param name="connectionString">The connection string to the db where the logs will be stored.</param>
         public static void InitLogger(IConfigurationRoot configuration, string connectionString)
         {
             // Column writers for MariaDb sink https://github.com/TeleSoftas/serilog-sinks-mariadb
-            Log.Logger = new LoggerConfiguration()
+            Serilog.Log.Logger = new LoggerConfiguration()
                 .Enrich
                 //https://github.com/serilog/serilog/wiki/Enrichment used to add custom enrichers like int the CorrelationIdMiddleware
                 .FromLogContext()

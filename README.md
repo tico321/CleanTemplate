@@ -25,7 +25,6 @@ The GraphQL project uses the CleanTemplate.Auth as IdentityServer, in order to r
     - Replace `${DOCKER_REGISTRY-}cleantemplategraphql` with `${DOCKER_REGISTRY-}cleantemplateapi`
     - Replace `dockerfile: ../CleanTemplate.API/Dockerfile` with `dockerfile: ../CleanTemplate.GraphQL/Dockerfile`
 - Run CleanTemplate.Auth migrations from the src/Presentation/CleanTemplate.Auth folder:
-    - update the appsettings.json file and point to localhost instead of db. (This is needed because I was not able to set up a ContextFactory for ConfigurationDbContext yet)
     - dotnet ef database update -c AuthDbContext
     - dotnet ef database update -c ConfigurationDbContext
 - Seed Auth Data
@@ -36,15 +35,13 @@ You are ready to go.
 #### Use the CLI
 If you don't want to use VS you may want to run the project from the cli and start DB and other containers manually.
 - Go the the src/Docker folder and start MariaDb, adminer and the CleanTemplate.Auth project with:
-    - $ docker-compose -f docker-compose.dev.yml up
+    - $ docker-compose -f docker-compose.dev.yml up --build
 - If you want to remove all the containers you can run:
     - $ docker rm -f mariadb adminer CleanTemplate.Auth CleanTemplate.GraphQL CleanTemplate.API
 - Run the migrations:
     - Go to src/Infrastructure/CleanTemplate.Infrastructure folder
     - run $ dotnet ef database update
 - To run the dotnet projects:
-    - Update CleanTemplate.API/appsettings.Development.json and CleanTemplate.API/appsettings.json connection strings 
-    and set `localhost` instead of `db`.
     - from CleanTemplate.API run: $ dotnet watch run
     - This will start the project in the port 5000 and 5001 as defined on CleanTemplate.API/Properties/lauchSettings.json
 - To run all the unit tests go to the root folder and run:
