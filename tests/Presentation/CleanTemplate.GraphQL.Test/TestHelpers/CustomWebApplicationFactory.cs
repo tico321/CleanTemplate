@@ -15,7 +15,6 @@ namespace CleanTemplate.GraphQL.Test.TestHelpers
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             base.ConfigureWebHost(builder);
-            builder.UseEnvironment("Test");
             builder.ConfigureServices(services =>
             {
                 SetTestDbContext(services);

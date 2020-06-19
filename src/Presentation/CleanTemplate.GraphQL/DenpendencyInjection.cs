@@ -12,7 +12,7 @@ namespace CleanTemplate.GraphQL
     {
         public static IServiceCollection AddAuthServer(this IServiceCollection services)
         {
-            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Test")
+            if (IsTestingEnvironment())
             {
                 return services;
             }
@@ -52,7 +52,7 @@ namespace CleanTemplate.GraphQL
 
         public static IApplicationBuilder UseAuth(this IApplicationBuilder app)
         {
-            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Test")
+            if (IsTestingEnvironment())
             {
                 return app;
             }
@@ -81,6 +81,12 @@ namespace CleanTemplate.GraphQL
                 .Create());
 
             return services;
+        }
+
+        private static bool IsTestingEnvironment()
+        {
+            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            return string.IsNullOrEmpty(environment);
         }
     }
 }
