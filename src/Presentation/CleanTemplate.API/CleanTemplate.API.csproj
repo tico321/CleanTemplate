@@ -9,6 +9,8 @@
   
     <!-- GenerateDocumentationFile generates documentation file for Swagger -->
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- Otherwise we'll get a warning for every Class and method that is not documented -->
+    <NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

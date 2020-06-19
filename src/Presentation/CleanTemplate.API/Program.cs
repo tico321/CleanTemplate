@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using CleanTemplate.Infrastructure.CrossCuttingConcerns;
 using CleanTemplate.Infrastructure.Logging;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -10,6 +9,7 @@ using Log = Serilog.Log;
 
 namespace CleanTemplate.API
 {
+#pragma warning disable CS1591
     public class Program
     {
         public static void Main(string[] args)
@@ -52,4 +52,5 @@ namespace CleanTemplate.API
                 });
         }
     }
+#pragma warning restore CS1591
 }
