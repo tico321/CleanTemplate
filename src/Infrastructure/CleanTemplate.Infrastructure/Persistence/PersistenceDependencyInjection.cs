@@ -12,12 +12,13 @@ namespace CleanTemplate.Infrastructure.Persistence
         public static void AddPersistence(this IServiceCollection services, IConfiguration configuration)
         {
             var connectionString = configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseMySql(
-                    connectionString,
-                    sqlOptions => sqlOptions
-                        .MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)
-                        .ServerVersion(new Version(10, 4, 0), ServerType.MySql)));
+            services.AddDbContext<ApplicationDbContext>(
+                options =>
+                    options.UseMySql(
+                        connectionString,
+                        sqlOptions => sqlOptions
+                            .MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)
+                            .ServerVersion(new Version(10, 4, 0), ServerType.MySql)));
 
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
         }

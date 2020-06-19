@@ -9,8 +9,8 @@ namespace CleanTemplate.Auth.Persistence.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Logs",
-                columns: table => new
+                "Logs",
+                table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
@@ -30,8 +30,7 @@ namespace CleanTemplate.Auth.Persistence.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Logs");
+            migrationBuilder.DropTable("Logs");
         }
     }
 }

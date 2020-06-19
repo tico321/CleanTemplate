@@ -16,7 +16,7 @@ namespace CleanTemplate.API.Controllers
     public class TodosController : BaseApiController
     {
         /// <summary>
-        /// Create a TodoList.
+        ///     Create a TodoList.
         /// </summary>
         /// <param name="listCommand">Object that contains the information of the TodoList.</param>
         /// <returns>The id of the created TodoList.</returns>
@@ -28,7 +28,7 @@ namespace CleanTemplate.API.Controllers
         }
 
         /// <summary>
-        /// Returns an Index of all the TodoLists with basic information of each one.
+        ///     Returns an Index of all the TodoLists with basic information of each one.
         /// </summary>
         /// <returns>All the TodoLists.</returns>
         [HttpGet]
@@ -39,7 +39,7 @@ namespace CleanTemplate.API.Controllers
         }
 
         /// <summary>
-        /// Get a TodoList by the Id
+        ///     Get a TodoList by the Id
         /// </summary>
         /// <param name="id">The id of the TodoList</param>
         /// <returns>A ToList that includes its TodoItems.</returns>
@@ -51,7 +51,7 @@ namespace CleanTemplate.API.Controllers
         }
 
         /// <summary>
-        /// Deletes a TodoList including all its TodoItems.
+        ///     Deletes a TodoList including all its TodoItems.
         /// </summary>
         /// <param name="id">The id of the TodoList.</param>
         /// <returns>No content.</returns>
@@ -63,7 +63,7 @@ namespace CleanTemplate.API.Controllers
         }
 
         /// <summary>
-        /// Updates a TodoList.
+        ///     Updates a TodoList.
         /// </summary>
         /// <param name="id">The id of the TodoList.</param>
         /// <param name="todoListCommand">Updated information of the TodoList.</param>
@@ -76,7 +76,7 @@ namespace CleanTemplate.API.Controllers
         }
 
         /// <summary>
-        /// Adds an Item to a TodoList.
+        ///     Adds an Item to a TodoList.
         /// </summary>
         /// <param name="id">The id of the target TodoList.</param>
         /// <param name="command">Information about the TodoItem.</param>
@@ -89,7 +89,7 @@ namespace CleanTemplate.API.Controllers
         }
 
         /// <summary>
-        /// Gets a TodoItem with all of its information.
+        ///     Gets a TodoItem with all of its information.
         /// </summary>
         /// <param name="id">The id of the TodoList.</param>
         /// <param name="itemId">The id of the TodoItem.</param>
@@ -102,7 +102,7 @@ namespace CleanTemplate.API.Controllers
         }
 
         /// <summary>
-        /// Updates a TodoItem.
+        ///     Updates a TodoItem.
         /// </summary>
         /// <param name="id">The id of the TodoItem.</param>
         /// <param name="command">Updated information of the TodoItem.</param>
@@ -115,7 +115,7 @@ namespace CleanTemplate.API.Controllers
         }
 
         /// <summary>
-        /// Deletes a TodoItem.
+        ///     Deletes a TodoItem.
         /// </summary>
         /// <param name="id">The id of the TodoList that contains the TodoItem.</param>
         /// <param name="itemId">The id of the TodoItem.</param>

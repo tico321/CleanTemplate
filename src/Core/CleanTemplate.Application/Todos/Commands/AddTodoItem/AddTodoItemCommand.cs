@@ -18,9 +18,12 @@ namespace CleanTemplate.Application.Todos.Commands.AddTodoItem
             public Validator(IApplicationDbContext context)
             {
                 RuleFor(c => c.Description)
-                    .NotNull().WithMessage("Description cannot be null")
-                    .MaximumLength(maximumLength: 200).WithMessage("200 is the maximum length.")
-                    .MinimumLength(minimumLength: 5).WithMessage("5 is the minimum length");
+                    .NotNull()
+                    .WithMessage("Description cannot be null")
+                    .MaximumLength(200)
+                    .WithMessage("200 is the maximum length.")
+                    .MinimumLength(5)
+                    .WithMessage("5 is the minimum length");
 
                 RuleFor(c => c.TodoListId)
                     .MustAsync((id, cancellationToken) => context.TodoLists.AnyAsync(t => t.Id == id))

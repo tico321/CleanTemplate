@@ -18,9 +18,12 @@ namespace CleanTemplate.Application.Todos.Commands.CreateTodoList
             public Validator()
             {
                 RuleFor(tc => tc.Description)
-                    .NotNull().WithMessage("Description cannot be null")
-                    .MaximumLength(maximumLength: 200).WithMessage("200 is the maximum length.")
-                    .MinimumLength(minimumLength: 5).WithMessage("5 is the minimum length");
+                    .NotNull()
+                    .WithMessage("Description cannot be null")
+                    .MaximumLength(200)
+                    .WithMessage("200 is the maximum length.")
+                    .MinimumLength(5)
+                    .WithMessage("5 is the minimum length");
             }
         }
 

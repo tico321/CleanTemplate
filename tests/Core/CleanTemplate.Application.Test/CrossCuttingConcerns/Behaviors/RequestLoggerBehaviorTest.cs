@@ -59,16 +59,16 @@ namespace CleanTemplate.Application.Test.CrossCuttingConcerns.Behaviors
                 () => Task.FromResult(response));
 
             Assert.Equal(response, actual); // It returns the correct result
-            Assert.Equal(expected: 2, capturedCalls.Count);
+            Assert.Equal(2, capturedCalls.Count);
             // Logs the request
-            var (requestMsg, requestArgs) = capturedCalls[index: 0];
+            var (requestMsg, requestArgs) = capturedCalls[0];
             Assert.Equal("Processed request {@Request} for user {@UserId}-{@User} with data {@Data}", requestMsg);
             Assert.Equal(nameof(SampleRequest), requestArgs[0]);
             Assert.Equal(userService.UserId, requestArgs[1]); //userId
             Assert.Equal(userService.UserName, requestArgs[2]); //userName
             Assert.Equal(request, requestArgs[3]);
             // Logs the response
-            var (responseMsg, responseArgs) = capturedCalls[index: 1];
+            var (responseMsg, responseArgs) = capturedCalls[1];
             Assert.Equal("Result {@Status} for request {@Request}: {@Data}", responseMsg);
             Assert.Equal("Ok", responseArgs[0]);
             Assert.Equal(nameof(SampleRequest), responseArgs[1]);
@@ -92,17 +92,17 @@ namespace CleanTemplate.Application.Test.CrossCuttingConcerns.Behaviors
                 .Invokes((Exception e, string msg, object[] args) => capturedErrorCalls.Add((e, msg, args)));
             try
             {
-                var actual = await sut.Handle(
+                await sut.Handle(
                     request,
                     CancellationToken.None,
                     () => throw new Exception("Exception Message"));
-                Assert.False(condition: true, "It should bubble up the exception");
+                Assert.False(true, "It should bubble up the exception");
             }
             catch (Exception e)
             {
                 Assert.Single(capturedLogCalls);
                 // Logs the request
-                var (requestMsg, requestArgs) = capturedLogCalls[index: 0];
+                var (requestMsg, requestArgs) = capturedLogCalls[0];
                 Assert.Equal("Processed request {@Request} for user {@UserId}-{@User} with data {@Data}", requestMsg);
                 Assert.Equal(nameof(SampleRequest), requestArgs[0]);
                 Assert.Equal(userService.UserId, requestArgs[1]); //userId
@@ -110,7 +110,7 @@ namespace CleanTemplate.Application.Test.CrossCuttingConcerns.Behaviors
                 Assert.Equal(request, requestArgs[3]);
                 // Logs the Error
                 Assert.Single(capturedErrorCalls);
-                var (ex, responseMsg, responseArgs) = capturedErrorCalls[index: 0];
+                var (_, responseMsg, responseArgs) = capturedErrorCalls[0];
                 Assert.Equal("Exception Message", e.Message);
                 Assert.Equal("Result {@Status} for request {@Request}: @{Failure} }", responseMsg);
                 Assert.Equal("UnexpectedError", responseArgs[0]);
@@ -126,7 +126,6 @@ namespace CleanTemplate.Application.Test.CrossCuttingConcerns.Behaviors
             var userService = new FakeUserService();
             var sut = new RequestLoggerBehavior<SampleRequest, SampleResponse>(logger, userService);
             var request = new SampleRequest { RequestData = "request data" };
-            var response = new SampleResponse { ResponseData = "response data" };
             var capturedCalls = new List<(string, object[])>();
             A
                 .CallTo(() => logger.LogInformation(A<string>._, A<object[]>._))
@@ -134,24 +133,24 @@ namespace CleanTemplate.Application.Test.CrossCuttingConcerns.Behaviors
 
             try
             {
-                var actual = await sut.Handle(
+                await sut.Handle(
                     request,
                     CancellationToken.None,
                     () => throw new AppException("AppException Message"));
-                Assert.False(condition: true, "It should bubble up the exception");
+                Assert.False(true, "It should bubble up the exception");
             }
             catch (AppException)
             {
-                Assert.Equal(expected: 2, capturedCalls.Count);
+                Assert.Equal(2, capturedCalls.Count);
                 // Logs the request
-                var (requestMsg, requestArgs) = capturedCalls[index: 0];
+                var (requestMsg, requestArgs) = capturedCalls[0];
                 Assert.Equal("Processed request {@Request} for user {@UserId}-{@User} with data {@Data}", requestMsg);
                 Assert.Equal(nameof(SampleRequest), requestArgs[0]);
                 Assert.Equal(userService.UserId, requestArgs[1]); //userId
                 Assert.Equal(userService.UserName, requestArgs[2]); //userName
                 Assert.Equal(request, requestArgs[3]);
                 // Error is logged as information because this is an expected AppException, most likely a bad request
-                var (responseMsg, responseArgs) = capturedCalls[index: 1];
+                var (responseMsg, responseArgs) = capturedCalls[1];
                 Assert.Equal("Result {@Status} for request {@Request}: @{Failure} }", responseMsg);
                 Assert.Equal("ApplicationError", responseArgs[0]);
                 Assert.Equal(nameof(SampleRequest), responseArgs[1]);
@@ -166,7 +165,8 @@ namespace CleanTemplate.Application.Test.CrossCuttingConcerns.Behaviors
                 A.Fake<ILoggerAdapter<RequestLoggerBehavior<SampleRequestCustomLogging, SampleResponseCustomLogging>
                 >>();
             var userService = new FakeUserService();
-            var sut = new RequestLoggerBehavior<SampleRequestCustomLogging, SampleResponseCustomLogging>(logger,
+            var sut = new RequestLoggerBehavior<SampleRequestCustomLogging, SampleResponseCustomLogging>(
+                logger,
                 userService);
             var request = new SampleRequestCustomLogging();
             var response = new SampleResponseCustomLogging();
@@ -181,16 +181,16 @@ namespace CleanTemplate.Application.Test.CrossCuttingConcerns.Behaviors
                 () => Task.FromResult(response));
 
             Assert.Equal(response, actual); // It returns the correct result
-            Assert.Equal(expected: 2, capturedCalls.Count);
+            Assert.Equal(2, capturedCalls.Count);
             // Logs the request
-            var (requestMsg, requestArgs) = capturedCalls[index: 0];
+            var (requestMsg, requestArgs) = capturedCalls[0];
             Assert.Equal("Processed request {@Request} for user {@UserId}-{@User} with data {@Data}", requestMsg);
             Assert.Equal(nameof(SampleRequestCustomLogging), requestArgs[0]);
             Assert.Equal(userService.UserId, requestArgs[1]); //userId
             Assert.Equal(userService.UserName, requestArgs[2]); //userName
             Assert.Equal(request.ToLog(), requestArgs[3]);
             // Logs the response
-            var (responseMsg, responseArgs) = capturedCalls[index: 1];
+            var (responseMsg, responseArgs) = capturedCalls[1];
             Assert.Equal("Result {@Status} for request {@Request}: {@Data}", responseMsg);
             Assert.Equal("Ok", responseArgs[0]);
             Assert.Equal(nameof(SampleRequestCustomLogging), responseArgs[1]);
@@ -216,16 +216,16 @@ namespace CleanTemplate.Application.Test.CrossCuttingConcerns.Behaviors
                 () => Task.FromResult(response));
 
             Assert.Equal(response, actual); // It returns the correct result
-            Assert.Equal(expected: 2, capturedCalls.Count);
+            Assert.Equal(2, capturedCalls.Count);
             // Logs the request
-            var (requestMsg, requestArgs) = capturedCalls[index: 0];
+            var (requestMsg, requestArgs) = capturedCalls[0];
             Assert.Equal("Processed request {@Request} for user {@UserId}-{@User} with data {@Data}", requestMsg);
             Assert.Equal(nameof(SampleRequest), requestArgs[0]);
             Assert.Equal(string.Empty, requestArgs[1]); //userId
             Assert.Equal(string.Empty, requestArgs[2]); //userName
             Assert.Equal(request, requestArgs[3]);
             // Logs the response
-            var (responseMsg, responseArgs) = capturedCalls[index: 1];
+            var (responseMsg, responseArgs) = capturedCalls[1];
             Assert.Equal("Result {@Status} for request {@Request}: {@Data}", responseMsg);
             Assert.Equal("Ok", responseArgs[0]);
             Assert.Equal(nameof(SampleRequest), responseArgs[1]);

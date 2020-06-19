@@ -54,13 +54,13 @@ namespace CleanTemplate.Application.Test
             var provider = services.BuildServiceProvider();
 
             // Pipelines are registered
-            Assert.NotNull(provider
-                .GetService<IPipelineBehavior<GetTodoListIndexQuery, IQueryable<SimplifiedTodoListVm>>>());
+            Assert.NotNull(
+                provider
+                    .GetService<IPipelineBehavior<GetTodoListIndexQuery, IQueryable<SimplifiedTodoListVm>>>());
             // Logging is registered
             Assert.NotNull(provider.GetService<ILoggerAdapter<string>>());
             // Commands/Queries are registered
-            Assert.NotNull(
-                provider.GetService<IRequestHandler<GetTodoListIndexQuery, IQueryable<SimplifiedTodoListVm>>>());
+            Assert.NotNull(provider.GetService<IRequestHandler<GetTodoListIndexQuery, IQueryable<SimplifiedTodoListVm>>>());
             // Validators are registered
             Assert.NotNull(provider.GetService<IValidator<CreateTodoListCommand>>());
             // Mapping profiles are registered

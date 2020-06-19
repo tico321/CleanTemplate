@@ -25,9 +25,12 @@ namespace CleanTemplate.Application.Todos.Commands.UpdateTodoItem
             public Validator()
             {
                 RuleFor(c => c.Description)
-                    .NotNull().WithMessage("Description cannot be null")
-                    .MaximumLength(maximumLength: 200).WithMessage("200 is the maximum length.")
-                    .MinimumLength(minimumLength: 5).WithMessage("5 is the minimum length");
+                    .NotNull()
+                    .WithMessage("Description cannot be null")
+                    .MaximumLength(200)
+                    .WithMessage("200 is the maximum length.")
+                    .MinimumLength(5)
+                    .WithMessage("5 is the minimum length");
                 RuleFor(c => c.State)
                     .Must(Enumeration.IsValidName<TodoItemState>)
                     .WithMessage("Not a valid state");

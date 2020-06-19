@@ -41,10 +41,11 @@ namespace CleanTemplate.Auth
             app.UseRouting();
             app.UseIdentityServer();
             app.UseAuthorization();
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapDefaultControllerRoute();
-            });
+            app.UseEndpoints(
+                endpoints =>
+                {
+                    endpoints.MapDefaultControllerRoute();
+                });
         }
     }
 }

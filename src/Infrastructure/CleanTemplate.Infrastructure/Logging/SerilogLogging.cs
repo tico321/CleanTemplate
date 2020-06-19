@@ -17,12 +17,12 @@ namespace CleanTemplate.Infrastructure.Logging
         /// <param name="configuration">
         ///     Is used to read the configuration levels from the app config file, for example:
         ///     "Serilog": {
-        ///         "MinimumLevel": {
-        ///             "Default": "Information",
-        ///             "Override": {
-        ///                 "Microsoft": "Warning"
-        ///             }
-        ///         }
+        ///     "MinimumLevel": {
+        ///     "Default": "Information",
+        ///     "Override": {
+        ///     "Microsoft": "Warning"
+        ///     }
+        ///     }
         ///     }
         /// </param>
         /// <param name="connectionString">The connection string to the db where the logs will be stored.</param>
@@ -36,7 +36,7 @@ namespace CleanTemplate.Infrastructure.Logging
                 // https://github.com/saleem-mirza/serilog-enrichers-context/wiki
                 // .Enrich.WithMachineName()
                 .WriteTo.MariaDB(
-                    connectionString: connectionString,
+                    connectionString,
                     tableName: "Logs",
                     autoCreateTable: true,
                     options: new MariaDBSinkOptions
@@ -55,8 +55,7 @@ namespace CleanTemplate.Infrastructure.Logging
                         },
                         TimestampInUtc = true,
                         ExcludePropertiesWithDedicatedColumn = true
-                    }
-                )
+                    })
                 .WriteTo.Console(
                     outputTemplate:
                     "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}",
@@ -65,11 +64,12 @@ namespace CleanTemplate.Infrastructure.Logging
                 .CreateLogger();
 #if DEBUG
             // This will break automatically if Serilog throws an exception.
-            SelfLog.Enable(msg =>
-            {
-                Debug.Print(msg);
-                Debugger.Break();
-            });
+            SelfLog.Enable(
+                msg =>
+                {
+                    Debug.Print(msg);
+                    Debugger.Break();
+                });
 #endif
         }
     }

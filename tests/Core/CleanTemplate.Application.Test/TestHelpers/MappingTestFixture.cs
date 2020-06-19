@@ -7,10 +7,11 @@ namespace CleanTemplate.Application.Test.TestHelpers
     {
         public MappingTestFixture()
         {
-            ConfigurationProvider = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<MappingProfile>();
-            });
+            ConfigurationProvider = new MapperConfiguration(
+                cfg =>
+                {
+                    cfg.AddProfile<MappingProfile>();
+                });
 
             Mapper = ConfigurationProvider.CreateMapper();
         }

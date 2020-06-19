@@ -34,7 +34,7 @@ namespace CleanTemplate.Application.Test.CrossCuttingConcerns.Exceptions
             var actual = ex.ToProblemDetails();
 
             Assert.Equal("some message", actual.Message);
-            Assert.Equal(expected: 0, actual.ProblemDetails.Keys.Count);
+            Assert.Equal(0, actual.ProblemDetails.Keys.Count);
         }
     }
 }

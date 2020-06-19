@@ -23,10 +23,7 @@ namespace CleanTemplate.Application.Test.Todos.Queries
         public async Task GetTodoItem()
         {
             var itemDescription = "todo1";
-            var todos = new List<TodoList>
-            {
-                new TodoList("userId", "desc", displayOrder: 0).SequenceAddTodo(itemDescription)
-            };
+            var todos = new List<TodoList> { new TodoList("userId", "desc", 0).SequenceAddTodo(itemDescription) };
             await TodoSeeder.GetSeeder(todos)(_fixture.Context);
             var todoList = _fixture.Context.TodoLists.First();
             var query = new GetTodoItemByIdQuery { Id = todoList.Id, ItemId = todoList.Todos.First().Id };
@@ -37,13 +34,13 @@ namespace CleanTemplate.Application.Test.Todos.Queries
             Assert.NotNull(item);
             Assert.Equal(itemDescription, item.Description);
             Assert.Equal(TodoItemState.Pending.Name, item.State);
-            Assert.Equal(expected: 1, item.DisplayOrder);
+            Assert.Equal(1, item.DisplayOrder);
         }
 
         [Fact]
         public async Task GetTodoItem_ItemNotFound()
         {
-            var todos = new List<TodoList> { new TodoList("userId", "desc2", displayOrder: 0) };
+            var todos = new List<TodoList> { new TodoList("userId", "desc2", 0) };
             await TodoSeeder.GetSeeder(todos)(_fixture.Context);
             var todoList = _fixture.Context.TodoLists.First();
             var query = new GetTodoItemByIdQuery { Id = todoList.Id, ItemId = 2 };
@@ -51,8 +48,8 @@ namespace CleanTemplate.Application.Test.Todos.Queries
 
             try
             {
-                var item = await handler.Handle(query, CancellationToken.None);
-                Assert.False(condition: true, "Should throw not found exception");
+                await handler.Handle(query, CancellationToken.None);
+                Assert.False(true, "Should throw not found exception");
             }
             catch (NotFoundException e)
             {
@@ -68,8 +65,8 @@ namespace CleanTemplate.Application.Test.Todos.Queries
 
             try
             {
-                var item = await handler.Handle(query, CancellationToken.None);
-                Assert.False(condition: true, "Should throw not found exception");
+                await handler.Handle(query, CancellationToken.None);
+                Assert.False(true, "Should throw not found exception");
             }
             catch (NotFoundException e)
             {

@@ -21,10 +21,10 @@ namespace CleanTemplate.Application.Todos.Queries.SearchTodoLists
             public Validator()
             {
                 RuleFor(s => s.Page)
-                    .GreaterThan(valueToCompare: 0)
+                    .GreaterThan(0)
                     .WithMessage("Page cannot be negative");
                 RuleFor(s => s.PageSize)
-                    .GreaterThan(valueToCompare: 4)
+                    .GreaterThan(4)
                     .WithMessage("PageSize min value is 5");
             }
         }

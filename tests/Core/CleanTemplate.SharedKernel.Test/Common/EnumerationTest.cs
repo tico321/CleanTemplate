@@ -9,8 +9,8 @@ namespace CleanTemplate.SharedKernel.Test.Common
     {
         public class CustomEnumeration : Enumeration
         {
-            public static CustomEnumeration EnumA = new CustomEnumeration(id: 1, "EnumA");
-            public static CustomEnumeration EnumB = new CustomEnumeration(id: 2, "EnumB");
+            public static CustomEnumeration EnumA = new CustomEnumeration(1, "EnumA");
+            public static CustomEnumeration EnumB = new CustomEnumeration(2, "EnumB");
 
             private CustomEnumeration(int id, string name) : base(id, name)
             {
@@ -19,8 +19,8 @@ namespace CleanTemplate.SharedKernel.Test.Common
 
         public class CustomEnumerationB : Enumeration
         {
-            public static CustomEnumerationB EnumA = new CustomEnumerationB(id: 1, "EnumA");
-            public static CustomEnumerationB EnumB = new CustomEnumerationB(id: 2, "EnumB");
+            public static CustomEnumerationB EnumA = new CustomEnumerationB(1, "EnumA");
+            public static CustomEnumerationB EnumB = new CustomEnumerationB(2, "EnumB");
 
             private CustomEnumerationB(int id, string name) : base(id, name)
             {
@@ -39,8 +39,8 @@ namespace CleanTemplate.SharedKernel.Test.Common
             var enumA = CustomEnumeration.EnumA;
             var enumB = CustomEnumeration.EnumB;
 
-            Assert.Equal(expected: 1, Enumeration.AbsoluteDifference(enumA, enumB));
-            Assert.Equal(expected: 1, Enumeration.AbsoluteDifference(enumB, enumA));
+            Assert.Equal(1, Enumeration.AbsoluteDifference(enumA, enumB));
+            Assert.Equal(1, Enumeration.AbsoluteDifference(enumB, enumA));
         }
 
         [Fact]
@@ -68,13 +68,13 @@ namespace CleanTemplate.SharedKernel.Test.Common
             var fromDisplayName = Enumeration.FromDisplayName<CustomEnumeration>("EnumA");
             Assert.Equal(CustomEnumeration.EnumA, fromDisplayName);
 
-            var fromValue = Enumeration.FromValue<CustomEnumeration>(value: 1);
+            var fromValue = Enumeration.FromValue<CustomEnumeration>(1);
             Assert.Equal(CustomEnumeration.EnumA, fromValue);
 
             try
             {
                 Enumeration.FromDisplayName<CustomEnumeration>("Invalid");
-                Assert.True(condition: false, "Should throw exception.");
+                Assert.True(false, "Should throw exception.");
             }
             catch (InvalidOperationException e)
             {
@@ -87,7 +87,7 @@ namespace CleanTemplate.SharedKernel.Test.Common
         {
             var enums = Enumeration.GetAll<CustomEnumeration>().ToList();
 
-            Assert.Equal(expected: 2, enums.Count);
+            Assert.Equal(2, enums.Count);
             Assert.Contains(enums, e => e.Id == CustomEnumeration.EnumA.Id);
             Assert.Contains(enums, e => e.Id == CustomEnumeration.EnumB.Id);
         }
@@ -102,16 +102,16 @@ namespace CleanTemplate.SharedKernel.Test.Common
         }
 
         [Fact]
-        public void ToString_ReturnsTheName()
-        {
-            Assert.Equal("EnumA", CustomEnumeration.EnumA.ToString());
-        }
-
-        [Fact]
         public void IsValidName()
         {
             Assert.True(Enumeration.IsValidName<CustomEnumeration>(CustomEnumeration.EnumA.Name));
             Assert.False(Enumeration.IsValidName<CustomEnumeration>("invalid"));
+        }
+
+        [Fact]
+        public void ToString_ReturnsTheName()
+        {
+            Assert.Equal("EnumA", CustomEnumeration.EnumA.ToString());
         }
     }
 }

@@ -42,15 +42,15 @@ namespace CleanTemplate.Application.Test.Todos.Queries
             Assert.NotNull(actual);
             Assert.Equal(TodoSeeder.DefaultTodoLists.Count, actual.Count());
             var todoList1 =
-                actual.FirstOrDefault(t => t.Description == TodoSeeder.DefaultTodoLists[index: 0].Description);
+                actual.FirstOrDefault(t => t.Description == TodoSeeder.DefaultTodoLists[0].Description);
             var todoList2 =
-                actual.FirstOrDefault(t => t.Description == TodoSeeder.DefaultTodoLists[index: 1].Description);
+                actual.FirstOrDefault(t => t.Description == TodoSeeder.DefaultTodoLists[1].Description);
             Assert.NotNull(todoList1);
-            Assert.Equal(TodoSeeder.DefaultTodoLists[index: 0].DisplayOrder, todoList1.DisplayOrder);
-            Assert.Equal(TodoSeeder.DefaultTodoLists[index: 0].Todos.Count(), todoList1.Count);
+            Assert.Equal(TodoSeeder.DefaultTodoLists[0].DisplayOrder, todoList1.DisplayOrder);
+            Assert.Equal(TodoSeeder.DefaultTodoLists[0].Todos.Count(), todoList1.Count);
             Assert.NotNull(todoList2);
-            Assert.Equal(TodoSeeder.DefaultTodoLists[index: 1].DisplayOrder, todoList2.DisplayOrder);
-            Assert.Equal(TodoSeeder.DefaultTodoLists[index: 1].Todos.Count(), todoList2.Count);
+            Assert.Equal(TodoSeeder.DefaultTodoLists[1].DisplayOrder, todoList2.DisplayOrder);
+            Assert.Equal(TodoSeeder.DefaultTodoLists[1].Todos.Count(), todoList2.Count);
         }
     }
 }

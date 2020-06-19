@@ -33,12 +33,17 @@ namespace CleanTemplate.Application.CrossCuttingConcerns.Behaviors
                 var requestLog = GetLogContent(request);
                 _logger.LogInformation(
                     "Processed request {@Request} for user {@UserId}-{@User} with data {@Data}",
-                    requestName, userId, userName, requestLog);
+                    requestName,
+                    userId,
+                    userName,
+                    requestLog);
                 var response = await next();
                 var responseLog = GetLogContent(response);
                 _logger.LogInformation(
                     "Result {@Status} for request {@Request}: {@Data}",
-                    "Ok", requestName, responseLog);
+                    "Ok",
+                    requestName,
+                    responseLog);
 
                 return response;
             }
@@ -46,7 +51,9 @@ namespace CleanTemplate.Application.CrossCuttingConcerns.Behaviors
             {
                 _logger.LogInformation(
                     "Result {@Status} for request {@Request}: @{Failure} }",
-                    "ApplicationError", requestName, ex.GetFormattedMessage());
+                    "ApplicationError",
+                    requestName,
+                    ex.GetFormattedMessage());
                 throw;
             }
             catch (Exception ex)
@@ -54,7 +61,9 @@ namespace CleanTemplate.Application.CrossCuttingConcerns.Behaviors
                 _logger.LogError(
                     ex,
                     "Result {@Status} for request {@Request}: @{Failure} }",
-                    "UnexpectedError", requestName, ex.Message);
+                    "UnexpectedError",
+                    requestName,
+                    ex.Message);
                 throw;
             }
         }

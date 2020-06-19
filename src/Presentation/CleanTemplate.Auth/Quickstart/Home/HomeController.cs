@@ -16,11 +16,14 @@ namespace IdentityServer4.Quickstart.UI
     [AllowAnonymous]
     public class HomeController : Controller
     {
-        private readonly IIdentityServerInteractionService _interaction;
         private readonly IWebHostEnvironment _environment;
+        private readonly IIdentityServerInteractionService _interaction;
         private readonly ILogger _logger;
 
-        public HomeController(IIdentityServerInteractionService interaction, IWebHostEnvironment environment, ILogger<HomeController> logger)
+        public HomeController(
+            IIdentityServerInteractionService interaction,
+            IWebHostEnvironment environment,
+            ILogger<HomeController> logger)
         {
             _interaction = interaction;
             _environment = environment;
@@ -40,7 +43,7 @@ namespace IdentityServer4.Quickstart.UI
         }
 
         /// <summary>
-        /// Shows the error page
+        ///     Shows the error page
         /// </summary>
         public async Task<IActionResult> Error(string errorId)
         {

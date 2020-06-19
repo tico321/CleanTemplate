@@ -47,8 +47,8 @@ namespace CleanTemplate.Application.Test.Todos.Queries
 
             try
             {
-                var actual = await handler.Handle(query, CancellationToken.None);
-                Assert.True(condition: false, "Should throw not found exception");
+                await handler.Handle(query, CancellationToken.None);
+                Assert.True(false, "Should throw not found exception");
             }
             catch (NotFoundException e)
             {

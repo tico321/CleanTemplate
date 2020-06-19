@@ -48,7 +48,8 @@ namespace CleanTemplate.GraphQL.Test.Mutations
             var createdListId = todoResponse["data"]["createTodoList"].ToObject<int>();
 
             // Add TodoItem
-            query = "mutation { createTodoItem(command: { description: \"todo 1\" todoListId:" + createdListId +
+            query = "mutation { createTodoItem(command: { description: \"todo 1\" todoListId:" +
+                    createdListId +
                     " }) }";
             queryContent = ApiTestHelper.GetQueryContent(query);
             response = await client.PostAsync("/", queryContent);
@@ -61,8 +62,10 @@ namespace CleanTemplate.GraphQL.Test.Mutations
             query =
                 @"mutation {
                   updateTodoItem(command: {
-                    id: " + createdListId +
-                $"itemId: {createdId}" + @"
+                    id: " +
+                createdListId +
+                $"itemId: {createdId}" +
+                @"
                     description: ""new description""
                     displayOrder: 2
                     state: ""Pending""
@@ -117,7 +120,9 @@ namespace CleanTemplate.GraphQL.Test.Mutations
             query =
                 @"mutation {
                   updateTodoList(command: {
-                    id: " + createdId + @"
+                    id: " +
+                createdId +
+                @"
                     description: ""new description""
                     displayOrder: 2
                   })

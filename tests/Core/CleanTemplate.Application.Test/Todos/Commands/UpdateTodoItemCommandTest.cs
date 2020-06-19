@@ -78,7 +78,7 @@ namespace CleanTemplate.Application.Test.Todos.Commands
             var validator = new UpdateTodoItemCommand.Validator();
             validator.ShouldHaveValidationErrorFor(c => c.Description, null as string);
             validator.ShouldHaveValidationErrorFor(c => c.Description, "");
-            validator.ShouldHaveValidationErrorFor(c => c.Description, new string(c: '*', count: 5000));
+            validator.ShouldHaveValidationErrorFor(c => c.Description, new string('*', 5000));
             validator.ShouldNotHaveValidationErrorFor(c => c.Description, "123456");
 
             validator.ShouldHaveValidationErrorFor(c => c.State, "invalid");

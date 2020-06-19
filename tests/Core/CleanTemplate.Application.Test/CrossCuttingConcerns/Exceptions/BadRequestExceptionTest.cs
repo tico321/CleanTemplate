@@ -25,7 +25,7 @@ namespace CleanTemplate.Application.Test.CrossCuttingConcerns.Exceptions
             var actual = ex.ToProblemDetails();
 
             Assert.Equal("One or more validation failures have occurred.", actual.Message);
-            Assert.Equal(expected: 1, actual.ProblemDetails.Keys.Count);
+            Assert.Equal(1, actual.ProblemDetails.Keys.Count);
         }
     }
 }

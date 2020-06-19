@@ -36,7 +36,7 @@ namespace CleanTemplate.Application.Test.Todos.Commands
                 .ShouldHaveValidationErrorFor(c => c.Description, "123")
                 .WithErrorMessage("5 is the minimum length");
             validator
-                .ShouldHaveValidationErrorFor(c => c.Description, new string(c: '*', count: 201))
+                .ShouldHaveValidationErrorFor(c => c.Description, new string('*', 201))
                 .WithErrorMessage("200 is the maximum length.");
             validator.ShouldNotHaveValidationErrorFor(c => c.Description, "123456");
         }

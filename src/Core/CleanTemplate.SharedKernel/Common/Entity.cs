@@ -31,7 +31,7 @@ namespace CleanTemplate.SharedKernel.Common
 
         public static bool operator ==(Entity<TId> left, Entity<TId> right)
         {
-            return left?.Equals(right) ?? Equals(right, objB: null);
+            return left?.Equals(right) ?? Equals(right, null);
         }
 
         public static bool operator !=(Entity<TId> left, Entity<TId> right)

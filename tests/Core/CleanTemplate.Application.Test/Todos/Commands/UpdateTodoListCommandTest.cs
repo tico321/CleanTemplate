@@ -23,12 +23,7 @@ namespace CleanTemplate.Application.Test.Todos.Commands
         {
             await TodoSeeder.GetSeeder(TodoSeeder.DefaultTodoLists)(_fixture.Context);
             var target = _fixture.Context.TodoLists.First();
-            var command = new UpdateTodoListCommand
-            {
-                Id = target.Id,
-                Description = "new description",
-                DisplayOrder = 23
-            };
+            var command = new UpdateTodoListCommand { Id = target.Id, Description = "new description", DisplayOrder = 23 };
             var handler = new UpdateTodoListCommand.Handler(_fixture.Context, _fixture.Mapper);
 
             var result = await handler.Handle(command, CancellationToken.None);
@@ -42,17 +37,12 @@ namespace CleanTemplate.Application.Test.Todos.Commands
         [Fact]
         public async Task Handler_WhenTheTodoDoesNotExist_ThrowsException()
         {
-            var command = new UpdateTodoListCommand
-            {
-                Id = 123,
-                Description = "new description",
-                DisplayOrder = 23
-            };
+            var command = new UpdateTodoListCommand { Id = 123, Description = "new description", DisplayOrder = 23 };
             var handler = new UpdateTodoListCommand.Handler(_fixture.Context, _fixture.Mapper);
 
             try
             {
-                var result = await handler.Handle(command, CancellationToken.None);
+                await handler.Handle(command, CancellationToken.None);
                 Assert.True(false, "should throw NotFoundException");
             }
             catch (NotFoundException e)
@@ -67,7 +57,7 @@ namespace CleanTemplate.Application.Test.Todos.Commands
             var validator = new UpdateTodoListCommand.Validator();
             validator.ShouldHaveValidationErrorFor(c => c.Description, null as string);
             validator.ShouldHaveValidationErrorFor(c => c.Description, "");
-            validator.ShouldHaveValidationErrorFor(c => c.Description, new string(c: '*', count: 5000));
+            validator.ShouldHaveValidationErrorFor(c => c.Description, new string('*', 5000));
             validator.ShouldNotHaveValidationErrorFor(c => c.Description, "123456");
         }
     }

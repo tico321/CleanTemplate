@@ -16,7 +16,6 @@ using IdentityServer4.Services;
 using IdentityServer4.Stores;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,13 +25,13 @@ namespace IdentityServer4.Quickstart.UI
     [AllowAnonymous]
     public class AccountController : Controller
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IIdentityServerInteractionService _interaction;
         private readonly IClientStore _clientStore;
-        private readonly IAuthenticationSchemeProvider _schemeProvider;
-        private readonly IEventService _events;
         private readonly ConfigurationDbContext _configurationDbContext;
+        private readonly IEventService _events;
+        private readonly IIdentityServerInteractionService _interaction;
+        private readonly IAuthenticationSchemeProvider _schemeProvider;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -53,7 +52,7 @@ namespace IdentityServer4.Quickstart.UI
         }
 
         /// <summary>
-        /// Entry point into the login workflow
+        ///     Entry point into the login workflow
         /// </summary>
         [HttpGet]
         public async Task<IActionResult> Login(string returnUrl)
@@ -71,7 +70,7 @@ namespace IdentityServer4.Quickstart.UI
         }
 
         /// <summary>
-        /// Handle postback from username/password login
+        ///     Handle postback from username/password login
         /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -100,20 +99,24 @@ namespace IdentityServer4.Quickstart.UI
 
                     return Redirect(model.ReturnUrl);
                 }
-                else
-                {
-                    // since we don't have a valid context, then we just go back to the home page
-                    return Redirect("~/");
-                }
+
+                // since we don't have a valid context, then we just go back to the home page
+                return Redirect("~/");
             }
 
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberLogin, lockoutOnFailure: true);
+                var result =
+                    await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberLogin, true);
                 if (result.Succeeded)
                 {
                     var user = await _userManager.FindByNameAsync(model.Username);
-                    await _events.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Id, user.UserName, clientId: context?.ClientId));
+                    await _events.RaiseAsync(
+                        new UserLoginSuccessEvent(
+                            user.UserName,
+                            user.Id,
+                            user.UserName,
+                            clientId: context?.ClientId));
 
                     if (context != null)
                     {
@@ -133,18 +136,21 @@ namespace IdentityServer4.Quickstart.UI
                     {
                         return Redirect(model.ReturnUrl);
                     }
-                    else if (string.IsNullOrEmpty(model.ReturnUrl))
+
+                    if (string.IsNullOrEmpty(model.ReturnUrl))
                     {
                         return Redirect("~/");
                     }
-                    else
-                    {
-                        // user might have clicked on a malicious link - should be logged
-                        throw new Exception("invalid return URL");
-                    }
+
+                    // user might have clicked on a malicious link - should be logged
+                    throw new Exception("invalid return URL");
                 }
 
-                await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials", clientId: context?.ClientId));
+                await _events.RaiseAsync(
+                    new UserLoginFailureEvent(
+                        model.Username,
+                        "invalid credentials",
+                        clientId: context?.ClientId));
                 ModelState.AddModelError(string.Empty, AccountOptions.InvalidCredentialsErrorMessage);
             }
 
@@ -155,7 +161,7 @@ namespace IdentityServer4.Quickstart.UI
 
 
         /// <summary>
-        /// Show logout page
+        ///     Show logout page
         /// </summary>
         [HttpGet]
         public async Task<IActionResult> Logout(string logoutId)
@@ -174,7 +180,7 @@ namespace IdentityServer4.Quickstart.UI
         }
 
         /// <summary>
-        /// Handle logout page postback
+        ///     Handle logout page postback
         /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -230,15 +236,10 @@ namespace IdentityServer4.Quickstart.UI
             var context = await _interaction.GetAuthorizationContextAsync(returnUrl);
             if (context?.IdP != null && await _schemeProvider.GetSchemeAsync(context.IdP) != null)
             {
-                var local = context.IdP == IdentityServer4.IdentityServerConstants.LocalIdentityProvider;
+                var local = context.IdP == IdentityServerConstants.LocalIdentityProvider;
 
                 // this is meant to short circuit the UI and only trigger the one external IdP
-                var vm = new LoginViewModel
-                {
-                    EnableLocalLogin = local,
-                    ReturnUrl = returnUrl,
-                    Username = context?.LoginHint,
-                };
+                var vm = new LoginViewModel { EnableLocalLogin = local, ReturnUrl = returnUrl, Username = context?.LoginHint };
 
                 if (!local)
                 {
@@ -251,14 +252,13 @@ namespace IdentityServer4.Quickstart.UI
             var schemes = await _schemeProvider.GetAllSchemesAsync();
 
             var providers = schemes
-                .Where(x => x.DisplayName != null ||
-                            (x.Name.Equals(AccountOptions.WindowsAuthenticationSchemeName, StringComparison.OrdinalIgnoreCase))
-                )
-                .Select(x => new ExternalProvider
-                {
-                    DisplayName = x.DisplayName ?? x.Name,
-                    AuthenticationScheme = x.Name
-                }).ToList();
+                .Where(
+                    x => x.DisplayName != null ||
+                         x.Name.Equals(
+                             AccountOptions.WindowsAuthenticationSchemeName,
+                             StringComparison.OrdinalIgnoreCase))
+                .Select(x => new ExternalProvider { DisplayName = x.DisplayName ?? x.Name, AuthenticationScheme = x.Name })
+                .ToList();
 
             var allowLocal = true;
             if (context?.ClientId != null)
@@ -270,7 +270,10 @@ namespace IdentityServer4.Quickstart.UI
 
                     if (client.IdentityProviderRestrictions != null && client.IdentityProviderRestrictions.Any())
                     {
-                        providers = providers.Where(provider => client.IdentityProviderRestrictions.Contains(provider.AuthenticationScheme)).ToList();
+                        providers = providers.Where(
+                                provider =>
+                                    client.IdentityProviderRestrictions.Contains(provider.AuthenticationScheme))
+                            .ToList();
                     }
                 }
             }
@@ -334,7 +337,7 @@ namespace IdentityServer4.Quickstart.UI
             if (User?.Identity.IsAuthenticated == true)
             {
                 var idp = User.FindFirst(JwtClaimTypes.IdentityProvider)?.Value;
-                if (idp != null && idp != IdentityServer4.IdentityServerConstants.LocalIdentityProvider)
+                if (idp != null && idp != IdentityServerConstants.LocalIdentityProvider)
                 {
                     var providerSupportsSignout = await HttpContext.GetSchemeSupportsSignOutAsync(idp);
                     if (providerSupportsSignout)

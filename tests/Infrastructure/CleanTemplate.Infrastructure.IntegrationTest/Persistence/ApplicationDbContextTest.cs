@@ -27,7 +27,7 @@ namespace CleanTemplate.Infrastructure.IntegrationTest.Persistence
 
             _sut = new ApplicationDbContext(options, currentUserServiceProvider, dateTimeProvider);
 
-            _sut.TodoLists.Add(new TodoList("userId", "list", displayOrder: 1).SequenceAddTodo("item1"));
+            _sut.TodoLists.Add(new TodoList("userId", "list", 1).SequenceAddTodo("item1"));
 
             _sut.SaveChangesAsync().Wait();
         }
@@ -39,7 +39,7 @@ namespace CleanTemplate.Infrastructure.IntegrationTest.Persistence
 
         private readonly string _userId;
         private readonly ApplicationDbContext _sut;
-        private readonly DateTime _dateTime = new DateTime(year: 3001, month: 1, day: 1);
+        private readonly DateTime _dateTime = new DateTime(3001, 1, 1);
 
         [Fact]
         public async Task SaveChangesAsync_GivenExistingTodoItem_ShouldSetLastModifiedProperties()
@@ -66,7 +66,7 @@ namespace CleanTemplate.Infrastructure.IntegrationTest.Persistence
         [Fact]
         public async Task SaveChangesAsync_GivenNewTodoItem_ShouldSetCreatedProperties()
         {
-            var item = new TodoItem("other task", displayOrder: 2);
+            var item = new TodoItem("other task", 2);
 
             await _sut.TodoItems.AddAsync(item);
 

@@ -11,18 +11,11 @@ namespace CleanTemplate.Auth.Persistence.Seed
     public static class Config
     {
         public static IEnumerable<IdentityResource> Ids =>
-            new IdentityResource[]
-            {
-                new IdentityResources.OpenId(), new IdentityResources.Profile(), new IdentityResources.Email()
-            };
+            new IdentityResource[] { new IdentityResources.OpenId(), new IdentityResources.Profile(), new IdentityResources.Email() };
 
 
         public static IEnumerable<ApiResource> Apis =>
-            new[]
-            {
-                new ApiResource("todo_api", "Todo Rest API Access"),
-                new ApiResource("todo_graphql", "Todo GraphQL API Access")
-            };
+            new[] { new ApiResource("todo_api", "Todo Rest API Access"), new ApiResource("todo_graphql", "Todo GraphQL API Access") };
 
 
         public static IEnumerable<Client> Clients =>

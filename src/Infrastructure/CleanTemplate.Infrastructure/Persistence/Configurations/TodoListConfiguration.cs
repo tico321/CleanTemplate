@@ -9,7 +9,7 @@ namespace CleanTemplate.Infrastructure.Persistence.Configurations
         public void Configure(EntityTypeBuilder<TodoList> builder)
         {
             builder.Property(l => l.Id).ValueGeneratedOnAdd();
-            builder.Property(l => l.Description).HasMaxLength(maxLength: 200);
+            builder.Property(l => l.Description).HasMaxLength(200);
             builder
                 .HasMany(l => l.Todos)
                 .WithOne(t => t.TodoList)

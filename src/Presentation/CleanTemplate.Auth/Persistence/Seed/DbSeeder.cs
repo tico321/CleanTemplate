@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using CleanTemplate.Auth.Application.Model;
 using IdentityModel;
+using IdentityServer4;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
 using Microsoft.AspNetCore.Identity;
@@ -50,38 +51,44 @@ namespace CleanTemplate.Auth.Persistence.Seed
             var alice = userManager.FindByNameAsync("alice").Result;
             if (alice == null)
             {
-                alice = new ApplicationUser
-                {
-                    UserName = "alice"
-                };
-                var result = await userManager.CreateAsync(alice, "Pass123$");
-                result = await userManager.AddClaimsAsync(alice, new Claim[]{
+                alice = new ApplicationUser { UserName = "alice" };
+                await userManager.CreateAsync(alice, "Pass123$");
+                await userManager.AddClaimsAsync(
+                    alice,
+                    new[]
+                    {
                         new Claim(JwtClaimTypes.Name, "Alice Smith"),
                         new Claim(JwtClaimTypes.GivenName, "Alice"),
                         new Claim(JwtClaimTypes.FamilyName, "Smith"),
                         new Claim(JwtClaimTypes.Email, "AliceSmith@email.com"),
                         new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
                         new Claim(JwtClaimTypes.WebSite, "http://alice.com"),
-                        new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json)
+                        new Claim(
+                            JwtClaimTypes.Address,
+                            @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }",
+                            IdentityServerConstants.ClaimValueTypes.Json)
                     });
             }
 
             var bob = userManager.FindByNameAsync("bob").Result;
             if (bob == null)
             {
-                bob = new ApplicationUser
-                {
-                    UserName = "bob"
-                };
-                var result = await userManager.CreateAsync(bob, "Pass123$");
-                result = await userManager.AddClaimsAsync(bob, new Claim[]{
+                bob = new ApplicationUser { UserName = "bob" };
+                await userManager.CreateAsync(bob, "Pass123$");
+                await userManager.AddClaimsAsync(
+                    bob,
+                    new[]
+                    {
                         new Claim(JwtClaimTypes.Name, "Bob Smith"),
                         new Claim(JwtClaimTypes.GivenName, "Bob"),
                         new Claim(JwtClaimTypes.FamilyName, "Smith"),
                         new Claim(JwtClaimTypes.Email, "BobSmith@email.com"),
                         new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
                         new Claim(JwtClaimTypes.WebSite, "http://bob.com"),
-                        new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json),
+                        new Claim(
+                            JwtClaimTypes.Address,
+                            @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }",
+                            IdentityServerConstants.ClaimValueTypes.Json),
                         new Claim("location", "somewhere")
                     });
             }

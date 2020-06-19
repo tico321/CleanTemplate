@@ -34,22 +34,24 @@ namespace CleanTemplate.API
             // .Net core healthchecks https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-3.1
             services.AddHealthChecks();
 
-            services.AddControllers(options =>
-            {
-                options.Filters.Add(new AppExceptionFilter());
-            });
+            services.AddControllers(
+                options =>
+                {
+                    options.Filters.Add(new AppExceptionFilter());
+                });
 
             // Swagger with Swashbuckle https://docs.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-3.1&tabs=visual-studio
-            services.AddSwaggerGen(c =>
-            {
-                // Define the version and additional Info
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Todo API", Version = "v1" });
+            services.AddSwaggerGen(
+                c =>
+                {
+                    // Define the version and additional Info
+                    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Todo API", Version = "v1" });
 
-                // Set the comments path for the Swagger JSON and UI.
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.IncludeXmlComments(xmlPath);
-            });
+                    // Set the comments path for the Swagger JSON and UI.
+                    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                    c.IncludeXmlComments(xmlPath);
+                });
 
             // Project dependencies
             services
@@ -82,19 +84,21 @@ namespace CleanTemplate.API
                 // Enable middleware to serve generated Swagger as a JSON endpoint.
                 .UseSwagger()
                 // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-                .UseSwaggerUI(c =>
-                {
-                    // specifying the Swagger JSON endpoint.
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-                });
+                .UseSwaggerUI(
+                    c =>
+                    {
+                        // specifying the Swagger JSON endpoint.
+                        c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                    });
 
             app.UseRouting();
             app.UseAuthorization();
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-                endpoints.MapHealthChecks("/health");
-            });
+            app.UseEndpoints(
+                endpoints =>
+                {
+                    endpoints.MapControllers();
+                    endpoints.MapHealthChecks("/health");
+                });
         }
     }
 }

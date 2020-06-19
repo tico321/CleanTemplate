@@ -4,10 +4,12 @@
 
 using System;
 using System.IO;
+using CleanTemplate.Infrastructure.Logging;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+using Log = Serilog.Log;
 
 namespace CleanTemplate.Auth
 {
@@ -23,7 +25,7 @@ namespace CleanTemplate.Auth
                 .Build();
             var connectionString = configuration.GetConnectionString("DefaultConnection");
 
-            Infrastructure.Logging.SerilogLogging.InitLogger(configuration, connectionString);
+            SerilogLogging.InitLogger(configuration, connectionString);
 
             try
             {
@@ -46,11 +48,12 @@ namespace CleanTemplate.Auth
         public static IHostBuilder CreateHostBuilder(string[] args)
         {
             return Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                    webBuilder.UseSerilog();
-                });
+                .ConfigureWebHostDefaults(
+                    webBuilder =>
+                    {
+                        webBuilder.UseStartup<Startup>();
+                        webBuilder.UseSerilog();
+                    });
         }
     }
 }

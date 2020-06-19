@@ -22,12 +22,12 @@ namespace IdentityServer4.Quickstart.UI
     [AllowAnonymous]
     public class ExternalController : Controller
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IIdentityServerInteractionService _interaction;
         private readonly IClientStore _clientStore;
         private readonly IEventService _events;
+        private readonly IIdentityServerInteractionService _interaction;
         private readonly ILogger<ExternalController> _logger;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public ExternalController(
             UserManager<ApplicationUser> userManager,
@@ -46,7 +46,7 @@ namespace IdentityServer4.Quickstart.UI
         }
 
         /// <summary>
-        /// initiate roundtrip to external authentication provider
+        ///     initiate roundtrip to external authentication provider
         /// </summary>
         [HttpGet]
         public async Task<IActionResult> Challenge(string provider, string returnUrl)
@@ -68,25 +68,18 @@ namespace IdentityServer4.Quickstart.UI
                 // windows authentication needs special handling
                 return await ProcessWindowsLoginAsync(returnUrl);
             }
-            else
-            {
-                // start challenge and roundtrip the return URL and scheme 
-                var props = new AuthenticationProperties
-                {
-                    RedirectUri = Url.Action(nameof(Callback)),
-                    Items =
-                    {
-                        { "returnUrl", returnUrl },
-                        { "scheme", provider },
-                    }
-                };
 
-                return Challenge(props, provider);
-            }
+            // start challenge and roundtrip the return URL and scheme 
+            var props = new AuthenticationProperties
+            {
+                RedirectUri = Url.Action(nameof(Callback)), Items = { { "returnUrl", returnUrl }, { "scheme", provider } }
+            };
+
+            return Challenge(props, provider);
         }
 
         /// <summary>
-        /// Post processing of external authentication
+        ///     Post processing of external authentication
         /// </summary>
         [HttpGet]
         public async Task<IActionResult> Callback()
@@ -132,9 +125,7 @@ namespace IdentityServer4.Quickstart.UI
 
             var isuser = new IdentityServerUser(user.Id)
             {
-                DisplayName = name,
-                IdentityProvider = provider,
-                AdditionalClaims = additionalLocalClaims
+                DisplayName = name, IdentityProvider = provider, AdditionalClaims = additionalLocalClaims
             };
 
             await HttpContext.SignInAsync(isuser, localSignInProps);
@@ -147,7 +138,14 @@ namespace IdentityServer4.Quickstart.UI
 
             // check if external login is in the context of an OIDC request
             var context = await _interaction.GetAuthorizationContextAsync(returnUrl);
-            await _events.RaiseAsync(new UserLoginSuccessEvent(provider, providerUserId, user.Id, name, true, context?.ClientId));
+            await _events.RaiseAsync(
+                new UserLoginSuccessEvent(
+                    provider,
+                    providerUserId,
+                    user.Id,
+                    name,
+                    true,
+                    context?.ClientId));
 
             if (context != null)
             {
@@ -171,14 +169,10 @@ namespace IdentityServer4.Quickstart.UI
                 // we will issue the external cookie and then redirect the
                 // user back to the external callback, in essence, treating windows
                 // auth the same as any other external authentication mechanism
-                var props = new AuthenticationProperties()
+                var props = new AuthenticationProperties
                 {
                     RedirectUri = Url.Action("Callback"),
-                    Items =
-                    {
-                        { "returnUrl", returnUrl },
-                        { "scheme", AccountOptions.WindowsAuthenticationSchemeName },
-                    }
+                    Items = { { "returnUrl", returnUrl }, { "scheme", AccountOptions.WindowsAuthenticationSchemeName } }
                 };
 
                 var id = new ClaimsIdentity(AccountOptions.WindowsAuthenticationSchemeName);
@@ -200,13 +194,11 @@ namespace IdentityServer4.Quickstart.UI
                     props);
                 return Redirect(props.RedirectUri);
             }
-            else
-            {
-                // trigger windows auth
-                // since windows auth don't support the redirect uri,
-                // this URL is re-triggered when we call challenge
-                return Challenge(AccountOptions.WindowsAuthenticationSchemeName);
-            }
+
+            // trigger windows auth
+            // since windows auth don't support the redirect uri,
+            // this URL is re-triggered when we call challenge
+            return Challenge(AccountOptions.WindowsAuthenticationSchemeName);
         }
 
         private async Task<(ApplicationUser user, string provider, string providerUserId, IEnumerable<Claim> claims)>
@@ -234,14 +226,17 @@ namespace IdentityServer4.Quickstart.UI
             return (user, provider, providerUserId, claims);
         }
 
-        private async Task<ApplicationUser> AutoProvisionUserAsync(string provider, string providerUserId, IEnumerable<Claim> claims)
+        private async Task<ApplicationUser> AutoProvisionUserAsync(
+            string provider,
+            string providerUserId,
+            IEnumerable<Claim> claims)
         {
             // create a list of claims that we want to transfer into our store
             var filtered = new List<Claim>();
 
             // user's display name
             var name = claims.FirstOrDefault(x => x.Type == JwtClaimTypes.Name)?.Value ??
-                claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
+                       claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
             if (name != null)
             {
                 filtered.Add(new Claim(JwtClaimTypes.Name, name));
@@ -249,9 +244,9 @@ namespace IdentityServer4.Quickstart.UI
             else
             {
                 var first = claims.FirstOrDefault(x => x.Type == JwtClaimTypes.GivenName)?.Value ??
-                    claims.FirstOrDefault(x => x.Type == ClaimTypes.GivenName)?.Value;
+                            claims.FirstOrDefault(x => x.Type == ClaimTypes.GivenName)?.Value;
                 var last = claims.FirstOrDefault(x => x.Type == JwtClaimTypes.FamilyName)?.Value ??
-                    claims.FirstOrDefault(x => x.Type == ClaimTypes.Surname)?.Value;
+                           claims.FirstOrDefault(x => x.Type == ClaimTypes.Surname)?.Value;
                 if (first != null && last != null)
                 {
                     filtered.Add(new Claim(JwtClaimTypes.Name, first + " " + last));
@@ -268,16 +263,13 @@ namespace IdentityServer4.Quickstart.UI
 
             // email
             var email = claims.FirstOrDefault(x => x.Type == JwtClaimTypes.Email)?.Value ??
-               claims.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
+                        claims.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
             if (email != null)
             {
                 filtered.Add(new Claim(JwtClaimTypes.Email, email));
             }
 
-            var user = new ApplicationUser
-            {
-                UserName = Guid.NewGuid().ToString(),
-            };
+            var user = new ApplicationUser { UserName = Guid.NewGuid().ToString() };
             var identityResult = await _userManager.CreateAsync(user);
             if (!identityResult.Succeeded)
             {
@@ -293,7 +285,8 @@ namespace IdentityServer4.Quickstart.UI
                 }
             }
 
-            identityResult = await _userManager.AddLoginAsync(user, new UserLoginInfo(provider, providerUserId, provider));
+            identityResult =
+                await _userManager.AddLoginAsync(user, new UserLoginInfo(provider, providerUserId, provider));
             if (!identityResult.Succeeded)
             {
                 throw new Exception(identityResult.Errors.First().Description);
@@ -303,7 +296,10 @@ namespace IdentityServer4.Quickstart.UI
         }
 
 
-        private void ProcessLoginCallbackForOidc(AuthenticateResult externalResult, List<Claim> localClaims, AuthenticationProperties localSignInProps)
+        private void ProcessLoginCallbackForOidc(
+            AuthenticateResult externalResult,
+            List<Claim> localClaims,
+            AuthenticationProperties localSignInProps)
         {
             // if the external system sent a session id claim, copy it over
             // so we can use it for single sign-out

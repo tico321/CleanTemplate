@@ -15,11 +15,12 @@ namespace CleanTemplate.GraphQL.Test.TestHelpers
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             base.ConfigureWebHost(builder);
-            builder.ConfigureServices(services =>
-            {
-                SetTestDbContext(services);
-                SeedDb(services);
-            });
+            builder.ConfigureServices(
+                services =>
+                {
+                    SetTestDbContext(services);
+                    SeedDb(services);
+                });
         }
 
         /// <summary>
@@ -30,28 +31,28 @@ namespace CleanTemplate.GraphQL.Test.TestHelpers
         /// <returns>A new HttpClient </returns>
         public WebApplicationFactory<TStartup> Reset(Action<ApplicationDbContext> seeder = null)
         {
-            return WithWebHostBuilder(builder =>
-            {
-                builder.ConfigureServices(services =>
+            return WithWebHostBuilder(
+                builder =>
                 {
-                    ResetDb(services, seeder);
+                    builder.ConfigureServices(
+                        services =>
+                        {
+                            ResetDb(services, seeder);
+                        });
                 });
-            });
         }
 
         private void SetTestDbContext(IServiceCollection services)
         {
             // Remove the app's ApplicationDbContext registration.
-            var descriptor = services.SingleOrDefault(
-                d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
+            var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
             if (descriptor != null)
             {
                 services.Remove(descriptor);
             }
 
             // Add a database context using an in-memory database for testing.
-            services.AddDbContext<ApplicationDbContext>(
-                options => { options.UseInMemoryDatabase(new Guid().ToString()); });
+            services.AddDbContext<ApplicationDbContext>(options => { options.UseInMemoryDatabase(new Guid().ToString()); });
         }
 
         private void SeedDb(IServiceCollection services)

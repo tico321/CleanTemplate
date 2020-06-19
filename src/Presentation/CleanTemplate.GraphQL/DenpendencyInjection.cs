@@ -32,7 +32,8 @@ namespace CleanTemplate.GraphQL
                 // Adds the authentication services to DI
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 // configures Bearer as the default scheme
-                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme,
+                .AddJwtBearer(
+                    JwtBearerDefaults.AuthenticationScheme,
                     options =>
                     {
                         options.Authority = authority; // AuthServer URL
@@ -40,12 +41,13 @@ namespace CleanTemplate.GraphQL
                         options.RequireHttpsMetadata = false; // So we can communicate through http instead of https
                     });
 
-            services.AddAuthorization(options =>
-            {
-                options.FallbackPolicy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .Build();
-            });
+            services.AddAuthorization(
+                options =>
+                {
+                    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+                        .RequireAuthenticatedUser()
+                        .Build();
+                });
 
             return services;
         }
@@ -75,10 +77,11 @@ namespace CleanTemplate.GraphQL
             // DataLoader solves the called n+1 problem for GraphQL.
             services.AddDataLoaderRegistry(); //repository https://github.com/ChilliCream/greendonut
             // Add GraphQL Schema
-            services.AddGraphQL(new SchemaBuilder()
-                .AddQueryType<Query>()
-                .AddMutationType<Mutation>()
-                .Create());
+            services.AddGraphQL(
+                new SchemaBuilder()
+                    .AddQueryType<Query>()
+                    .AddMutationType<Mutation>()
+                    .Create());
 
             return services;
         }

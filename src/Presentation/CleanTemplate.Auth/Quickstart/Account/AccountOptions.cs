@@ -3,6 +3,7 @@
 
 
 using System;
+using Microsoft.AspNetCore.Server.IISIntegration;
 
 namespace IdentityServer4.Quickstart.UI
 {
@@ -16,7 +17,8 @@ namespace IdentityServer4.Quickstart.UI
         public static bool AutomaticRedirectAfterSignOut = false;
 
         // specify the Windows authentication scheme being used
-        public static readonly string WindowsAuthenticationSchemeName = Microsoft.AspNetCore.Server.IISIntegration.IISDefaults.AuthenticationScheme;
+        public static readonly string WindowsAuthenticationSchemeName = IISDefaults.AuthenticationScheme;
+
         // if user uses windows auth, should we load the groups from windows
         public static bool IncludeWindowsGroups = false;
 

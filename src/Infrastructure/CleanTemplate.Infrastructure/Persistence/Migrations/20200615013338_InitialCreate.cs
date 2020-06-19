@@ -9,8 +9,8 @@ namespace CleanTemplate.Infrastructure.Persistence.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Logs",
-                columns: table => new
+                "Logs",
+                table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
@@ -28,8 +28,8 @@ namespace CleanTemplate.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TodoLists",
-                columns: table => new
+                "TodoLists",
+                table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
@@ -47,14 +47,14 @@ namespace CleanTemplate.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TodoItems",
-                columns: table => new
+                "TodoItems",
+                table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Description = table.Column<string>(maxLength: 200, nullable: true),
                     DisplayOrder = table.Column<int>(nullable: false),
-                    State = table.Column<string>(type: "varchar(32)", nullable: true),
+                    State = table.Column<string>("varchar(32)", nullable: true),
                     TodoListId = table.Column<int>(nullable: false),
                     CreatedBy = table.Column<string>(nullable: true),
                     Created = table.Column<DateTime>(nullable: false),
@@ -65,29 +65,26 @@ namespace CleanTemplate.Infrastructure.Persistence.Migrations
                 {
                     table.PrimaryKey("PK_TodoItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TodoItems_TodoLists_TodoListId",
-                        column: x => x.TodoListId,
-                        principalTable: "TodoLists",
-                        principalColumn: "Id",
+                        "FK_TodoItems_TodoLists_TodoListId",
+                        x => x.TodoListId,
+                        "TodoLists",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_TodoItems_TodoListId",
-                table: "TodoItems",
-                column: "TodoListId");
+                "IX_TodoItems_TodoListId",
+                "TodoItems",
+                "TodoListId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Logs");
+            migrationBuilder.DropTable("Logs");
 
-            migrationBuilder.DropTable(
-                name: "TodoItems");
+            migrationBuilder.DropTable("TodoItems");
 
-            migrationBuilder.DropTable(
-                name: "TodoLists");
+            migrationBuilder.DropTable("TodoLists");
         }
     }
 }

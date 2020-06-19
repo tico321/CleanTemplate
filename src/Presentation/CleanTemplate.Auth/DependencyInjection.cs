@@ -16,18 +16,20 @@ namespace CleanTemplate.Auth
         public static IServiceCollection AddIISOptions(this IServiceCollection services)
         {
             // configures IIS out-of-proc settings (see https://github.com/aspnet/AspNetCore/issues/14882)
-            services.Configure<IISOptions>(iis =>
-            {
-                iis.AuthenticationDisplayName = "Windows";
-                iis.AutomaticAuthentication = false;
-            });
+            services.Configure<IISOptions>(
+                iis =>
+                {
+                    iis.AuthenticationDisplayName = "Windows";
+                    iis.AutomaticAuthentication = false;
+                });
 
             // configures IIS in-proc settings
-            services.Configure<IISServerOptions>(iis =>
-            {
-                iis.AuthenticationDisplayName = "Windows";
-                iis.AutomaticAuthentication = false;
-            });
+            services.Configure<IISServerOptions>(
+                iis =>
+                {
+                    iis.AuthenticationDisplayName = "Windows";
+                    iis.AutomaticAuthentication = false;
+                });
 
             return services;
         }
@@ -35,12 +37,13 @@ namespace CleanTemplate.Auth
         public static IServiceCollection AddIdentity(this IServiceCollection services, IConfiguration configuration)
         {
             var connectionString = configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<AuthDbContext>(options =>
-                options.UseMySql(
-                    connectionString,
-                    sqlOptions => sqlOptions
-                        .MigrationsAssembly(typeof(AuthDbContext).Assembly.FullName)
-                        .ServerVersion(new Version(10, 4, 0), ServerType.MySql)));
+            services.AddDbContext<AuthDbContext>(
+                options =>
+                    options.UseMySql(
+                        connectionString,
+                        sqlOptions => sqlOptions
+                            .MigrationsAssembly(typeof(AuthDbContext).Assembly.FullName)
+                            .ServerVersion(new Version(10, 4, 0), ServerType.MySql)));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<AuthDbContext>()
@@ -50,27 +53,34 @@ namespace CleanTemplate.Auth
             var serverUri = Environment.GetEnvironmentVariable("AUTHSERVER_AUTHORITY");
 
             var builder = services
-                .AddIdentityServer(options =>
-                {
-                    options.Events.RaiseErrorEvents = true;
-                    options.Events.RaiseInformationEvents = true;
-                    options.Events.RaiseFailureEvents = true;
-                    options.Events.RaiseSuccessEvents = true;
-                    // We need to set the Issuer and the Public Origin so when other service
-                    // makes a request the Authority Uri that they will use matches this Server Uri.
-                    options.IssuerUri = serverUri;
-                    options.PublicOrigin = serverUri;
-                })
+                .AddIdentityServer(
+                    options =>
+                    {
+                        options.Events.RaiseErrorEvents = true;
+                        options.Events.RaiseInformationEvents = true;
+                        options.Events.RaiseFailureEvents = true;
+                        options.Events.RaiseSuccessEvents = true;
+                        // We need to set the Issuer and the Public Origin so when other service
+                        // makes a request the Authority Uri that they will use matches this Server Uri.
+                        options.IssuerUri = serverUri;
+                        options.PublicOrigin = serverUri;
+                    })
                 // to use sql server instead review https://identityserver4.readthedocs.io/en/latest/quickstarts/5_entityframework.html
                 // AddConfigurationStore can be found in the IdentityServer4.EntityFramework package.
-                .AddConfigurationStore(options =>
-                    options.ConfigureDbContext = b => b
-                        .UseMySql(connectionString, o => o.MigrationsAssembly(migrationsAssembly)
-                            .ServerVersion(new Version(10, 4, 0), ServerType.MySql)))
-                .AddOperationalStore(options =>
-                    options.ConfigureDbContext = b => b
-                        .UseMySql(connectionString, o => o.MigrationsAssembly(migrationsAssembly)
-                            .ServerVersion(new Version(10, 4, 0), ServerType.MySql)))
+                .AddConfigurationStore(
+                    options =>
+                        options.ConfigureDbContext = b => b
+                            .UseMySql(
+                                connectionString,
+                                o => o.MigrationsAssembly(migrationsAssembly)
+                                    .ServerVersion(new Version(10, 4, 0), ServerType.MySql)))
+                .AddOperationalStore(
+                    options =>
+                        options.ConfigureDbContext = b => b
+                            .UseMySql(
+                                connectionString,
+                                o => o.MigrationsAssembly(migrationsAssembly)
+                                    .ServerVersion(new Version(10, 4, 0), ServerType.MySql)))
                 .AddAspNetIdentity<ApplicationUser>();
 
             // Add sign-in credentials

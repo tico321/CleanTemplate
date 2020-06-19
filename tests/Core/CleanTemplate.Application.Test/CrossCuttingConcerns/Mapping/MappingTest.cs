@@ -74,13 +74,13 @@ namespace CleanTemplate.Application.Test.CrossCuttingConcerns.Mapping
         {
             var tests = new (object, Type, Type)[]
             {
-                (new TodoList("userId", "description", displayOrder: 0),
+                (new TodoList("userId", "description", 0),
                     typeof(TodoList),
                     typeof(SimplifiedTodoListVm)),
-                (new TodoItem("desc", displayOrder: 1),
+                (new TodoItem("desc", 1),
                     typeof(TodoItem),
                     typeof(TodoItemVm)),
-                (new TodoList("userId", "description", displayOrder: 0).SequenceAddTodo("desc"),
+                (new TodoList("userId", "description", 0).SequenceAddTodo("desc"),
                     typeof(TodoList),
                     typeof(TodoListVm))
             };
@@ -96,8 +96,8 @@ namespace CleanTemplate.Application.Test.CrossCuttingConcerns.Mapping
         {
             var tests = new (object, object)[]
             {
-                (new UpdateTodoListCommand(), new TodoList("userId", "desc", displayOrder: 1)),
-                (new UpdateTodoItemCommand(){ State = "Pending" }, new TodoItem("des", displayOrder: 1))
+                (new UpdateTodoListCommand(), new TodoList("userId", "desc", 1)),
+                (new UpdateTodoItemCommand { State = "Pending" }, new TodoItem("des", 1))
             };
             foreach (var (source, destination) in tests)
             {

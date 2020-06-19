@@ -125,10 +125,8 @@ namespace CleanTemplate.API.Controllers
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
             var todoList = await ApiTestHelper.GetResponseContent<TodoListVm>(response);
             Assert.NotNull(todoList.Result);
-            var a = TodoSeeder.DefaultTodoLists[index: 1].Todos.Count();
-            var b = TodoSeeder.DefaultTodoLists[index: 1].Todos.Count();
-            Assert.Equal(TodoSeeder.DefaultTodoLists[index: 1].Todos.Count(), todoList.Result.Count);
-            Assert.Equal(TodoSeeder.DefaultTodoLists[index: 1].Todos.Count(), todoList.Result.Todos.Count());
+            Assert.Equal(TodoSeeder.DefaultTodoLists[1].Todos.Count(), todoList.Result.Count);
+            Assert.Equal(TodoSeeder.DefaultTodoLists[1].Todos.Count(), todoList.Result.Todos.Count());
 
             // Returns 401 when it doesn't exists
             response = await client.GetAsync("/api/Todos/100");
@@ -145,10 +143,12 @@ namespace CleanTemplate.API.Controllers
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
             var todoList = await ApiTestHelper.GetResponseContent<TodoListIndexResponse>(response);
             Assert.NotNull(todoList.Result);
-            Assert.Contains(todoList.Result.Todos,
-                t => t.Description == TodoSeeder.DefaultTodoLists[index: 0].Description);
-            Assert.Contains(todoList.Result.Todos,
-                t => t.Description == TodoSeeder.DefaultTodoLists[index: 1].Description);
+            Assert.Contains(
+                todoList.Result.Todos,
+                t => t.Description == TodoSeeder.DefaultTodoLists[0].Description);
+            Assert.Contains(
+                todoList.Result.Todos,
+                t => t.Description == TodoSeeder.DefaultTodoLists[1].Description);
         }
     }
 }

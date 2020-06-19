@@ -20,7 +20,7 @@ namespace CleanTemplate.SharedKernel.Common
             using var otherValues = other.GetAtomicValues().GetEnumerator();
             while (thisValues.MoveNext() && otherValues.MoveNext())
             {
-                if (ReferenceEquals(thisValues.Current, objB: null) ^ ReferenceEquals(otherValues.Current, objB: null))
+                if (ReferenceEquals(thisValues.Current, null) ^ ReferenceEquals(otherValues.Current, null))
                 {
                     return false;
                 }
@@ -48,12 +48,12 @@ namespace CleanTemplate.SharedKernel.Common
 
         public static bool operator ==(ValueObject left, ValueObject right)
         {
-            if (ReferenceEquals(left, objB: null) ^ ReferenceEquals(right, objB: null))
+            if (ReferenceEquals(left, null) ^ ReferenceEquals(right, null))
             {
                 return false;
             }
 
-            return ReferenceEquals(left, objB: null) || left.Equals(right);
+            return ReferenceEquals(left, null) || left.Equals(right);
         }
 
         public static bool operator !=(ValueObject left, ValueObject right)

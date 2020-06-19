@@ -26,9 +26,9 @@ namespace CleanTemplate.Infrastructure.Persistence
 
         public DbSet<TodoItem> TodoItems { get; set; }
 
-        public DbSet<TodoList> TodoLists { get; set; }
-
         public DbSet<Log> Logs { get; set; }
+
+        public DbSet<TodoList> TodoLists { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {

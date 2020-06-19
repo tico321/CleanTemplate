@@ -12,8 +12,8 @@ namespace CleanTemplate.Application.Test.Todos
     {
         public static readonly List<TodoList> DefaultTodoLists = new List<TodoList>
         {
-            new TodoList("0", "Personal", displayOrder: 2),
-            new TodoList("1", "Work", displayOrder: 1)
+            new TodoList("0", "Personal", 2),
+            new TodoList("1", "Work", 1)
                 .SequenceAddTodo("Reply Juan Email")
                 .SequenceAddTodo("Finish monthly report")
         };

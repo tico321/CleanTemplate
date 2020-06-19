@@ -21,8 +21,10 @@ namespace CleanTemplate.Application.Test.CrossCuttingConcerns.Behaviors
             public ModelValidator()
             {
                 RuleFor(m => m.Data)
-                    .NotNull().WithMessage("Data cannot be null")
-                    .MinimumLength(minimumLength: 5).WithMessage("5 is the minimum length");
+                    .NotNull()
+                    .WithMessage("Data cannot be null")
+                    .MinimumLength(5)
+                    .WithMessage("5 is the minimum length");
             }
         }
 
@@ -35,7 +37,7 @@ namespace CleanTemplate.Application.Test.CrossCuttingConcerns.Behaviors
             try
             {
                 await sut.Handle(nullData, CancellationToken.None, () => Task.FromResult(null as Model));
-                Assert.False(condition: true, "Should throw bad request");
+                Assert.False(true, "Should throw bad request");
             }
             catch (BadRequestException e)
             {
@@ -47,7 +49,7 @@ namespace CleanTemplate.Application.Test.CrossCuttingConcerns.Behaviors
             try
             {
                 await sut.Handle(invalidLength, CancellationToken.None, () => Task.FromResult(null as Model));
-                Assert.False(condition: true, "Should throw bad request");
+                Assert.False(true, "Should throw bad request");
             }
             catch (BadRequestException e)
             {
@@ -64,7 +66,7 @@ namespace CleanTemplate.Application.Test.CrossCuttingConcerns.Behaviors
 
             await sut.Handle(model, CancellationToken.None, () => Task.FromResult(null as Model));
 
-            Assert.False(condition: false, "Does not throw when the data is valid");
+            Assert.False(false, "Does not throw when the data is valid");
         }
     }
 }

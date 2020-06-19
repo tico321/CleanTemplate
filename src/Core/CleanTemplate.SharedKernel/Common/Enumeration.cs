@@ -38,7 +38,7 @@ namespace CleanTemplate.SharedKernel.Common
             var fields =
                 typeof(T).GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly);
 
-            return fields.Select(f => f.GetValue(obj: null)).Cast<T>();
+            return fields.Select(f => f.GetValue(null)).Cast<T>();
         }
 
         public override bool Equals(object? obj)
@@ -88,8 +88,7 @@ namespace CleanTemplate.SharedKernel.Common
         {
             var matchingItem = GetAll<T>().FirstOrDefault(predicate);
             return matchingItem ??
-                   throw new InvalidOperationException(
-                       $"'{value?.ToString() ?? "null"}' is not a valid {description} in {typeof(T)}");
+                   throw new InvalidOperationException($"'{value?.ToString() ?? "null"}' is not a valid {description} in {typeof(T)}");
         }
     }
 }

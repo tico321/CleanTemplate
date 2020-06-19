@@ -4,7 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanTemplate.API.Controllers
 {
-    [ApiController, Route("api/[controller]")]
+    [ApiController]
+    [Route("api/[controller]")]
     public abstract class BaseApiController : ControllerBase
     {
         private IMediator mediator;

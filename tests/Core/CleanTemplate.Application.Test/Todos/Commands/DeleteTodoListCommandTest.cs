@@ -39,8 +39,8 @@ namespace CleanTemplate.Application.Test.Todos.Commands
 
             try
             {
-                var result = await handler.Handle(command, CancellationToken.None);
-                Assert.False(condition: true, "Should throw not found exception");
+                await handler.Handle(command, CancellationToken.None);
+                Assert.False(true, "Should throw not found exception");
             }
             catch (NotFoundException e)
             {

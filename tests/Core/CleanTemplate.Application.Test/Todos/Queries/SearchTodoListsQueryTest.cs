@@ -21,7 +21,7 @@ namespace CleanTemplate.Application.Test.Todos.Queries
         [Fact]
         public async Task Search()
         {
-            var todos = Enumerable.Range(start: 1, count: 15)
+            var todos = Enumerable.Range(1, 15)
                 .Select(i => new TodoList("userId", $"todo {i}", i))
                 .ToList();
             await TodoSeeder.GetSeeder(todos)(_fixture.Context);
@@ -31,14 +31,14 @@ namespace CleanTemplate.Application.Test.Todos.Queries
             var actual = await handler.Handle(query, CancellationToken.None);
 
             // first call
-            Assert.Equal(expected: 15, actual.TotalItems);
-            Assert.Equal(expected: 1, actual.CurrentPage);
-            Assert.Equal(expected: 3, actual.EndPage);
-            Assert.Equal(expected: 1, actual.StartPage);
-            Assert.Equal(expected: 3, actual.TotalPages);
-            Assert.Equal(expected: 5, actual.PageSize);
+            Assert.Equal(15, actual.TotalItems);
+            Assert.Equal(1, actual.CurrentPage);
+            Assert.Equal(3, actual.EndPage);
+            Assert.Equal(1, actual.StartPage);
+            Assert.Equal(3, actual.TotalPages);
+            Assert.Equal(5, actual.PageSize);
             var data = actual.Data.ToList();
-            Assert.Equal(expected: 5, data.Count);
+            Assert.Equal(5, data.Count);
             Assert.Contains(data, d => d.DisplayOrder == 1);
             Assert.Contains(data, d => d.DisplayOrder == 2);
             Assert.Contains(data, d => d.DisplayOrder == 3);
@@ -49,15 +49,15 @@ namespace CleanTemplate.Application.Test.Todos.Queries
             actual = await handler.Handle(query, CancellationToken.None);
 
             // second call
-            Assert.Equal(expected: 15, actual.TotalItems);
-            Assert.Equal(expected: 2, actual.CurrentPage);
-            Assert.Equal(expected: 3, actual.EndPage);
-            Assert.Equal(expected: 1, actual.StartPage);
-            Assert.Equal(expected: 3, actual.TotalPages);
-            Assert.Equal(expected: 5, actual.Data.Count());
-            Assert.Equal(expected: 5, actual.PageSize);
+            Assert.Equal(15, actual.TotalItems);
+            Assert.Equal(2, actual.CurrentPage);
+            Assert.Equal(3, actual.EndPage);
+            Assert.Equal(1, actual.StartPage);
+            Assert.Equal(3, actual.TotalPages);
+            Assert.Equal(5, actual.Data.Count());
+            Assert.Equal(5, actual.PageSize);
             data = actual.Data.ToList();
-            Assert.Equal(expected: 5, data.Count);
+            Assert.Equal(5, data.Count);
             Assert.Contains(data, d => d.DisplayOrder == 6);
             Assert.Contains(data, d => d.DisplayOrder == 7);
             Assert.Contains(data, d => d.DisplayOrder == 8);
@@ -68,15 +68,15 @@ namespace CleanTemplate.Application.Test.Todos.Queries
             actual = await handler.Handle(query, CancellationToken.None);
 
             // third call
-            Assert.Equal(expected: 15, actual.TotalItems);
-            Assert.Equal(expected: 3, actual.CurrentPage);
-            Assert.Equal(expected: 3, actual.EndPage);
-            Assert.Equal(expected: 1, actual.StartPage);
-            Assert.Equal(expected: 3, actual.TotalPages);
-            Assert.Equal(expected: 5, actual.Data.Count());
-            Assert.Equal(expected: 5, actual.PageSize);
+            Assert.Equal(15, actual.TotalItems);
+            Assert.Equal(3, actual.CurrentPage);
+            Assert.Equal(3, actual.EndPage);
+            Assert.Equal(1, actual.StartPage);
+            Assert.Equal(3, actual.TotalPages);
+            Assert.Equal(5, actual.Data.Count());
+            Assert.Equal(5, actual.PageSize);
             data = actual.Data.ToList();
-            Assert.Equal(expected: 5, data.Count);
+            Assert.Equal(5, data.Count);
             Assert.Contains(data, d => d.DisplayOrder == 11);
             Assert.Contains(data, d => d.DisplayOrder == 12);
             Assert.Contains(data, d => d.DisplayOrder == 13);
@@ -86,12 +86,12 @@ namespace CleanTemplate.Application.Test.Todos.Queries
             query.Page = 4;
             actual = await handler.Handle(query, CancellationToken.None);
             // last call
-            Assert.Equal(expected: 15, actual.TotalItems);
-            Assert.Equal(expected: 4, actual.CurrentPage);
-            Assert.Equal(expected: 3, actual.EndPage);
-            Assert.Equal(expected: 1, actual.StartPage);
-            Assert.Equal(expected: 3, actual.TotalPages);
-            Assert.Equal(expected: 5, actual.PageSize);
+            Assert.Equal(15, actual.TotalItems);
+            Assert.Equal(4, actual.CurrentPage);
+            Assert.Equal(3, actual.EndPage);
+            Assert.Equal(1, actual.StartPage);
+            Assert.Equal(3, actual.TotalPages);
+            Assert.Equal(5, actual.PageSize);
             Assert.Empty(actual.Data);
         }
 
@@ -99,13 +99,13 @@ namespace CleanTemplate.Application.Test.Todos.Queries
         public void Validator()
         {
             var validator = new SearchTodoListsQuery.Validator();
-            validator.ShouldHaveValidationErrorFor(s => s.Page, value: 0);
-            validator.ShouldHaveValidationErrorFor(s => s.Page, value: -1);
-            validator.ShouldNotHaveValidationErrorFor(s => s.Page, value: 1);
+            validator.ShouldHaveValidationErrorFor(s => s.Page, 0);
+            validator.ShouldHaveValidationErrorFor(s => s.Page, -1);
+            validator.ShouldNotHaveValidationErrorFor(s => s.Page, 1);
 
-            validator.ShouldHaveValidationErrorFor(s => s.PageSize, value: -1);
-            validator.ShouldHaveValidationErrorFor(s => s.PageSize, value: 4);
-            validator.ShouldNotHaveValidationErrorFor(s => s.PageSize, value: 5);
+            validator.ShouldHaveValidationErrorFor(s => s.PageSize, -1);
+            validator.ShouldHaveValidationErrorFor(s => s.PageSize, 4);
+            validator.ShouldNotHaveValidationErrorFor(s => s.PageSize, 5);
         }
     }
 }

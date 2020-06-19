@@ -44,12 +44,13 @@ namespace CleanTemplate.API
         public static IHostBuilder CreateHostBuilder(string[] args)
         {
             return Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder
-                        .UseStartup<Startup>()
-                        .UseSerilog();
-                });
+                .ConfigureWebHostDefaults(
+                    webBuilder =>
+                    {
+                        webBuilder
+                            .UseStartup<Startup>()
+                            .UseSerilog();
+                    });
         }
     }
 #pragma warning restore CS1591

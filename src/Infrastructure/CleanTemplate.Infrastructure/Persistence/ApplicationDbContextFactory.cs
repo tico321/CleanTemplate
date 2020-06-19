@@ -22,11 +22,12 @@ namespace CleanTemplate.Infrastructure.Persistence
             var connectionString = configuration.GetConnectionString("DefaultConnection");
 
             IServiceCollection services = new ServiceCollection();
-            services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(
-                connectionString,
-                sqlOptions => sqlOptions
-                    .MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)
-                    .ServerVersion(new Version(10, 4, 0), ServerType.MySql)));
+            services.AddDbContext<ApplicationDbContext>(
+                options => options.UseMySql(
+                    connectionString,
+                    sqlOptions => sqlOptions
+                        .MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)
+                        .ServerVersion(new Version(10, 4, 0), ServerType.MySql)));
             services.AddTransient<ICurrentUserService, NullCurrentUserService>();
             services.AddTransient<IDateTime, DateTimeProvider>();
 

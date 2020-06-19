@@ -10,22 +10,15 @@ using Xunit;
 
 namespace CleanTemplate.Application.Test.Todos.Commands
 {
-    public class DeleteTodoItemCommandTest : IClassFixture<MappingTestFixture>
+    public class DeleteTodoItemCommandTest
     {
-        public DeleteTodoItemCommandTest(MappingTestFixture fixture)
-        {
-            _fixture = fixture;
-        }
-
-        private readonly MappingTestFixture _fixture;
-
         [Fact]
         public async Task Handle_RemovesTheItem()
         {
             var factory = new ApplicationDbContextFactory();
             var description = nameof(Handle_RemovesTheItem);
             var todoListWithItem =
-                new TodoList("userId", description, displayOrder: 1).SequenceAddTodo(description);
+                new TodoList("userId", description, 1).SequenceAddTodo(description);
             var todos = new List<TodoList> { todoListWithItem };
             var context = await factory.Create(TodoSeeder.GetSeeder(todos));
             var todoList = context.TodoLists.First(t => t.Description == description);
@@ -53,8 +46,8 @@ namespace CleanTemplate.Application.Test.Todos.Commands
             // When the TodoListId doesn't exist
             try
             {
-                var result = await handler.Handle(command, CancellationToken.None);
-                Assert.True(condition: false, "It should throw NotFoundException");
+                await handler.Handle(command, CancellationToken.None);
+                Assert.True(false, "It should throw NotFoundException");
             }
             catch (NotFoundException e)
             {
@@ -66,8 +59,8 @@ namespace CleanTemplate.Application.Test.Todos.Commands
             command.Id = existingTodoList.Id;
             try
             {
-                var result = await handler.Handle(command, CancellationToken.None);
-                Assert.True(condition: false, "It should throw NotFoundException");
+                await handler.Handle(command, CancellationToken.None);
+                Assert.True(false, "It should throw NotFoundException");
             }
             catch (NotFoundException e)
             {
