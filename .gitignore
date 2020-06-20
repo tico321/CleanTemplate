@@ -36,3 +36,6 @@ msbuild.wrn
 
 node_modules/
 postgres/*
+
+# Code coverage results
+tests/CoverageResults

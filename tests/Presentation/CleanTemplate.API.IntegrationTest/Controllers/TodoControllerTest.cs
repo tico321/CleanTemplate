@@ -112,7 +112,7 @@ namespace CleanTemplate.API.Controllers
             Assert.True(apiResponse.IsError);
             Assert.Equal(
                 "Description cannot be null",
-                apiResponse?.ResponseException?.ExceptionMessage?.ProblemDetails["Description"].First());
+                apiResponse.ResponseException?.ExceptionMessage?.ProblemDetails["Description"].First());
         }
 
         [Fact]

@@ -23,6 +23,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C5569C01-A
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{E1CE8CD6-CEA2-4A81-99C6-DAA799405C71}"
+ProjectSection(SolutionItems) = preProject
+	tests\coverage.bat = tests\coverage.bat
+EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanTemplate.SharedKernel.Test", "tests\Core\CleanTemplate.SharedKernel.Test\CleanTemplate.SharedKernel.Test.csproj", "{BE41B2CC-574E-4E98-BF3D-481453BA222B}"
 EndProject

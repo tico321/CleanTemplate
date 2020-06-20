@@ -52,6 +52,14 @@ If you don't want to use VS you may want to run the project from the cli and sta
 VS does a lot of things under the hood for which if you want to add it to the docker container without lossing debugging capabilities
 you may want to  review https://www.richard-banks.org/2018/07/debugging-core-in-docker.html
 
+### Get Code Coverage Results
+To get the project code coverage in Html::
+- Install [ReportGenerator](https://github.com/danielpalme/ReportGenerator) as a global tool
+    - dotnet tool install --global dotnet-reportgenerator-globaltool
+- Run $ coverage.bat
+- You will be able to see the reports on CoverageResults\report\index.html
+For more information on how this works review the tests/coverage.bat file.
+
 ## Migrations
 To run migrations navigate to CleanTemplate.Infrastructure project and then you can run the migrations like:
     $ dotnet ef database update
@@ -179,6 +187,10 @@ Is quite similar to the API project but uses GraphQL instead of REST.
 - Auth
     - Oath and OpenId are exposed in the Auth project with the help of [IdentityServer4](https://docs.identityserver.io/en/latest/index.html).
     - An example of securing an Api can be seen in the GraphQL project.
+
+- Code coverage
+    - Code coverage is integrated in the test projects with the help of [Coverlet](https://github.com/coverlet-coverage/coverlet)
+    - Coverage is interpreted and presented in Html format with the help of [ReportGenerator](https://github.com/danielpalme/ReportGenerator) 
 
 - Helpful libraries that are used in the project:
     - Mediatr -> Used to dispatch our Commands and Queries. 
