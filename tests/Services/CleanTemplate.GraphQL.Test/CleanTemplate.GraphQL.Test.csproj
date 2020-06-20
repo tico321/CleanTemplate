@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\Presentation\CleanTemplate.GraphQL\CleanTemplate.GraphQL.csproj" />
+    <ProjectReference Include="..\..\..\src\Services\CleanTemplate.GraphQL\CleanTemplate.GraphQL.csproj" />
     <ProjectReference Include="..\..\Core\CleanTemplate.Application.Test\CleanTemplate.Application.Test.csproj" />
   </ItemGroup>
 

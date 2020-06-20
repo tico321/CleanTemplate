@@ -12,9 +12,9 @@ dotnet test /p:CollectCoverage=true /p:CoverletOutput="../../CoverageResults/" /
 :: Create coverage CleanTemplate.Infrastructure.Integration.Test and merge with previous
 dotnet test /p:CollectCoverage=true /p:CoverletOutput="../../CoverageResults/" /p:MergeWith="../../CoverageResults/coverage.json" /p:CoverletOutputFormat=\"json,cobertura\" /maxcpucount:1 Infrastructure\CleanTemplate.Infrastructure.IntegrationTest\CleanTemplate.Infrastructure.IntegrationTest.csproj
 :: Create coverage for CleanTemplate.API.Integration.Test and merge with previous
-dotnet test /p:CollectCoverage=true /p:CoverletOutput="../../CoverageResults/" /p:MergeWith="../../CoverageResults/coverage.json" /p:CoverletOutputFormat=\"json,cobertura\" /maxcpucount:1 Presentation\CleanTemplate.API.IntegrationTest\CleanTemplate.API.IntegrationTest.csproj
+dotnet test /p:CollectCoverage=true /p:CoverletOutput="../../CoverageResults/" /p:MergeWith="../../CoverageResults/coverage.json" /p:CoverletOutputFormat=\"json,cobertura\" /maxcpucount:1 Services\CleanTemplate.API.IntegrationTest\CleanTemplate.API.IntegrationTest.csproj
 :: Create coverage for CleanTemplate.GraphQL.Test and merge with previous
-dotnet test /p:CollectCoverage=true /p:CoverletOutput="../../CoverageResults/" /p:MergeWith="../../CoverageResults/coverage.json" /p:CoverletOutputFormat=\"json,cobertura\" /maxcpucount:1 Presentation\CleanTemplate.GraphQL.Test\CleanTemplate.GraphQL.Test.csproj
+dotnet test /p:CollectCoverage=true /p:CoverletOutput="../../CoverageResults/" /p:MergeWith="../../CoverageResults/coverage.json" /p:CoverletOutputFormat=\"json,cobertura\" /maxcpucount:1 Services\CleanTemplate.GraphQL.Test\CleanTemplate.GraphQL.Test.csproj
 
 :: Generate html report with ReportGenerator https://github.com/danielpalme/ReportGenerator
 :: First you need to install the tool with

@@ -1,18 +1,12 @@
-// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
-
-
-using System;
-using System.IO;
 using CleanTemplate.Infrastructure.Logging;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Log = Serilog.Log;
 
-namespace CleanTemplate.Auth
+namespace CleanTemplate.API
 {
+#pragma warning disable CS1591
     public class Program
     {
         public static void Main(string[] args)
@@ -40,4 +34,5 @@ namespace CleanTemplate.Auth
                     });
         }
     }
+#pragma warning restore CS1591
 }

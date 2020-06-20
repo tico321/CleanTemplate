@@ -8,8 +8,8 @@ namespace CleanTemplate.API.Controllers
     [Route("api/[controller]")]
     public abstract class BaseApiController : ControllerBase
     {
-        private IMediator mediator;
+        private IMediator _mediator;
 
-        protected IMediator Mediator => mediator ??= HttpContext.RequestServices.GetService<IMediator>();
+        protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
     }
 }
