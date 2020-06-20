@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 using Serilog.Debugging;
@@ -11,25 +12,10 @@ namespace CleanTemplate.Infrastructure.Logging
 {
     public static class SerilogLogging
     {
-        /// <summary>
-        ///     Configures Serilog to log to the db and to the console.
-        /// </summary>
-        /// <param name="configuration">
-        ///     Is used to read the configuration levels from the app config file, for example:
-        ///     "Serilog": {
-        ///     "MinimumLevel": {
-        ///     "Default": "Information",
-        ///     "Override": {
-        ///     "Microsoft": "Warning"
-        ///     }
-        ///     }
-        ///     }
-        /// </param>
-        /// <param name="connectionString">The connection string to the db where the logs will be stored.</param>
-        public static void InitLogger(IConfigurationRoot configuration, string connectionString)
+        public static LoggerConfiguration InitLogger(WebHostBuilderContext context, LoggerConfiguration loggerConfiguration)
         {
-            // Column writers for MariaDb sink https://github.com/TeleSoftas/serilog-sinks-mariadb
-            Serilog.Log.Logger = new LoggerConfiguration()
+            var connectionString = context.Configuration.GetConnectionString("DefaultConnection");
+            var logger = loggerConfiguration
                 .Enrich
                 //https://github.com/serilog/serilog/wiki/Enrichment used to add custom enrichers like int the CorrelationIdMiddleware
                 .FromLogContext()
@@ -60,8 +46,7 @@ namespace CleanTemplate.Infrastructure.Logging
                     outputTemplate:
                     "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}",
                     theme: AnsiConsoleTheme.Literate)
-                .ReadFrom.Configuration(configuration)
-                .CreateLogger();
+                .ReadFrom.Configuration(context.Configuration);
 #if DEBUG
             // This will break automatically if Serilog throws an exception.
             SelfLog.Enable(
@@ -71,6 +56,7 @@ namespace CleanTemplate.Infrastructure.Logging
                     Debugger.Break();
                 });
 #endif
+            return logger;
         }
     }
 }

@@ -11,7 +11,6 @@ services:
             ASPNETCORE_ENVIRONMENT: "Docker"
             ASPNETCORE_URLS: "http://+:80"
             AUTHSERVER_AUTHORITY: "http://cleantemplate.auth:80"
-            ConnectionStrings__DefaultConnection: "Username=root;Password=mariadb;Server=db;Database=CleanTemplate"
         ports:
             - 5000:80
             - 5001:443
@@ -26,7 +25,6 @@ services:
             ASPNETCORE_ENVIRONMENT: "Docker"
             ASPNETCORE_URLS: "http://+:80"
             AUTHSERVER_AUTHORITY: "http://cleantemplate.auth:80"
-            ConnectionStrings__DefaultConnection: "Username=root;Password=mariadb;Server=db;Database=Auth"
         ports:
             - 5002:80
             - 5003:443
