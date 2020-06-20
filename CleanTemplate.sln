@@ -23,9 +23,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C5569C01-A
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{E1CE8CD6-CEA2-4A81-99C6-DAA799405C71}"
-ProjectSection(SolutionItems) = preProject
-	tests\coverage.bat = tests\coverage.bat
-EndProjectSection
+	ProjectSection(SolutionItems) = preProject
+		tests\coverage.bat = tests\coverage.bat
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanTemplate.SharedKernel.Test", "tests\Core\CleanTemplate.SharedKernel.Test\CleanTemplate.SharedKernel.Test.csproj", "{BE41B2CC-574E-4E98-BF3D-481453BA222B}"
 EndProject
@@ -54,6 +54,28 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{E423AE49-99A2-42EA-B394-4F124829BC94}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{B324A2F0-8F38-4206-8FD2-6A9C0451DD8C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{169CF01F-6EC7-4B44-84B7-EB8A1D3F9177}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "reacttodos", "src\Presentation\reacttodos\", "{E34A06B6-EAA1-40AF-8B2D-628A06C49BC7}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_57336"
+		Debug.AspNetCompiler.PhysicalPath = "src\Presentation\reacttodos\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_57336\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_57336"
+		Release.AspNetCompiler.PhysicalPath = "src\Presentation\reacttodos\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_57336\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "57336"
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -109,6 +131,10 @@ Global
 		{55F4582F-332C-4C3F-9713-89B52B72E0E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55F4582F-332C-4C3F-9713-89B52B72E0E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55F4582F-332C-4C3F-9713-89B52B72E0E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E34A06B6-EAA1-40AF-8B2D-628A06C49BC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E34A06B6-EAA1-40AF-8B2D-628A06C49BC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E34A06B6-EAA1-40AF-8B2D-628A06C49BC7}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{E34A06B6-EAA1-40AF-8B2D-628A06C49BC7}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -133,6 +159,8 @@ Global
 		{AC32081F-EEB1-4D8D-BD7F-0B93BF5531F0} = {E1CE8CD6-CEA2-4A81-99C6-DAA799405C71}
 		{E423AE49-99A2-42EA-B394-4F124829BC94} = {E1CE8CD6-CEA2-4A81-99C6-DAA799405C71}
 		{B324A2F0-8F38-4206-8FD2-6A9C0451DD8C} = {9ABCEA75-D154-4635-97C3-1993E5903398}
+		{169CF01F-6EC7-4B44-84B7-EB8A1D3F9177} = {9ABCEA75-D154-4635-97C3-1993E5903398}
+		{E34A06B6-EAA1-40AF-8B2D-628A06C49BC7} = {169CF01F-6EC7-4B44-84B7-EB8A1D3F9177}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3C5DA3FF-BFB3-4F75-B2B5-06A13BF2F232}
