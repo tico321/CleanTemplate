@@ -1,5 +1,9 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
+Additional libraries used:
+- [react-router](https://reacttraining.com/react-router/web/guides/quick-start)
+- [Material-UI](https://material-ui.com/)
+- [eslint](https://eslint.org/docs/user-guide/getting-started) with [airbnb](https://github.com/airbnb/javascript) style guide.
+- [prettier-eslint](https://github.com/prettier/prettier-eslint) to automatically apply our styling conventions. (you may need to configure your IDE and add a pluging for this to work)
 ## Available Scripts
 
 In the project directory, you can run:
