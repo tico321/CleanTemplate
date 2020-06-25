@@ -1,7 +1,7 @@
 ﻿import React from 'react';
-import logo from '../logo.svg';
+import logo from '../../logo.svg';
 
-const Home = () => (
+const Welcome = () => (
   <div className="App">
     <header className="App-header">
       <img src={logo} className="App-logo" alt="logo" />
@@ -24,5 +24,4 @@ const Home = () => (
   </div>
 );
 
-// eslint-disable-next-line import/prefer-default-export
-export { Home };
+export default Welcome;

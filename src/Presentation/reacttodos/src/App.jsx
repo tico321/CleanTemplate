@@ -1,13 +1,14 @@
 import React from 'react';
+import { ThemeProvider } from '@material-ui/core/styles';
 import './App.css';
-import { BrowserRouter, Route } from 'react-router-dom';
-import { Home } from './Home';
+import theme from './config/theme';
+import AppRoutes from './Routes';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Route path="/"><Home /></Route>
-    </BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <AppRoutes />
+    </ThemeProvider>
   );
 }
 
