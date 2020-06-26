@@ -1,19 +1,20 @@
-﻿import { GET_TODO_LISTS_REQUEST, GET_TODO_LISTS_SUCCESS } from './todoList.actions';
+﻿import { createSlice } from '@reduxjs/toolkit';
+import { getTodoListsReducer } from './actions';
 
-const initialState = {
+export const initialState = {
   todoLists: [],
   loadingTodoLists: false,
+  error: null,
 };
 
-function todoListReducer(state = initialState, action) {
-  if (action.type === GET_TODO_LISTS_REQUEST) {
-    return { ...state, loadingTodoLists: true };
-  }
-  if (action.type === GET_TODO_LISTS_SUCCESS) {
-    return { ...state, todoLists: action.payload, loadingTodoLists: false };
-  }
+const todoListSlice = createSlice({
+  name: 'Todos',
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    getTodoListsReducer(builder);
+  },
+});
 
-  return state;
-}
-
+const todoListReducer = todoListSlice.reducer;
 export default todoListReducer;

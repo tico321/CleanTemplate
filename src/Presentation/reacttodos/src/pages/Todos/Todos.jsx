@@ -20,8 +20,10 @@ const Todos = (props) => {
   const { todoLists, getTodoLists } = props;
 
   useEffect(
-    () => getTodoLists(),
-    [],
+    () => {
+      getTodoLists();
+    },
+    [getTodoLists],
   );
 
   return (

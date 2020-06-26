@@ -4,6 +4,7 @@ Additional libraries used:
 - [Material-UI](https://material-ui.com/)
 - [eslint](https://eslint.org/docs/user-guide/getting-started) with [airbnb](https://github.com/airbnb/javascript) style guide.
 - [prettier-eslint](https://github.com/prettier/prettier-eslint) to automatically apply our styling conventions. (you may need to configure your IDE and add a pluging for this to work)
+- [redux](https://redux.js.org/) with the help of [Redux-tookit](https://redux-toolkit.js.org/introduction/quick-start) and [react-redux](https://react-redux.js.org/)
 ## Available Scripts
 
 In the project directory, you can run:
