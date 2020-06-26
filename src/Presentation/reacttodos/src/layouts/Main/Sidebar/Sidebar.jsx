@@ -58,7 +58,7 @@ const Sidebar = (props) => {
     },
     {
       title: 'Todos',
-      href: '/Todos',
+      href: '/todos',
       icon: <DashboardIcon />,
     },
     {

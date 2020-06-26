@@ -3,6 +3,7 @@
 rmdir /s /q CoverageResults
 
 :: We generate Coverage Results with the help of coverlet.msbuild package https://github.com/coverlet-coverage/coverlet
+:: for more information review the usage page: https://danielpalme.github.io/ReportGenerator/usage.html
 :: CoverageResults/coverage.cobertura.xml file will be used for the HTML report
 :: CoverageResults/coverage.json file is used to merge the coverage of each project.
 :: Create coverage for CleanTemplate.Application.Test

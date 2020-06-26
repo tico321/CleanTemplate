@@ -4,7 +4,7 @@ import {
 } from 'react-router-dom';
 import RouteWithLayout from './components/RouteWithLayout';
 import Main from './layouts/Main/index';
-import { Welcome, NotFound } from './pages';
+import { Welcome, NotFound, Todos } from './pages';
 
 function AppRoutes() {
   return (
@@ -12,6 +12,7 @@ function AppRoutes() {
       <Switch>
         <Redirect exact from="/" to="/welcome" />
         <RouteWithLayout component={Welcome} layout={Main} path="/welcome" />
+        <RouteWithLayout component={Todos} layout={Main} path="/todos" />
         <Route path="/not-found">
           <NotFound />
         </Route>
