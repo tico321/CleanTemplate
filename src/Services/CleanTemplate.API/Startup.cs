@@ -74,6 +74,16 @@ namespace CleanTemplate.API
                 // Collects information from a request and logs one event instead of many
                 .UseSerilogRequestLogging();
 
+            // https://docs.microsoft.com/en-us/aspnet/core/security/cors?view=aspnetcore-3.1
+            app.UseCors(
+                builder =>
+                {
+                    builder
+                        .WithOrigins(Configuration.GetSection("AllowedCors").Get<string[]>())
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+
             app.UseHttpsRedirection();
 
             // Problem Details support added with AutoWrapper https://github.com/proudmonkey/AutoWrapper

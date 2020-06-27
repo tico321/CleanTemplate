@@ -1,25 +1,19 @@
 ﻿import { createAsyncThunk } from '@reduxjs/toolkit';
+import todoApiService from '../../../config/api';
 
 // createAsyncThunk docs https://redux-toolkit.js.org/api/createAsyncThunk
 const getItemsByListIdThunk = createAsyncThunk(
   'todos/items/byId',
-  (id) => new Promise((resolve) => {
-    const fakeTodo = {
-      id,
-      todos: [
-        {
-          id: 1, userId: '1', description: 'take out trash', state: 'Pending',
-        },
-        {
-          id: 2, userId: '1', description: 'do my homework', state: 'Completed',
-        },
-      ],
-    };
-    setTimeout(() => {
-      resolve(fakeTodo);
-    },
-    1);
-  }),
+  async (id, { rejectWithValue }) => {
+    try {
+      const result = await todoApiService.get(`api/Todos/${id}`);
+      return result.data.result;
+    } catch (e) {
+      if (!e.response) throw e;
+
+      return rejectWithValue(e.response);
+    }
+  },
 );
 
 export const getItemsByListIdReducer = (builder) => {
@@ -30,13 +24,17 @@ export const getItemsByListIdReducer = (builder) => {
       loadingState: 'fulfilled',
       error: null,
     };
-    console.log(state.todoItems[`${id}`]);
   });
-  builder.addCase(getItemsByListIdThunk.pending, (state) => {
-    // todo
+  builder.addCase(getItemsByListIdThunk.pending, (state, { meta: { arg } }) => {
+    state.todoItems[`${arg}`] = state.todoItems.defaultId;
   });
   builder.addCase(getItemsByListIdThunk.rejected, (state, action) => {
-    // todo
+    const { meta: { arg }, payload: { data } } = action;
+    state.todoItems[`${arg}`] = {
+      items: [],
+      loadingState: 'rejected',
+      error: data,
+    };
   });
 };
 

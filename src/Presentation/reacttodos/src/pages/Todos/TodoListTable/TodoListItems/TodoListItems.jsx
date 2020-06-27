@@ -12,6 +12,7 @@ const TodoListItems = (props) => {
   const todos = current.items;
   useEffect(() => {
     if (current.loadingState === 'fulfilled') return;
+    if (current.loadingState === 'rejected') return;
     getItems(id);
   },
   [id, current.loadingState, getItems]);
