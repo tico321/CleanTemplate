@@ -1,5 +1,6 @@
 ﻿import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import Todos from './todoList';
+import TodoItems from './todoListItems';
 
 const middleware = [
   // default middleware https://redux-toolkit.js.org/api/getDefaultMiddleware#included-default-middleware
@@ -11,6 +12,7 @@ const middleware = [
 const store = configureStore({
   reducer: {
     Todos,
+    TodoItems,
   },
   middleware,
 });

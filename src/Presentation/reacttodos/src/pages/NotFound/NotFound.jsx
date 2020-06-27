@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Typography } from '@material-ui/core';
-import Link from '@material-ui/core/Link';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,7 +54,7 @@ const NotFound = () => {
         </Grid>
         <Grid item xs={12} lg={12}>
           <div className={classes.back}>
-            <Link href="/">
+            <Link to="/">
               Go Back
             </Link>
           </div>

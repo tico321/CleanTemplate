@@ -19,6 +19,7 @@ module.exports = {
   ],
   "rules": {
     "react/jsx-props-no-spreading": "off",
-    "no-param-reassign": [2, { "props": false }]
+    "no-param-reassign": [2, { "props": false }],
+    "linebreak-style": ["error", "unix"]
   }
 };

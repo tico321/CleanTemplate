@@ -17,13 +17,14 @@ const useStyles = makeStyles((theme) => ({
 
 const Todos = (props) => {
   const classes = useStyles();
-  const { todoLists, getTodoLists } = props;
+  const { todoLists, getTodoLists, loadingState } = props;
 
   useEffect(
     () => {
+      if (loadingState === 'fulfilled') return;
       getTodoLists();
     },
-    [getTodoLists],
+    [getTodoLists, loadingState],
   );
 
   return (
@@ -39,15 +40,18 @@ const Todos = (props) => {
 Todos.propTypes = {
   todoLists: PropTypes.instanceOf(Array),
   getTodoLists: PropTypes.func,
+  loadingState: PropTypes.string,
 };
 
 Todos.defaultProps = {
   todoLists: [],
   getTodoLists: () => {},
+  loadingState: 'pending',
 };
 
 const mapStateToProps = (state) => ({
   todoLists: state.Todos.todoLists,
+  loadingState: state.Todos.loadingState,
 });
 
 const mapDispatchToProps = (dispatch) => ({
