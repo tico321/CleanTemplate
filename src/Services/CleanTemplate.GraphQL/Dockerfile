@@ -7,13 +7,13 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["src/Presentation/CleanTemplate.GraphQL/CleanTemplate.GraphQL.csproj", "src/Presentation/CleanTemplate.GraphQL/"]
+COPY ["src/Services/CleanTemplate.GraphQL/CleanTemplate.GraphQL.csproj", "src/Services/CleanTemplate.GraphQL/"]
 COPY ["src/Infrastructure/CleanTemplate.Infrastructure/CleanTemplate.Infrastructure.csproj", "src/Infrastructure/CleanTemplate.Infrastructure/"]
 COPY ["src/Core/CleanTemplate.Application/CleanTemplate.Application.csproj", "src/Core/CleanTemplate.Application/"]
 COPY ["src/Core/CleanTemplate.SharedKernel/CleanTemplate.SharedKernel.csproj", "src/Core/CleanTemplate.SharedKernel/"]
-RUN dotnet restore "src/Presentation/CleanTemplate.GraphQL/CleanTemplate.GraphQL.csproj"
+RUN dotnet restore "src/Services/CleanTemplate.GraphQL/CleanTemplate.GraphQL.csproj"
 COPY . .
-WORKDIR "/src/src/Presentation/CleanTemplate.GraphQL"
+WORKDIR "/src/src/Services/CleanTemplate.GraphQL"
 RUN dotnet build "CleanTemplate.GraphQL.csproj" -c Release -o /app/build
 
 FROM build AS publish
