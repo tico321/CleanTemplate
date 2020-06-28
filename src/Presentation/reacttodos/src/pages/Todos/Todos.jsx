@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import TodoListToolbar from './TodoListToolbar';
 import TodoListsTable from './TodoListTable';
-import { getTodoLists as getTodos } from '../../store/todoList';
+import { getTodoLists as getTodos } from '../../store';
 
 const useStyles = makeStyles((theme) => ({
   root: {

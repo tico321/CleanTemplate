@@ -5,6 +5,7 @@ Additional libraries used:
 - [eslint](https://eslint.org/docs/user-guide/getting-started) with [airbnb](https://github.com/airbnb/javascript) style guide.
 - [prettier-eslint](https://github.com/prettier/prettier-eslint) to automatically apply our styling conventions. (you may need to configure your IDE and add a pluging for this to work)
 - [redux](https://redux.js.org/) with the help of [Redux-tookit](https://redux-toolkit.js.org/introduction/quick-start) and [react-redux](https://react-redux.js.org/)
+- Logging is implemented with [oid-client](https://github.com/IdentityModel/oidc-client-js) and [redux-oidc](https://github.com/maxmantz/redux-oidc/blob/master/docs/API.md)
 
 ## Available Scripts
 

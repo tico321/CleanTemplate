@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -9,6 +10,7 @@ import {
 import NotificationsIcon from '@material-ui/icons/NotificationsOutlined';
 import InputIcon from '@material-ui/icons/Input';
 import MenuIcon from '@material-ui/icons/Menu';
+import { signoutRedirect } from '../../../store/auth/actions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Topbar = (props) => {
   const {
-    className, displayMenu, handleMenuClick, ...rest
+    className, displayMenu, handleMenuClick, signout, ...rest
   } = props;
 
   const classes = useStyles();
@@ -65,6 +67,7 @@ const Topbar = (props) => {
           <IconButton
             className={classes.signOutButton}
             color="inherit"
+            onClick={signout}
           >
             <InputIcon />
           </IconButton>
@@ -78,10 +81,16 @@ Topbar.propTypes = {
   className: PropTypes.string,
   displayMenu: PropTypes.bool.isRequired,
   handleMenuClick: PropTypes.func.isRequired,
+  signout: PropTypes.func,
 };
 
 Topbar.defaultProps = {
   className: '',
+  signout: () => {},
 };
 
-export default Topbar;
+const mapDispatchToProps = (dispatch) => ({
+  signout: signoutRedirect(dispatch),
+});
+
+export default connect(null, mapDispatchToProps)(Topbar);

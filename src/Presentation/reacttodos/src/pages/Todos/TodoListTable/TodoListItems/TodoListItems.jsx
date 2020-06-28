@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import {
   Table, TableBody, TableCell, TableHead, TableRow, Checkbox,
 } from '@material-ui/core';
-import { getItemsByListId } from '../../../../store/todoListItems/actions';
+import { getItemsByListId } from '../../../../store';
 
 const TodoListItems = (props) => {
   const { id, getItems, todoItems } = props;
