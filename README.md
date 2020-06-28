@@ -27,6 +27,7 @@ The GraphQL project uses the CleanTemplate.Auth as IdentityServer, in order to r
 - Run CleanTemplate.Auth migrations from the src/Presentation/CleanTemplate.Auth folder:
     - dotnet ef database update -c AuthDbContext
     - dotnet ef database update -c ConfigurationDbContext
+    - dotnet ef database update -c PersistedGrantDbContext
 - Seed Auth Data
     - Send a Post request to /Account/Seed endpoint.
 You are ready to go.
@@ -72,15 +73,33 @@ To recreate the database run:
     $ dotnet ef database update
 
 ### Auth project migrations
-Auth project has two DbContext, one from IdentityServer4 and the project one.
+Auth project has 3 DbContext, two from IdentityServer4 and one created by US.
+IdentityServer uses [DbContexts](http://docs.identityserver.io/en/latest/reference/ef.html#operational-store-support-for-authorization-grants-consents-and-tokens-refresh-and-reference)
+are the ConfigurationDbContext and the PersistedGrantDbContext. The one created by us is the AuthDbContext.
+
+**AuthDbContext**
+AuthDbContext extends Identity and basically provides support for Users.
 To add migrations for the AuthDbContext run:
     $ dotnet ef migrations Add InitialCreate -o Persistence/Migrations -c AuthDbContext
 and to run the migrations:
     $ dotnet ef database update -c AuthDbContext
-To add migrations for the IdentityServer4 DbContext run: (only necessary in case of an update to the library on which the model is updated)
+
+**ConfigurationDbContext**
+
+Configuration Store support for Clients, Resources, and CORS settings
+To add migrations for the IdentityServer4 ConfigurationDbContext run: (only necessary in case of an update to the library on which the model is updated)
     $ dotnet ef migrations Add InitialCreate -o Persistence/IS4Migrations -c ConfigurationDbContext
 and to run the migrations:
     $ dotnet ef database update -c ConfigurationDbContext
+
+**PersistedGrantDbContext**
+ 
+Operational Store support for authorization grants, consents, and tokens (refresh and reference).
+To add migrations for the IdentityServer PersistedGrantDbContext run: (only necessary in case of an update to the library on which the model is updated)
+    $ dotnet ef migrations Add InitialCreate -o Persistence/IS4GrantMigrations -c PersistedGrantDbContext
+and to run the migrations:
+    $ dotnet ef database update -c PersistedGrantDbContext
+    
 Please note that we are using different migration folders for each context.
 Note: the first time you run the migrations you need to run AuthDbContext migrations first.
 
