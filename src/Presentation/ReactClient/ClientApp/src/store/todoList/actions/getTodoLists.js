@@ -30,7 +30,7 @@ export const getTodoListsReducer = (builder) => {
   builder.addCase(getTodoListsThunk.rejected, (state, action) => {
     state.todoLists = [];
     state.loadingState = 'rejected';
-    state.error = action.payload.data;
+    state.error = action.payload;
   });
 };
 

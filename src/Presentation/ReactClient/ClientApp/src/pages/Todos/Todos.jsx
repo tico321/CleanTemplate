@@ -22,6 +22,7 @@ const Todos = (props) => {
   useEffect(
     () => {
       if (loadingState === 'fulfilled') return;
+      if (loadingState === 'rejected') return;
       getTodoLists();
     },
     [getTodoLists, loadingState],
