@@ -1,13 +1,13 @@
 ﻿import { createAsyncThunk } from '@reduxjs/toolkit';
-import todoApiService from '../../../config/api';
+import { todoService } from '../../../services';
 
 // createAsyncThunk docs https://redux-toolkit.js.org/api/createAsyncThunk
 const getTodoListsThunk = createAsyncThunk(
   'todos/getTodoLists',
   async (_, { rejectWithValue }) => {
     try {
-      const result = await todoApiService.get('api/Todos');
-      return result.data.result.todos;
+      const response = await todoService.get();
+      return response.data.result.todos;
     } catch (err) {
       if (!err.response) {
         throw err;

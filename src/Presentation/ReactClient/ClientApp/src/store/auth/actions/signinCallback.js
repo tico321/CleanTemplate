@@ -6,7 +6,8 @@ const signinCallbackThunk = createAsyncThunk(
   'auth/signinCallback',
   async (_, { rejectWithValue }) => {
     try {
-      return await userManager.signinRedirectCallback();
+      await userManager.signinRedirectCallback();
+      return true;
     } catch (err) {
       if (!err.response) {
         throw err;

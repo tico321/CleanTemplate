@@ -24,17 +24,14 @@ const useStyles = makeStyles((theme) => ({
 
 const Profile = (props) => {
   const {
-    className, isLogged, user, ...rest
+    className, isLogged, user,
   } = props;
   const classes = useStyles();
 
   if (!isLogged) return <Redirect to="/" />;
 
   return (
-    <div
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
+    <div className={clsx(classes.root, className)}>
       <Avatar
         alt="Person"
         className={classes.avatar}

@@ -16,7 +16,6 @@ const TodoListItems = (props) => {
     getItems(id);
   },
   [id, current.loadingState, getItems]);
-
   const handleCheck = () => {};
 
   return (
@@ -29,7 +28,7 @@ const TodoListItems = (props) => {
       </TableHead>
       <TableBody>
         {todos.map((item) => (
-          <TableRow key={`${id}-${item.id}`}>
+          <TableRow key={`list-${id}-item-${item.id}`}>
             <TableCell>
               <Checkbox
                 checked={item.state === 'Completed'}
@@ -49,7 +48,7 @@ const TodoListItems = (props) => {
 };
 
 TodoListItems.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   getItems: PropTypes.func,
   todoItems: PropTypes.instanceOf(Object),
 };

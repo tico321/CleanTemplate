@@ -23,6 +23,7 @@ const Todos = (props) => {
     () => {
       if (loadingState === 'fulfilled') return;
       if (loadingState === 'rejected') return;
+      if (loadingState === 'pending') return;
       getTodoLists();
     },
     [getTodoLists, loadingState],
@@ -47,7 +48,7 @@ Todos.propTypes = {
 Todos.defaultProps = {
   todoLists: [],
   getTodoLists: () => {},
-  loadingState: 'pending',
+  loadingState: 'idle',
 };
 
 const mapStateToProps = (state) => ({

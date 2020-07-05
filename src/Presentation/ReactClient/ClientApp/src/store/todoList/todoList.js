@@ -3,7 +3,7 @@ import { getTodoListsReducer } from './actions';
 
 export const initialState = {
   todoLists: [],
-  loadingState: 'pending', // pending, fulfilled, rejected
+  loadingState: 'idle', // idle, pending, fulfilled, rejected
   error: null,
 };
 

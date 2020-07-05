@@ -7,7 +7,31 @@ const getUserThunk = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const user = await userManager.getUser();
-      if (user) return user;
+      if (user) {
+        const {
+          // eslint-disable-next-line camelcase
+          id_token, session_state, access_token, token_type, scope, expires_at, profile,
+        } = user;
+        const {
+          // eslint-disable-next-line camelcase
+          email, family_name, given_name, name,
+        } = profile;
+
+        return {
+          idToken: id_token,
+          sessionState: session_state,
+          accessToken: access_token,
+          tokenType: token_type,
+          scope,
+          expiresAt: expires_at,
+          profile: {
+            email,
+            name,
+            familyName: family_name,
+            givenName: given_name,
+          },
+        };
+      }
     } catch (err) {
       if (!err.response) {
         throw err;

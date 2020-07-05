@@ -4,9 +4,15 @@ import { makeStyles } from '@material-ui/core/styles';
 import {
   IconButton, TableCell, TableRow, Typography, Box, Collapse,
 } from '@material-ui/core';
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import {
+  KeyboardArrowDown, KeyboardArrowUp, Delete, Edit,
+} from '@material-ui/icons';
+import { connect } from 'react-redux';
 import TodoListItems from './TodoListItems';
+import { todoService } from '../../../services';
+import { getTodoLists as getTodos } from '../../../store';
+import DisplayIf from '../../../components/DisplayIf';
+import EditTodoListForm from './EditTodoListForm';
 
 const useStyles = makeStyles(() => ({
   nameContainer: {
@@ -16,12 +22,23 @@ const useStyles = makeStyles(() => ({
   remainingItems: {
     paddingLeft: '5px',
   },
+  actionIcon: {
+    float: 'right',
+  },
 }));
 
 const TodoListRow = (props) => {
-  const { todoList } = props;
+  const { todoList, triggerRefresh, descriptionValidation } = props;
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const [edit, setEdit] = useState(false);
+
+  const startEditing = () => setEdit(true);
+  const stopEditing = () => setEdit(false);
+  const deleteItem = () => {
+    todoService.deleteById(todoList.id)
+      .then(() => triggerRefresh());
+  };
 
   return (
     <>
@@ -32,14 +49,34 @@ const TodoListRow = (props) => {
       >
         <TableCell>
           <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
           </IconButton>
         </TableCell>
         <TableCell>
-          <div className={classes.nameContainer}>
-            <Typography variant="h5">{todoList.description}</Typography>
-            <Typography className={classes.remainingItems} variant="body2">{`(${todoList.count})`}</Typography>
-          </div>
+          <DisplayIf condition={!edit}>
+            <div className={classes.nameContainer}>
+              <Typography variant="h5">{todoList.description}</Typography>
+              <Typography className={classes.remainingItems} variant="body2">{`(${todoList.count})`}</Typography>
+            </div>
+          </DisplayIf>
+          <DisplayIf condition={edit}>
+            <div className={classes.nameContainer}>
+              <EditTodoListForm
+                id={todoList.id}
+                descriptionValidation={descriptionValidation}
+                onSuccess={stopEditing}
+                onError={stopEditing}
+              />
+            </div>
+          </DisplayIf>
+        </TableCell>
+        <TableCell>
+          <IconButton className={classes.actionIcon} size="small" onClick={deleteItem}>
+            <Delete />
+          </IconButton>
+          <IconButton className={classes.actionIcon} size="small" onClick={startEditing}>
+            <Edit />
+          </IconButton>
         </TableCell>
       </TableRow>
       <TableRow key={`${todoList.id}-todoListItems`}>
@@ -61,6 +98,18 @@ const TodoListRow = (props) => {
 
 TodoListRow.propTypes = {
   todoList: PropTypes.instanceOf(Object).isRequired,
+  descriptionValidation: PropTypes.instanceOf(Object).isRequired,
+  triggerRefresh: PropTypes.func,
 };
 
-export default TodoListRow;
+TodoListRow.defaultProps = {
+  triggerRefresh: () => {},
+};
+
+const mapStateToProps = () => ({});
+
+const mapDispatchToProps = (dispatch) => ({
+  triggerRefresh: getTodos(dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoListRow);

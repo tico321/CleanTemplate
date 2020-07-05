@@ -15,6 +15,7 @@ import {
   TablePagination,
 } from '@material-ui/core';
 import TodoListRow from './TodoListRow';
+import AddTodoListForm from './AddTodoListForm';
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -32,6 +33,20 @@ const useStyles = makeStyles(() => ({
     justifyContent: 'flex-end',
   },
 }));
+
+const todoListDescriptionValidation = {
+  rules: {
+    required: true,
+    minLength: 5,
+  },
+  getErrorMessage: (err) => {
+    if (!err || !err.todoListInput || !err.todoListInput.type) return '';
+    const { type } = err.todoListInput;
+    if (type === 'required') return 'This field is required';
+    if (type === 'minLength') return 'A proper description should have at least 5 characters';
+    return '';
+  },
+};
 
 const TodoListsTable = (props) => {
   const { className, todoLists, ...rest } = props;
@@ -61,17 +76,21 @@ const TodoListsTable = (props) => {
                 <TableRow>
                   <TableCell padding="checkbox" />
                   <TableCell>Description</TableCell>
+                  <TableCell align="right">Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {todoLists.slice(0, rowsPerPage).map((todoList) => (
-                  <TodoListRow key={`${todoList.id}-table`} todoList={todoList} />
+                  <TodoListRow key={`${todoList.id}-table`} todoList={todoList} descriptionValidation={todoListDescriptionValidation} />
                 ))}
               </TableBody>
             </Table>
           </div>
         </PerfectScrollbar>
       </CardContent>
+      <CardActions>
+        <AddTodoListForm descriptionValidation={todoListDescriptionValidation} />
+      </CardActions>
       <CardActions className={classes.actions}>
         <TablePagination
           component="div"
