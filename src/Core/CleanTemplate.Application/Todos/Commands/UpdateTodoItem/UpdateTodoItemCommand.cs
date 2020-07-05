@@ -57,6 +57,8 @@ namespace CleanTemplate.Application.Todos.Commands.UpdateTodoItem
                 }
 
                 _mapper.Map(request, item);
+                await _context.SaveChangesAsync(cancellationToken);
+
                 return true;
             }
         }

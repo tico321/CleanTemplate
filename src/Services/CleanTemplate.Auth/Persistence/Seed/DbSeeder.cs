@@ -7,6 +7,7 @@ using IdentityServer4;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace CleanTemplate.Auth.Persistence.Seed
 {
@@ -15,33 +16,40 @@ namespace CleanTemplate.Auth.Persistence.Seed
         public static async Task SeedClients(ConfigurationDbContext context)
         {
             context.Database.EnsureCreated();
-            if (!context.Clients.Any())
+
+            var saveChanges = false;
+            var clients = context.Clients.AsNoTracking().ToList();
+            foreach (var client in Config.Clients)
             {
-                foreach (var client in Config.Clients)
+                if (clients.All(c => c.ClientId != client.ClientId))
                 {
                     context.Clients.Add(client.ToEntity());
+                    saveChanges = true;
                 }
-
-                await context.SaveChangesAsync();
             }
 
-            if (!context.IdentityResources.Any())
+            var identityResources = context.IdentityResources.AsNoTracking().ToList();
+            foreach (var resource in Config.Ids)
             {
-                foreach (var resource in Config.Ids)
+                if (identityResources.All(i => i.Name != resource.Name))
                 {
                     context.IdentityResources.Add(resource.ToEntity());
+                    saveChanges = true;
                 }
-
-                await context.SaveChangesAsync();
             }
 
-            if (!context.ApiResources.Any())
+            var apiResources = context.ApiResources.AsNoTracking().ToList();
+            foreach (var resource in Config.Apis)
             {
-                foreach (var resource in Config.Apis)
+                if (apiResources.All(a => a.Name != resource.Name))
                 {
                     context.ApiResources.Add(resource.ToEntity());
+                    saveChanges = true;
                 }
+            }
 
+            if (saveChanges)
+            {
                 await context.SaveChangesAsync();
             }
         }

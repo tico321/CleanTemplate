@@ -39,8 +39,8 @@ namespace CleanTemplate.Auth.Persistence.Seed
                 // Javascript Client
                 new Client
                 {
-                    ClientId = "VueJSClient",
-                    ClientName = "VueJs Client",
+                    ClientId = "ReactClient",
+                    ClientName = "React Client",
 
                     // The Authorization Code grant type is used by confidential and public clients to exchange an authorization code for an access token.
                     // The Authorization Code grant type is used by web and mobile apps. It differs from most of the other grant types by first requiring the app launch a browser to begin the flow. At a high level, the flow has the following steps:
@@ -54,13 +54,14 @@ namespace CleanTemplate.Auth.Persistence.Seed
                     RequirePkce = true, // an extension to the Authorization Code flow to prevent certain attacks
                     RequireClientSecret = false, // as it's a JS client we don't want to send the secret to the browser
                     AllowOfflineAccess = true, // so we get a refresh token
+                    AccessTokenType = AccessTokenType.Jwt, // self-contained access token http://docs.identityserver.io/en/latest/topics/reference_tokens.html
 
-                    // where to redirect to after login
-                    RedirectUris = { "http://localhost:5000/callback.html" },
+                    // UI route to redirect to after login
+                    RedirectUris = { "http://localhost:3000/callback" },
                     // where to redirect to after logout
-                    PostLogoutRedirectUris = { "http://localhost:5000/index.html" },
-                    // So the app can query this Server
-                    AllowedCorsOrigins = { "http://localhost:5000", "https://localhost:5001" },
+                    PostLogoutRedirectUris = { "http://localhost:3000/" },
+                    // So the Javascript client can query this Server
+                    AllowedCorsOrigins = { "http://localhost:3000", "https://localhost:3001" },
 
 
                     // IdentityServer will return two tokens: the identity token containing the information about the authentication and session,

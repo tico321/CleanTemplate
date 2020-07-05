@@ -74,13 +74,19 @@ namespace CleanTemplate.Auth
                                 connectionString,
                                 o => o.MigrationsAssembly(migrationsAssembly)
                                     .ServerVersion(new Version(10, 4, 0), ServerType.MySql)))
-                .AddOperationalStore(
-                    options =>
+                .AddOperationalStore(options =>
+                    {
                         options.ConfigureDbContext = b => b
                             .UseMySql(
                                 connectionString,
                                 o => o.MigrationsAssembly(migrationsAssembly)
-                                    .ServerVersion(new Version(10, 4, 0), ServerType.MySql)))
+                                    .ServerVersion(new Version(10, 4, 0), ServerType.MySql));
+
+                        // this enables automatic token cleanup. this is optional.
+                        options.EnableTokenCleanup = true;
+                        options.TokenCleanupInterval = 3600; // interval in seconds (default is 3600)
+
+                    })
                 .AddAspNetIdentity<ApplicationUser>();
 
             // Add sign-in credentials

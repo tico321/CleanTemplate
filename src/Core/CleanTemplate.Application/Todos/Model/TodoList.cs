@@ -43,7 +43,10 @@ namespace CleanTemplate.Application.Todos.Model
 
         public void SortTodosByDisplayOrder()
         {
-            _todos = _todos.OrderBy(t => t.DisplayOrder).ToList();
+            _todos = _todos
+                .OrderBy(t => t.State)
+                .ThenBy(t => t.DisplayOrder)
+                .ToList();
         }
 
         #region auditable
