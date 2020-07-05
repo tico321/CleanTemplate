@@ -40,13 +40,12 @@ const TodoListToolbar = (props) => {
     >
       <div className={classes.row}>
         <span className={classes.spacer} />
-        <Button className={classes.importButton}>Import</Button>
         <Button className={classes.exportButton}>Export</Button>
       </div>
       <div className={classes.row}>
         <SearchInput
           className={classes.searchInput}
-          placeholder="Search All"
+          placeholder="Search Everywhere"
           onChange={() => {}}
         />
       </div>

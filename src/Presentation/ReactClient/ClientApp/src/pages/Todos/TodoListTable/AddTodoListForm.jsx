@@ -1,12 +1,9 @@
 ﻿import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { IconButton, TextField, Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { PlayArrow } from '@material-ui/icons';
-import { todoService } from '../../../services';
-import { getTodoLists as getTodos } from '../../../store';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,17 +22,12 @@ const AddTodoListForm = (props) => {
     register, handleSubmit, errors, reset,
   } = useForm();
   const {
-    triggerRefresh, descriptionValidation,
+    descriptionValidation, onSubmit,
   } = props;
   const classes = useStyles();
 
-  const onSubmit = ({ todoListInput }) => {
-    todoService
-      .create(todoListInput)
-      .then(() => {
-        reset();
-        return triggerRefresh();
-      });
+  const innerSubmit = ({ textInput }) => {
+    onSubmit({ textInput, reset });
   };
 
   const inputError = descriptionValidation.getErrorMessage(errors);
@@ -43,9 +35,9 @@ const AddTodoListForm = (props) => {
 
   return (
     <Container>
-      <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
+      <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit(innerSubmit)}>
         <TextField
-          name="todoListInput"
+          name="textInput"
           label="Add new todo list"
           className={classes.flexGrow}
           error={displayError}
@@ -61,18 +53,12 @@ const AddTodoListForm = (props) => {
 };
 
 AddTodoListForm.propTypes = {
-  triggerRefresh: PropTypes.func,
+  onSubmit: PropTypes.func,
   descriptionValidation: PropTypes.instanceOf(Object).isRequired,
 };
 
 AddTodoListForm.defaultProps = {
-  triggerRefresh: () => {},
+  onSubmit: () => {},
 };
 
-const mapStateToProps = () => ({});
-
-const mapDispatchToProps = (dispatch) => ({
-  triggerRefresh: getTodos(dispatch),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(AddTodoListForm);
+export default AddTodoListForm;

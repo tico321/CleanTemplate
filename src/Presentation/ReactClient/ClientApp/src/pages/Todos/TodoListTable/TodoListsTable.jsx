@@ -1,4 +1,5 @@
 ﻿import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -16,6 +17,8 @@ import {
 } from '@material-ui/core';
 import TodoListRow from './TodoListRow';
 import AddTodoListForm from './AddTodoListForm';
+import { todoService } from '../../../services';
+import { getTodoLists as getTodos } from '../../../store';
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -40,8 +43,8 @@ const todoListDescriptionValidation = {
     minLength: 5,
   },
   getErrorMessage: (err) => {
-    if (!err || !err.todoListInput || !err.todoListInput.type) return '';
-    const { type } = err.todoListInput;
+    if (!err || !err.textInput || !err.textInput.type) return '';
+    const { type } = err.textInput;
     if (type === 'required') return 'This field is required';
     if (type === 'minLength') return 'A proper description should have at least 5 characters';
     return '';
@@ -49,7 +52,9 @@ const todoListDescriptionValidation = {
 };
 
 const TodoListsTable = (props) => {
-  const { className, todoLists, ...rest } = props;
+  const {
+    className, todoLists, triggerRefresh, ...rest
+  } = props;
 
   const classes = useStyles();
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -61,6 +66,15 @@ const TodoListsTable = (props) => {
 
   const handleRowsPerPageChange = (event) => {
     setRowsPerPage(event.target.value);
+  };
+
+  const onSubmit = ({ textInput, reset }) => {
+    todoService
+      .create(textInput)
+      .then(() => {
+        reset();
+        return triggerRefresh();
+      });
   };
 
   return (
@@ -81,7 +95,11 @@ const TodoListsTable = (props) => {
               </TableHead>
               <TableBody>
                 {todoLists.slice(0, rowsPerPage).map((todoList) => (
-                  <TodoListRow key={`${todoList.id}-table`} todoList={todoList} descriptionValidation={todoListDescriptionValidation} />
+                  <TodoListRow
+                    key={`${todoList.id}-table`}
+                    todoList={todoList}
+                    descriptionValidation={todoListDescriptionValidation}
+                  />
                 ))}
               </TableBody>
             </Table>
@@ -89,7 +107,10 @@ const TodoListsTable = (props) => {
         </PerfectScrollbar>
       </CardContent>
       <CardActions>
-        <AddTodoListForm descriptionValidation={todoListDescriptionValidation} />
+        <AddTodoListForm
+          descriptionValidation={todoListDescriptionValidation}
+          onSubmit={onSubmit}
+        />
       </CardActions>
       <CardActions className={classes.actions}>
         <TablePagination
@@ -109,10 +130,18 @@ const TodoListsTable = (props) => {
 TodoListsTable.propTypes = {
   className: PropTypes.string,
   todoLists: PropTypes.instanceOf(Array).isRequired,
+  triggerRefresh: PropTypes.func,
 };
 
 TodoListsTable.defaultProps = {
   className: '',
+  triggerRefresh: () => {},
 };
 
-export default TodoListsTable;
+const mapStateToProps = () => ({});
+
+const mapDispatchToProps = (dispatch) => ({
+  triggerRefresh: getTodos(dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoListsTable);

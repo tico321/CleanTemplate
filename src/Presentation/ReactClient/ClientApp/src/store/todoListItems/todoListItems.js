@@ -5,7 +5,7 @@ export const initialState = {
   todoItems: {
     defaultId: {
       items: [],
-      loadingState: 'pending',
+      loadingState: 'idle',
       error: null,
     },
   },

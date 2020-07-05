@@ -30,7 +30,7 @@ namespace CleanTemplate.API.Controllers
             var command = new AddTodoItemCommand { TodoListId = -1, Description = nameof(TodoControllerTest) };
             var request = ApiTestHelper.GetRequestContent(command);
 
-            var response = await client.PostAsync("/api/Todos/1/Item/Add", request);
+            var response = await client.PostAsync("/api/Todos/1/Item", request);
 
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
@@ -43,7 +43,7 @@ namespace CleanTemplate.API.Controllers
             var command = new AddTodoItemCommand { TodoListId = 1, Description = nameof(TodoControllerTest) };
             var request = ApiTestHelper.GetRequestContent(command);
 
-            var response = await client.PostAsync("/api/Todos/1/Item/Add", request);
+            var response = await client.PostAsync("/api/Todos/1/Item", request);
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
             var createdResponse = await ApiTestHelper.GetResponseContent<int>(response);
             var createdId = createdResponse.Result;
@@ -67,7 +67,7 @@ namespace CleanTemplate.API.Controllers
             Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
 
             // Finally we remove the item
-            response = await client.DeleteAsync($"/api/Todos/1/Item/{createdId}/Delete");
+            response = await client.DeleteAsync($"/api/Todos/1/Item/{createdId}");
             Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
         }
 

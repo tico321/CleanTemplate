@@ -81,7 +81,7 @@ namespace CleanTemplate.API.Controllers
         /// <param name="id">The id of the target TodoList.</param>
         /// <param name="command">Information about the TodoItem.</param>
         /// <returns>The id of the created TodoItem.</returns>
-        [HttpPost("{id}/Item/Add")]
+        [HttpPost("{id}/Item")]
         public async Task<ActionResult<int>> AddTodoItem(int id, AddTodoItemCommand command)
         {
             var itemId = await Mediator.Send(command);
@@ -104,7 +104,7 @@ namespace CleanTemplate.API.Controllers
         /// <summary>
         ///     Updates a TodoItem.
         /// </summary>
-        /// <param name="id">The id of the TodoItem.</param>
+        /// <param name="id">The id of the TodoList.</param>
         /// <param name="command">Updated information of the TodoItem.</param>
         /// <returns>No content.</returns>
         [HttpPut("{id}/Item/{itemId}")]
@@ -120,7 +120,7 @@ namespace CleanTemplate.API.Controllers
         /// <param name="id">The id of the TodoList that contains the TodoItem.</param>
         /// <param name="itemId">The id of the TodoItem.</param>
         /// <returns>No content.</returns>
-        [HttpDelete("{id}/Item/{itemId}/Delete")]
+        [HttpDelete("{id}/Item/{itemId}")]
         public async Task<ActionResult> DeleteTodoItem(int id, int itemId)
         {
             await Mediator.Send(new DeleteTodoItemCommand { Id = id, ItemId = itemId });
