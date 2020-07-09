@@ -1,5 +1,6 @@
 ﻿import { createAsyncThunk } from '@reduxjs/toolkit';
 import userManager from '../userManager';
+import { todoService } from '../../../services';
 
 // createAsyncThunk docs https://redux-toolkit.js.org/api/createAsyncThunk
 const getUserThunk = createAsyncThunk(
@@ -46,6 +47,7 @@ const getUserThunk = createAsyncThunk(
 export const getIdentityUserReducer = (builder) => {
   builder.addCase(getUserThunk.fulfilled, (state, action) => {
     state.user = action.payload;
+    todoService.setToken(state.user.accessToken);
     state.userState = 'fulfilled';
     state.isLogged = true;
   });

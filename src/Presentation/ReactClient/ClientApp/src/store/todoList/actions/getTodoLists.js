@@ -6,8 +6,7 @@ const getTodoListsThunk = createAsyncThunk(
   'todos/getTodoLists',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await todoService.get();
-      return response.data.result.todos;
+      return await todoService.get();
     } catch (err) {
       if (!err.response) {
         throw err;

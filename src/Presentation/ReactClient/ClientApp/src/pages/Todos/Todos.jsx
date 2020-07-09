@@ -17,16 +17,19 @@ const useStyles = makeStyles((theme) => ({
 
 const Todos = (props) => {
   const classes = useStyles();
-  const { todoLists, getTodoLists, loadingState } = props;
+  const {
+    todoLists, getTodoLists, loadingState, isLogged,
+  } = props;
 
   useEffect(
     () => {
+      if (!isLogged) return;
       if (loadingState === 'fulfilled') return;
       if (loadingState === 'rejected') return;
       if (loadingState === 'pending') return;
       getTodoLists();
     },
-    [getTodoLists, loadingState],
+    [getTodoLists, loadingState, isLogged],
   );
 
   return (
@@ -43,17 +46,20 @@ Todos.propTypes = {
   todoLists: PropTypes.instanceOf(Array),
   getTodoLists: PropTypes.func,
   loadingState: PropTypes.string,
+  isLogged: PropTypes.bool,
 };
 
 Todos.defaultProps = {
   todoLists: [],
   getTodoLists: () => {},
   loadingState: 'idle',
+  isLogged: false,
 };
 
 const mapStateToProps = (state) => ({
   todoLists: state.Todos.todoLists,
   loadingState: state.Todos.loadingState,
+  isLogged: state.Auth.isLogged,
 });
 
 const mapDispatchToProps = (dispatch) => ({

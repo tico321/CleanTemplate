@@ -25,6 +25,7 @@ namespace CleanTemplate.GraphQL
             services
                 .AddApplication()
                 .AddInfrastructure(Configuration)
+                .AddCors()
                 .AddAuthServer()
                 .AddGraphQlApi();
         }
@@ -40,6 +41,16 @@ namespace CleanTemplate.GraphQL
                 .UseCorrelationId()
                 // Collects information from a request and logs one event instead of many
                 .UseSerilogRequestLogging();
+
+            // https://docs.microsoft.com/en-us/aspnet/core/security/cors?view=aspnetcore-3.1
+            app.UseCors(
+                builder =>
+                {
+                    builder
+                        .WithOrigins(Configuration.GetSection("AllowedCors").Get<string[]>())
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
 
             // Use authentication and authorization middleware
             app.UseAuth();
